@@ -21,7 +21,7 @@
                  <h1 style="color: #ee2d63;">#{msg['home1']}</h1>
                 </div>
                 <div align="center" class="ui-g-12">            
-                 <h1 style="color: #ee2d63;">#{msg['home2']} #{msg['home3']}</h1>
+                 <h1 style="color: #ee2d63;">#{msg['home2']}</h1>
                 </div>
                 <div class="ui-g-12 " align="center">
                  <p:graphicImage name="demo/images/tarjeta_vision.png" alt="Nuestra Vision" width="350" height="200" />
@@ -36,11 +36,8 @@
                 </div>
                  <separator/>
                          <separator/>
-                <div id="features" align="center" class="ui-g-12">  
-                     <p:commandButton  value="#{msg['home5']}" id="btnSubmit" icon="ui-icon-save" actionListener="#{radioView.doRediretIndex()}" />
-<!--                    <h:commandLink action="#{radioView.doRediretIndex()}">
-                 <p:graphicImage name="demo/images/boton_link.jpg"  width="400" height="50" />
-                 </h:commandLink>-->
+                <div align="center" >  
+                   <p:commandButton id="btnReturn" value="#{msg['home5']}" icon="ui-icon-add" ajax="true" actionListener="#{radioView.doRediretIndex()}"/>
                 </div>
             </div>
               </div>
