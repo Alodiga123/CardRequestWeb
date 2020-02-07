@@ -1,0 +1,106 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+                
+<ui:define name="head">
+    <style type="text/css">
+        .cars-datalist .text-column p:last-child{
+            color:#757575;
+        }
+        
+        .cars-datalist .car-item i, .cars-datalist .car-item .car-details {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .cars-datalist .car-item button {
+            float: right;
+        }
+        
+        .cars-datalist ul {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .ui-car-display td:last-child {
+            font-weight: 700;
+        }
+    
+    @media (max-width:640px) {
+        .cars-datalist .text-column {
+            text-align: center;
+        }
+    }
+    </style>
+</ui:define>
+                
+    <ui:define name="title">Data</ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card card-w-title">
+                        
+                        <h1>Tarjetas Complementarias</h1>
+                        <p:commandButton id="btnAdd" value="Agregar" icon="ui-icon-add" ajax="true" actionListener="#{dataListView.doAddCard()}"/>
+                         </div>
+                    
+                        <div class="card card-w-title">
+                        
+                        <p:dataList value="#{dataListView.cards}" var="creditCard" 
+                            type="unordered" itemType="none" paginator="true" rows="7" styleClass="cars-datalist" id="cardTable">
+                            <f:facet name="header">
+                                Tarjetas Complementarias
+                            </f:facet>
+                            <div style="border-bottom: 1px solid #bdbdbd" class="clearfix car-item">
+                                <i class="ui-icon ui-icon-credit-card" style="font-size:48px;color:#757575;margin:24px;"></i>
+                                <div class="car-details">
+                                    <p>#{creditCard.name}</p>
+                                    <p style="color:#757575">#{creditCard.lastName} - #{creditCard.phoneNumber}</p>
+                                </div>
+                                <p:commandButton update=":form:carDetail" oncomplete="PF('carDialog2').show()" title="View Detail" icon="ui-icon-search" style="margin:24px 24px 0 0">
+                                    <f:setPropertyActionListener value="#{creditCard}" target="#{dataListView.addCreditCard}" />
+                                </p:commandButton>
+                            </div>
+                        </p:dataList>
+
+                        <p:dialog header="Car Info" widgetVar="carDialog2" responsive="true" modal="true" showEffect="blind" hideEffect="explode" resizable="false">
+                            <p:outputPanel id="carDetail" style="text-align:center;">
+                                <p:panelGrid  columns="2" rendered="#{not empty dataListView.addCreditCard}" columnClasses="label,value">
+                                   
+                                    <h:outputText value="Tipo de Documento:" />
+                                    <h:outputText value="#{dataListView.addCreditCard.documentType}" />
+                                    
+                                     <h:outputText value="Numero de Documento:" />
+                                    <h:outputText value="#{dataListView.addCreditCard.documentNumber}" />
+                                    
+                                    <h:outputText value="Nombre:" />
+                                    <h:outputText value="#{dataListView.addCreditCard.name}" />
+
+                                    <h:outputText value="Apellidos" />
+                                    <h:outputText value="#{dataListView.addCreditCard.lastName}" />
+
+                                    <h:outputText value="Telefono:" />
+                                    <h:outputText value="#{dataListView.addCreditCard.phoneNumber}"/>
+
+                                    <h:outputText value="Email" />
+                                    <h:outputText value="\$#{dataListView.addCreditCard.email}" />
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </p:dialog>
+                    </div>
+                </div>
+            </div>
+             <div align="center">
+                <p:commandButton  value="Guardar" id="btnSubmit" icon="ui-icon-save" actionListener="#{dataListView.save()}" immediate="true" process="@this"/>
+<!--                <p:commandButton  value="Cancelar" id="btnCancel" icon="ui-icon-cancel" update=":CityCreateForm" actionListener="#{dataListView.reset()}" immediate="true" process="@this"/>-->
+                <p:commandButton  value="Volver" id="btnReturn"  icon="ui-icon-replay" update=":form" actionListener="#{dataListView.doRediret()}" immediate="true" process="@this"/>
+            </div>
+        </h:form>
+        <ui:include src="editCity.xhtml"/>
+    </ui:define>
+
+</ui:composition>
