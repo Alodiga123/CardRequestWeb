@@ -10,12 +10,12 @@
                <div class="layout-menu #{guestPreferences.menuClass}">
             <div class="nano">
                 <div class="nano-content menu-scroll-content">
-                    
+                                      
 
                    <pu:menu widgetVar="me" >
                         <p:menuitem  id="um_dashboard" value="Dashboard" icon="&#xE871;" outcome="/formCardData"/>
                         <p:submenu id="themes" label="Temas" icon="&#xE40A;">
-                            <p:menuitem id="theme1" value="Indigo - Pink" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('indigo')}" ajax="false" />
+                            <!--<p:menuitem id="theme1" value="Indigo - Pink" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('indigo')}" ajax="false" />-->
                             <p:menuitem id="theme2" value="Brown - Green" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('brown')}" ajax="false" />
                             <p:menuitem id="theme3" value="Blue - Amber" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('blue')}" ajax="false" />
                             <p:menuitem id="theme4" value="Blue Grey - Green" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('blue-grey')}" ajax="false" />
