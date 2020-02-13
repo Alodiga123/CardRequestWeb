@@ -42,7 +42,7 @@ public class GuestPreferences implements Serializable {
     public void init() {
         themeColors = new HashMap<String,String>();
         themeColors.put("indigo", "#3F51B5");
-        themeColors.put("blue", "#03A9F4");
+        themeColors.put("blue", "#ee2d63");
         themeColors.put("blue-grey", "#607D8B");
         themeColors.put("brown", "#795548");
         themeColors.put("cyan", "#00bcd4");

@@ -548,24 +548,7 @@ body {
             .layout-menu {
                 margin-left: 0;
             }
-            
-                        .layout-main {
-                margin-left: 250px;
-            }
-            
-            &.layout-menu-static-inactive {
-                .layout-menu {
-                    margin-left: -250px;
-                }
-                
-                .layout-main {
-                    margin-left: 0px;
-                }
-            }
-            
-            .layout-mask {
-                display: none;
-            }
+           
         }
         
         &.menu-layout-horizontal {
