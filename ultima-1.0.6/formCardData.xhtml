@@ -6,11 +6,25 @@
                 template="/WEB-INF/template.xhtml">
 
     <ui:define name="title">Alodiga Tarjeta Prepagada</ui:define>
+      <ui:define name="head">
+        <style type="text/css">
+            .ui-steps .ui-steps-item {
+                width: 33%;
+            }
+        </style>
+    </ui:define>
     <ui:define name="content">
         <h:form id="CardDataCreateForm">
-            <div class="ui-fluid">
-                <div class="ui-g">
-                    <div class="ui-g-12">
+               <div class="ui-g ui-fluid">
+                <div class="ui-g-12">
+                     <div class="card">
+                        <h1>Registro y Solicitud</h1>
+                        <p:steps activeIndex="0" >
+                            <p:menuitem value="Paso" />
+                            <p:menuitem value="" />
+                            <p:menuitem value="" />
+                        </p:steps>
+                    </div>
                         <div class="card card-w-title">
                             <h1>Datos Personales</h1>
                             <p:panelGrid id="grid" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
@@ -266,7 +280,6 @@
 
                         </div>
                     </div>
-                </div>
             </div>
                  <div align="center">
                 <p:commandButton  value="Guardar" id="btnSubmit" icon="ui-icon-save"  actionListener="#{radioView.save()}"/>
