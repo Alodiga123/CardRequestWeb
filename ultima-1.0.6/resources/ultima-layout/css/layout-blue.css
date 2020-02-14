@@ -419,7 +419,7 @@
 .landing-wrapper #header {
   width: 100%;
   min-height: 400px;
-  background: url("#{resource['ultima-layout:images/landing/landing-header.png']}") top left no-repeat #f7f7f7;
+  background: url("#{resource['ultima-layout:images/background_nuestra_vision2.jpg']}") top left no-repeat #f7f7f7;
   background-size: 100% auto; }
   .landing-wrapper #header .header-top {
     width: 960px;
@@ -452,7 +452,7 @@
       color: #ffffff;
       display: none; }
   .landing-wrapper #header .header-content {
-    width: 960px;
+    width: 350px;
     margin: 0 auto;
     text-align: center; }
     .landing-wrapper #header .header-content h1 {

@@ -33,13 +33,25 @@
                 <div id="features" align="center" class="ui-g-12">            
                  <h1 style="color: #ee2d63;">#{msg['home4']}</h1>
                 </div>
-                 <separator/>
-                         <separator/>
-                <div id="features" align="center" class="ui-g">  
-                   <p:commandButton id="btnReturn" value="#{msg['home5']}" icon="ui-icon-add" ajax="true" actionListener="#{radioView.doRediretIndex()}"/>
-                </div>
             </div>
-              </div>
+           
+              <h:body styleClass="landing-body">
+              <div class="landing-wrapper">
+            <div id="header">
+
+                
+                <div class="header-content clearfix">
+                  
+                    <p:button outcome="/formCardData" value="#{msg['home5']}" styleClass="secondary" />
+                </div>
+                
+                 <div align="center">     
+             <p:graphicImage name="ultima-layout/images/imagen_nuestra_vision_sabor.png" alt="Nuestra Vision" width="450" height="130" />
+         </div>
+            </div>
+                    </div>
+                      </h:body>
+                     </div>
         </h:form>    
     </ui:define>
 

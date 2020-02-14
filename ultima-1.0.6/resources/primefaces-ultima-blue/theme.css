@@ -3701,13 +3701,13 @@ body {
     body .ui-button.ui-button-text-icon-right {
       padding-right: 40px; }
     body .ui-button.secondary {
-      background-color: #FFC107;
-      color: #212121; }
+      background-color: #ee2d63;
+      color: #ffffff; }
       body .ui-button.secondary.ui-state-hover {
-        background-color: #FF8F00; }
+        background-color: #bf0438; }
       body .ui-button.secondary.ui-state-focus {
         outline: 0 none;
-        background-color: #ffce3a; }
+        background-color: #fc81a3; }
     body .ui-button.blue-grey-btn {
       background-color: #607D8B; }
       body .ui-button.blue-grey-btn.ui-state-hover {
