@@ -4236,7 +4236,7 @@ body {
     border: 0 none;
     background-color: #bdbdbd; }
     body .ui-slider.ui-slider-horizontal .ui-slider-handle {
-      top: -.5em; }
+      top: -.2em; }
   body .ui-slider.ui-slider-vertical {
     width: 2px;
     border: 0 none;
@@ -4986,7 +4986,7 @@ body {
       body .ui-steps .ui-steps-item .ui-menuitem-link {
         display: inline-block;
         text-align: left;
-        background-color: #ffffff;
+        background-color: transparent;
         overflow: hidden; }
         body .ui-steps .ui-steps-item .ui-menuitem-link .ui-steps-number {
           display: inline-block;
@@ -5007,10 +5007,10 @@ body {
         font-weight: 700;
         color: #212121; }
       body .ui-steps .ui-steps-item:last-child .ui-menuitem-link {
-        display: block; }
+         }
     body .ui-steps:before {
       content: ' ';
-      border: 1px solid #bdbdbd;
+      border: 1px solid transparent;
       width: 90%;
       top: 45%;
       left: 0;
