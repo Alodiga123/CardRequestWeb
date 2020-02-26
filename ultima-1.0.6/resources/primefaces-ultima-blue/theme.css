@@ -4236,7 +4236,7 @@ body {
     border: 0 none;
     background-color: #bdbdbd; }
     body .ui-slider.ui-slider-horizontal .ui-slider-handle {
-      top: -.2em; }
+      top: -.5em; }
   body .ui-slider.ui-slider-vertical {
     width: 2px;
     border: 0 none;

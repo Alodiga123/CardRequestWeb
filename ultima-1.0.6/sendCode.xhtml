@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Misc</ui:define>
+      <ui:define name="head">
+        <style type="text/css">
+            .ui-steps .ui-steps-item {
+                width: 33%;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="sendCodeForm">
+            
+              <div class="ui-fluid">
+            <div class="ui-g">
+
+                <div class="ui-g-12" align="center">            
+                 <h3 style="color: #ee2d63;">#{msg['send.code.aplication']}</h3>
+                </div>
+                <div class="ui-g-12 " align="center">
+                 <p:graphicImage name="demo/images/tarjeta_vision.png" alt="Nuestra Vision" width="350" height="200" />
+                 <separator/>
+                 <separator/>
+                 </div>
+           
+                 <separator/>
+                 <separator/>
+                <div id="features" align="center" class="ui-g-12">            
+                 <h4 style="color: #ee2d63;">#{msg['send.code.msg']}</h4>
+                </div>
+                  </div>
+                   </div>
+
+                    <div align="center">
+                        <h2 >Registro y Solicitud</h2>
+                        <p:steps activeIndex="0" >
+                            <p:menuitem value="Paso" />
+                            <p:menuitem value="" />
+                            <p:menuitem value="" />
+                        </p:steps>
+                    </div>
+                     <div id="features" align="center" class="ui-g-12">            
+                 <h4 style="color: #ee2d63;">#{msg['send.code.msg1']}</h4>
+                     </div>
+            
+            <!--<div class="ui-g ui-fluid">-->
+                <div class="ui-g-12">
+                       <div class="card card-w-title">
+                                                   <p:panelGrid id="grid" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                
+                               <p:outputLabel for="onemenu" value="Pais"/>
+                                 <p:selectOneMenu id="onemenu" value="#{sendCodeController.country}" converter="countryConverter"
+                                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="#{sendCodeController.country.name}"
+                                                  itemValue="#{sendCodeController.country.id}" />
+                                    <f:selectItems value="#{sendCodeController.countries}"/>
+                               </p:selectOneMenu> 
+                         
+                      
+
+                                 <p:outputLabel value="Telefono Celular" for="cell" />
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="cell" value="#{sendCodeController.cellNumber}" required="true" />
+                                    <label>Telefono Celular</label>
+                                </h:panelGroup>
+                            </p:panelGrid>
+    
+                        </div>
+                        
+                   <!--</div>-->
+            </div>
+                 <div align="center">
+                <p:commandButton  value="#{msg['boton.send']}" id="btnSubmit" icon="ui-icon-save"  actionListener="#{sendCodeController.doRediret()}"/>
+            
+            </div>
+           
+                    
+        </h:form>    
+    </ui:define>
+
+</ui:composition>
