@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Misc</ui:define>
+  <ui:define name="head">
+        <style type="text/css">
+            .ui-steps .ui-steps-item {
+                width: 33%;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+             <div class="ui-fluid">
+            <div class="ui-g">
+
+                <div class="ui-g-12" align="center">            
+                 <h4 style="color: #ee2d63;">#{msg['send.picture.msg1']}</h4>
+                </div>
+                          
+                 <separator/>
+                 <separator/>
+                <div id="features" align="center" class="ui-g-12">            
+                 <h4 style="color: #ee2d63;">#{msg['send.picture.msg2']}</h4>
+                </div>
+                 </div>
+                  </div>
+                  <div class="landing-wrapper">
+                <div id="pricing">
+              
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-4 pricing-box pricing-basic">
+
+                    </div>
+                    <div class="ui-g-12 ui-md-4 pricing-box pricing-standard">
+                            <div class="pricing-content">
+                                <ul>
+                                    <li><i class="material-icons"></i><span> #{msg['send.picture.msg3']}</span></li>
+                                    <li> <i class="material-icons"></i><span> #{msg['send.picture.msg4']}</span></li>
+                                    <li> <i class="material-icons"></i><span> #{msg['send.picture.msg5']}</span></li>
+                                    <li><i class="material-icons"></i> <span> #{msg['send.picture.msg6']}</span></li>
+                                </ul>
+                            </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 pricing-box pricing-professional">
+                    </div>
+                     </div>
+            </div>
+                </div>  
+                    <div align="center">
+                        <p:steps activeIndex="1" >
+                            <p:menuitem value="Paso" />
+                            <p:menuitem value="" />
+                            <p:menuitem value="" />
+                        </p:steps>
+                    </div>
+                    <div id="features" align="center" class="ui-g-12">            
+                       <h4 style="color: #ee2d63;">#{msg['send.picture.msg7']}</h4>
+                    </div>
+       
+                 <div align="center">     
+             <p:graphicImage name="ultima-layout/images/imagen_nuestra_vision_sabor.png" alt="Nuestra Vision" width="450" height="100" />
+         </div>
+
+
+        </h:form>    
+    </ui:define>
+
+</ui:composition>

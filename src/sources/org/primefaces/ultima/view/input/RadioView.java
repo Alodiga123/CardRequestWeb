@@ -34,13 +34,16 @@ import com.cms.commons.models.EdificationType;
 import com.cms.commons.models.Profession;
 import com.cms.commons.models.StreetType;
 import com.cms.commons.models.ZipZone;
+import com.cms.commons.util.MessageFormatHelper;
 import com.cms.commons.util.QueryConstants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,8 +93,10 @@ public class RadioView {
             requestEJB= (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
             solicitude = new Solicitude();
             solicitude.genders = new ArrayList<String>();
-            solicitude.genders.add("Masculino");
-            solicitude.genders.add("Feminino");
+            Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+            ResourceBundle bundle = ResourceBundle.getBundle("com.alodiga.primafeces.messages/message", locale);
+            solicitude.genders.add(bundle.getString("option.yes"));
+            solicitude.genders.add(bundle.getString("option.no"));
             EJBRequest request = new EJBRequest();
             request.setParam(2);
             country = utilsEJB.loadCountry(request);
@@ -552,7 +557,7 @@ public class RadioView {
     
     public void doRediret() {
         try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("formCardData.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("sendPicture.xhtml");
         } catch (IOException ex) {
             System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
         }
