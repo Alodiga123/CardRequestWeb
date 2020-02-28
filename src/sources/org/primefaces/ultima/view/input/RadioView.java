@@ -557,7 +557,7 @@ public class RadioView {
     
     public void doRediret() {
         try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("sendPicture.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("takePhoto.xhtml");
         } catch (IOException ex) {
             System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
         }

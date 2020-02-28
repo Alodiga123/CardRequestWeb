@@ -19,13 +19,13 @@
             <div class="ui-g">
 
                 <div class="ui-g-12" align="center">            
-                 <h4 style="color: #ee2d63;">#{msg['send.picture.msg1']}</h4>
+                 <h4 style="color: #ee2d63;">#{msg['take.photo.msg1']}</h4>
                 </div>
                           
                  <separator/>
                  <separator/>
                 <div id="features" align="center" class="ui-g-12">            
-                 <h4 style="color: #ee2d63;">#{msg['send.picture.msg2']}</h4>
+                 <h4 style="color: #ee2d63;">#{msg['take.photo.msg2']}</h4>
                 </div>
                  </div>
                   </div>
@@ -39,10 +39,10 @@
                     <div class="ui-g-12 ui-md-4 pricing-box pricing-standard">
                             <div class="pricing-content">
                                 <ul>
-                                    <li><i class="material-icons"></i><span> #{msg['send.picture.msg3']}</span></li>
-                                    <li> <i class="material-icons"></i><span> #{msg['send.picture.msg4']}</span></li>
-                                    <li> <i class="material-icons"></i><span> #{msg['send.picture.msg5']}</span></li>
-                                    <li><i class="material-icons"></i> <span> #{msg['send.picture.msg6']}</span></li>
+                                    <li><i class="material-icons"></i><span> #{msg['take.photo.msg3']}</span></li>
+                                    <li> <i class="material-icons"></i><span> #{msg['take.photo.msg4']}</span></li>
+                                    <li> <i class="material-icons"></i><span> #{msg['take.photo.msg5']}</span></li>
+                                    <li><i class="material-icons"></i> <span> #{msg['take.photo.msg6']}</span></li>
                                 </ul>
                             </div>
                     </div>
@@ -59,9 +59,11 @@
                         </p:steps>
                     </div>
                     <div id="features" align="center" class="ui-g-12">            
-                       <h4 style="color: #ee2d63;">#{msg['send.picture.msg7']}</h4>
+                       <h4 style="color: #ee2d63;">#{msg['take.photo.msg7']}</h4>
                     </div>
-       
+                    <div align="center">
+                        <p:commandButton  value="#{msg['boton.send.photos']}" id="btnSubmit"   actionListener="#{takePhotoController.doRediret()}" style="margin-bottom:10px;"/>
+                    </div>
                  <div align="center">     
              <p:graphicImage name="ultima-layout/images/imagen_nuestra_vision_sabor.png" alt="Nuestra Vision" width="450" height="100" />
          </div>

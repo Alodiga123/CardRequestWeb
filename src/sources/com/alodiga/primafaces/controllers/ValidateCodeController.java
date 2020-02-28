@@ -15,44 +15,17 @@
  */
 package com.alodiga.primafaces.controllers;
 
-import org.primefaces.ultima.view.input.*;
 import com.alodiga.cms.commons.ejb.PersonEJB;
 import com.alodiga.cms.commons.ejb.RequestEJB;
 import com.alodiga.cms.commons.ejb.UtilsEJB;
-import com.alodiga.cms.commons.exception.EmptyListException;
-import com.alodiga.cms.commons.exception.GeneralException;
-import com.alodiga.cms.commons.exception.NullParameterException;
-import com.alodiga.cms.commons.exception.RegisterNotFoundException;
-import com.cms.commons.models.City;
-import com.cms.commons.models.Country;
-import com.cms.commons.models.State;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
-import com.cms.commons.genericEJB.EJBRequest;
-import com.cms.commons.models.CivilStatus;
-import com.cms.commons.models.DocumentsPersonType;
-import com.cms.commons.models.EdificationType;
-import com.cms.commons.models.Profession;
-import com.cms.commons.models.StreetType;
-import com.cms.commons.models.ZipZone;
-import com.cms.commons.util.QueryConstants;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import org.primefaces.context.RequestContext;
-import org.primefaces.ultima.domain.Solicitude;
 
 @ManagedBean
 @ViewScoped
