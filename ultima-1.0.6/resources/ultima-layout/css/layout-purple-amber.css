@@ -185,9 +185,9 @@
   .dashboard .colorbox.colorbox-1 div:last-child {
     background-color: #4CAF50; }
   .dashboard .colorbox.colorbox-2 div:first-child {
-    background-color: #0277BD; }
+    background-color: #bf0438; }
   .dashboard .colorbox.colorbox-2 div:last-child {
-    background-color: #03A9F4; }
+    background-color: #ee2d63; }
   .dashboard .colorbox.colorbox-3 div:first-child {
     background-color: #4527A0; }
   .dashboard .colorbox.colorbox-3 div:last-child {
@@ -280,7 +280,7 @@
     .dashboard .activity-list li .count {
       font-size: 24px;
       color: #ffffff;
-      background-color: #03A9F4;
+      background-color: #ee2d63;
       font-weight: bold;
       width: 60px;
       padding: 5px;
@@ -397,7 +397,7 @@
   .exception-body.error-page .exception-panel i {
     color: #f79a84; }
   .exception-body.notfound-page .exception-type {
-    background-color: #3f51b5; }
+    background-color: #07b49c; }
     .exception-body.notfound-page .exception-type img {
       width: 54%; }
   .exception-body.notfound-page .exception-panel i {
@@ -419,7 +419,7 @@
 .landing-wrapper #header {
   width: 100%;
   min-height: 400px;
-  background: url("#{resource['ultima-layout:images/landing/landing-header.png']}") top left no-repeat #f7f7f7;
+  background: url("#{resource['ultima-layout:images/background_alodiga.jpg']}") top left no-repeat #f7f7f7;
   background-size: 100% auto; }
   .landing-wrapper #header .header-top {
     width: 960px;
@@ -452,7 +452,7 @@
       color: #ffffff;
       display: none; }
   .landing-wrapper #header .header-content {
-    width: 960px;
+    width: 350px;
     margin: 0 auto;
     text-align: center; }
     .landing-wrapper #header .header-content h1 {
@@ -518,9 +518,9 @@
       .landing-wrapper #promotion .ui-lg-4 .card:last-child {
         margin-bottom: 0; }
 .landing-wrapper #pricing {
-  width: 960px;
+  width: 980px;
   margin: 0 auto;
-  padding: 50px 0px;
+  /*padding: 50px 0px;*/
   text-align: center; }
   .landing-wrapper #pricing h2 {
     font-weight: 400; }
@@ -546,7 +546,7 @@
         font-size: 16px; }
   .landing-wrapper #pricing .pricing-box .pricing-content ul {
     margin: 0;
-    padding: 30px 20px;
+    /*padding: 30px 20px;*/
     list-style-type: none; }
     .landing-wrapper #pricing .pricing-box .pricing-content ul li {
       font-size: 18px;
@@ -704,7 +704,7 @@ body {
   font-family: Roboto,"Helvetica Neue",sans-serif;
   font-size: 16px;
   line-height: 24px;
-  color: #212121;
+  color: #ee2d63;
   -webkit-font-smoothing: antialiased;
   padding: 0;
   margin: 0; }
@@ -727,8 +727,8 @@ body {
   position: fixed;
   z-index: 100;
   width: 100%;
-  height: 75px;
-  background-color: #673AB7;
+  height: 50px;
+  background-color: #ee2d63;
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); }
@@ -743,7 +743,7 @@ body {
     padding: 20px;
     height: 75px;
     width: 250px;
-    background-color: #4527A0;
+    background-color: #bf0438;
     float: left;
     -webkit-box-shadow: 3px 0 6px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 3px 0 6px rgba(0, 0, 0, 0.3);
@@ -846,7 +846,7 @@ body {
     .layout-wrapper .topbar .topbar-right .topbar-items .search-item input:focus ~ label {
       top: -5px;
       font-size: 12px;
-      color: #673AB7; }
+      color: #ee2d63; }
     .layout-wrapper .topbar .topbar-right .topbar-items .search-item input.ui-state-filled ~ label {
       display: none; }
     .layout-wrapper .topbar .topbar-right .topbar-items .search-item label {
@@ -976,7 +976,7 @@ body {
     .layout-wrapper.menu-layout-overlay .topbar .topbar-right #menu-button i:before {
       content: ""; }
 .layout-wrapper .layout-main {
-  padding: 95px 15px 15px 15px;
+  padding: 40px 15px 15px 15px;
   -moz-transition: margin-left 0.3s;
   -o-transition: margin-left 0.3s;
   -webkit-transition: margin-left 0.3s;
@@ -1019,7 +1019,7 @@ body {
       display: inline-block;
       vertical-align: middle; }
   .layout-wrapper .ultima-menu li.active-menuitem > a {
-    color: #673AB7;
+    color: #ee2d63;
     background-color: #e8e8e8; }
     .layout-wrapper .ultima-menu li.active-menuitem > a i:last-child {
       -webkit-transform: rotate(-180deg);
@@ -1127,7 +1127,7 @@ body {
   .layout-wrapper.menu-layout-static .layout-menu {
     margin-left: 0; }
   .layout-wrapper.menu-layout-static .layout-main {
-    margin-left: 250px; }
+    margin-left: 0px; }
   .layout-wrapper.menu-layout-static.layout-menu-static-inactive .layout-menu {
     margin-left: -250px; }
   .layout-wrapper.menu-layout-static.layout-menu-static-inactive .layout-main {
@@ -1139,7 +1139,7 @@ body {
     -webkit-box-shadow: none;
     -moz-box-shadow: none; }
     .layout-wrapper.menu-layout-horizontal .topbar .topbar-left {
-      background-color: #673AB7;
+      background-color: #ee2d63;
       box-shadow: none;
       -webkit-box-shadow: none;
       -moz-box-shadow: none; }
@@ -1151,7 +1151,7 @@ body {
     width: 100%;
     top: 75px;
     height: auto;
-    background-color: #4527A0;
+    background-color: #bf0438;
     -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
     -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26); }
@@ -1208,7 +1208,7 @@ body {
           .layout-wrapper.menu-layout-horizontal .layout-menu ul.ultima-menu > li > ul li ul ul ul ul ul li a {
             padding-left: 96px; }
         .layout-wrapper.menu-layout-horizontal .layout-menu ul.ultima-menu > li > ul li.active-menuitem > a {
-          color: #673AB7;
+          color: #ee2d63;
           background-color: #e8e8e8; }
       .layout-wrapper.menu-layout-horizontal .layout-menu ul.ultima-menu > li.active-menuitem > a {
         color: #212121;
@@ -1312,7 +1312,7 @@ body {
         display: inline-block;
         vertical-align: middle; }
     .layout-wrapper .topbar .topbar-right .topbar-items > li.active-top-menu > a {
-      color: #673AB7; }
+      color: #ee2d63; }
     .layout-wrapper .topbar .topbar-right .topbar-items > li.active-top-menu > ul {
       display: block; }
       .layout-wrapper .topbar .topbar-right .topbar-items > li.active-top-menu > ul li a {
@@ -1338,7 +1338,7 @@ body {
       .layout-wrapper .topbar .topbar-right .topbar-items > li.search-item input:focus ~ label,
       .layout-wrapper .topbar .topbar-right .topbar-items > li.search-item input.ui-state-filled ~ label {
         top: -20px;
-        color: #673AB7; }
+        color: #ee2d63; }
       .layout-wrapper .topbar .topbar-right .topbar-items > li.search-item label {
         top: 1px;
         color: #212121; }
