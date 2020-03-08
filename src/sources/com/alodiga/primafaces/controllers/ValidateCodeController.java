@@ -31,20 +31,12 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class ValidateCodeController {
     private UtilsEJB utilsEJB;
-    private PersonEJB personEJB;
-    private RequestEJB requestEJB;
     private String code;
  
     
     @PostConstruct
     public void init() {
-
             utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
-            personEJB = (PersonEJB) EJBServiceLocator.getInstance().get(EjbConstants.PERSON_EJB);
-            requestEJB= (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
-          
-    
-       
     }
 
     public String getCode() {
@@ -56,13 +48,14 @@ public class ValidateCodeController {
     }
 
     
-
     public void reset() {
         RequestContext.getCurrentInstance().reset("formCode:grid");
     }
     
     public void doRediret() {
         try {
+            //validar codigo
+            System.out.println("code:"+code);
             FacesContext.getCurrentInstance().getExternalContext().redirect("formCardData.xhtml");
         } catch (IOException ex) {
             System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");

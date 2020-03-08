@@ -37,6 +37,12 @@ public class Solicitude implements Serializable {
     public String lastName;
     public String marriedLastName;
     public String gender; 
+    public String recommendation; 
+    public String promotion; 
+    public String citizen; 
+    public List<String> recommendations;  
+    public List<String> promotions;  
+    public List<String> citizens;  
     public String placeBirth;
     public Date birthdate;
     public String maritalStatus;
@@ -64,6 +70,8 @@ public class Solicitude implements Serializable {
     public int piso;
     public String calle;
     private String familiar;
+    public String password1;
+    public String password2;
     private DocumentsPersonType documentsPersonType;
     private EdificationType edificationType;
     private StreetType streetType;
@@ -439,7 +447,70 @@ public class Solicitude implements Serializable {
         this.familiar = familiar;
     }
 
-    
+    public String getRecommendation() {
+        return recommendation;
+    }
+
+    public void setRecommendation(String recommendation) {
+        this.recommendation = recommendation;
+    }
+
+    public String getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(String promotion) {
+        this.promotion = promotion;
+    }
+
+    public String getCitizen() {
+        return citizen;
+    }
+
+    public void setCitizen(String citizen) {
+        this.citizen = citizen;
+    }
+
+    public List<String> getRecommendations() {
+        return recommendations;
+    }
+
+    public void setRecommendations(List<String> recommendations) {
+        this.recommendations = recommendations;
+    }
+
+    public List<String> getPromotions() {
+        return promotions;
+    }
+
+    public void setPromotions(List<String> promotions) {
+        this.promotions = promotions;
+    }
+
+    public List<String> getCitizens() {
+        return citizens;
+    }
+
+    public void setCitizens(List<String> citizens) {
+        this.citizens = citizens;
+    }
+
+    public String getPassword1() {
+        return password1;
+    }
+
+    public void setPassword1(String password1) {
+        this.password1 = password1;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
+    }
+
     
     @Override
     public int hashCode() {

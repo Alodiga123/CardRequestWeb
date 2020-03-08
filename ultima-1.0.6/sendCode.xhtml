@@ -38,7 +38,7 @@
                    </div>
 
                     <div align="center">
-                        <h2 >Registro y Solicitud</h2>
+                        <h2 >#{msg['common.register.solicitude']}</h2>
                         <p:steps activeIndex="0" >
                             <p:menuitem value="Paso" />
                             <p:menuitem value="" />
@@ -54,7 +54,7 @@
                        <div class="card card-w-title">
                                                    <p:panelGrid id="grid" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
                                 
-                               <p:outputLabel for="onemenu" value="Pais"/>
+                               <p:outputLabel for="onemenu" value="#{msg['common.country']}"/>
                                  <p:selectOneMenu id="onemenu" value="#{sendCodeController.country}" converter="countryConverter"
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="#{sendCodeController.country.name}"
@@ -64,10 +64,10 @@
                          
                       
 
-                                 <p:outputLabel value="Telefono Celular" for="cell" />
+                                 <p:outputLabel value="#{msg['common.cell.phone']}" for="cell" />
                                 <h:panelGroup styleClass="md-inputfield">
                                     <p:inputText id="cell" value="#{sendCodeController.cellNumber}" required="true" />
-                                    <label>Telefono Celular</label>
+                                    <label>#{msg['common.cell.phone']}</label>
                                 </h:panelGroup>
                             </p:panelGrid>
     
@@ -76,7 +76,7 @@
                    <!--</div>-->
             </div>
                  <div align="center">
-                <p:commandButton  value="#{msg['boton.send']}" id="btnSubmit" icon="ui-icon-save"  actionListener="#{sendCodeController.doRediret()}"/>
+                <p:commandButton  value="#{msg['boton.send']}" id="btnSubmit"  actionListener="#{sendCodeController.doRediret()}"/>
             
             </div>
            

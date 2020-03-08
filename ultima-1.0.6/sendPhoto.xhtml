@@ -15,29 +15,19 @@
     </ui:define>
     <ui:define name="content">
         <h:form>
-<!--             <div class="ui-fluid">
-            <div class="ui-g">
+            <div align="center">
+                <p:steps activeIndex="2" >
+                    <p:menuitem value="Paso" />
+                    <p:menuitem value="" />
+                    <p:menuitem value="" />
+                </p:steps>
+            </div>
+            <p:fileUpload fileUploadListener="#{sendPhotoController.handleFileUpload}" mode="advanced" dragDropSupport="false" multiple="false" update="messages" sizeLimit="10000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width:100%" />
+            <p:growl id="messages" showDetail="true" />
+            <div id="features" align="center" class="ui-g-12">            
+                <h4 style="color: #454D3E;">#{msg['send.photo.msg1']}</h4>
+            </div>
 
-               
-                 </div>
-                  </div>-->
-
-                    <div align="center">
-                        <p:steps activeIndex="2" >
-                            <p:menuitem value="Paso" />
-                            <p:menuitem value="" />
-                            <p:menuitem value="" />
-                        </p:steps>
-                    </div>
-                    <div id="features" align="center" class="ui-g-12">            
-                       <h4 style="color: #454D3E;">#{msg['send.photo.msg1']}</h4>
-                    </div>
-                  <div align="center">
-                        <p:commandButton  value="#{msg['boton.send.photos']}" id="btnSubmit"   actionListener="#{sendPhotoController.doRediret()}" style="margin-bottom:10px;"/>
-                    </div>
-<!--                 <div align="center">     
-                <p:graphicImage name="ultima-layout/images/imagen_nuestra_vision_sabor.png" alt="Nuestra Vision" width="380" height="100" />
-                </div>-->
 
 
         </h:form>    

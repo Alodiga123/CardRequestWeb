@@ -59,8 +59,6 @@ import org.primefaces.ultima.domain.Solicitude;
 public class SendCodeController {
     public Solicitude solicitude;
     private UtilsEJB utilsEJB;
-    private PersonEJB personEJB;
-    private RequestEJB requestEJB;
     private String cellNumber;
     private Country country;
      private Map<String, String> countries = null;
@@ -69,8 +67,6 @@ public class SendCodeController {
     public void init() {
         try {
             utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
-            personEJB = (PersonEJB) EJBServiceLocator.getInstance().get(EjbConstants.PERSON_EJB);
-            requestEJB= (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
             EJBRequest request = new EJBRequest();
             request.setParam(2);
             country = utilsEJB.loadCountry(request);
@@ -85,9 +81,7 @@ public class SendCodeController {
        
     }
 
- 
-
-    public Country getCountry() {
+     public Country getCountry() {
         return country;
     }
 
@@ -131,6 +125,8 @@ public class SendCodeController {
     
     public void doRediret() {
         try {
+            //enviar codigo
+            System.out.println("Pais:"+country.getName() +"Telefono:"+cellNumber);
             FacesContext.getCurrentInstance().getExternalContext().redirect("validateCode.xhtml");
         } catch (IOException ex) {
             System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");

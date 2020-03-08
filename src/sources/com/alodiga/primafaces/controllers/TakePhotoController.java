@@ -33,10 +33,13 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.primefaces.ultima.domain.Solicitude;
 
 @ManagedBean
@@ -48,7 +51,9 @@ public class TakePhotoController {
     private RequestEJB requestEJB;
     private String cellNumber;
     private Country country;
-     private Map<String, String> countries = null;
+    private Map<String, String> countries = null;
+     private UploadedFile file;
+    
   
     @PostConstruct
     public void init() {
@@ -70,7 +75,32 @@ public class TakePhotoController {
        
     }
 
- 
+
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+    
+    public void upload() {
+        if (file != null) {
+            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+    
+    public void handleFileUpload(FileUploadEvent event) {
+        FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("sendPhoto.xhtml");
+        } catch (IOException ex) {
+            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+        }
+    }
 
     public Country getCountry() {
         return country;
@@ -114,13 +144,6 @@ public class TakePhotoController {
         RequestContext.getCurrentInstance().reset("sendCodeForm:grid");
     }
     
-    public void doRediret() {
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("sendPhoto.xhtml");
-        } catch (IOException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
-        }
-    }
-    
+       
       
 }
