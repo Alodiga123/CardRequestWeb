@@ -28,76 +28,74 @@
                         <div class="card card-w-title">
                             <h1>#{msg['common.personal.information']}</h1>
                             <p:panelGrid id="grid" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
-                                
-                                  <p:outputLabel for="input" value="#{msg['common.titel']}"/>
-                                  <p:selectOneMenu id="titulo" value="#{radioView.solicitude.familiar}">
-                                    <f:selectItem itemLabel="Sr" itemValue="0" />
-                                    <f:selectItem itemLabel="Sra" itemValue="1" />
-                                    <f:selectItem itemLabel="Srta" itemValue="2" />
-                                 </p:selectOneMenu>
+                                <p:outputLabel for="input" value="#{msg['common.titel']}"/>
+                                <p:selectOneMenu id="title" value="#{formCardDataController.title}" converter="titleConverter">
+                                    <f:selectItem itemLabel="#{formCardDataController.title.description}" itemValue="#{formCardDataController.title.id}" />
+                                    <f:selectItems value="#{formCardDataController.titles}"/>
+                                </p:selectOneMenu> 
                                   
                                                                                            
                                 <p:outputLabel for="input" value="#{msg['common.names']}" />
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="input" value="#{radioView.solicitude.name}" required="true"/>
+                                    <p:inputText id="input" value="#{formCardDataController.name}" required="true"/>
                                     <label>#{msg['common.names']}</label>
                                 </h:panelGroup>
                                 
                                 <p:outputLabel for="input" value="#{msg['common.lastNames']}" />
                                   <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="inp" value="#{radioView.solicitude.lastName}" required="true"/>
+                                    <p:inputText id="inp" value="#{formCardDataController.lastName}" required="true"/>
                                     <label>#{msg['common.lastNames']}</label>
                                 </h:panelGroup>
                                 <p:outputLabel value="#{msg['common.country']}" for="pais" />
-                                <p:selectOneMenu id="pais" value="#{radioView.country}" converter="countryConverter"
+                                <p:selectOneMenu id="pais" value="#{formCardDataController.country}" converter="countryConverter"
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="#{radioView.country.name}"
-                                                  itemValue="#{radioView.country.id}" />
-                                    <f:selectItems value="#{radioView.countries}"/>
-                                    <f:ajax event="change" listener="#{radioView.reloadStates}" render="estado" />
+                                    <f:selectItem itemLabel="#{formCardDataController.country.name}"
+                                                  itemValue="#{formCardDataController.country.id}" />
+                                    <f:selectItems value="#{formCardDataController.countries}"/>
+                                    <f:ajax event="change" listener="#{formCardDataController.reloadStates}" render="estado" />
                                 </p:selectOneMenu> 
                                 <p:outputLabel value="#{msg['common.state']}" for="estado" />
-                                <p:selectOneMenu id="estado" value="#{radioView.state}" converter="stateConverter" 
+                                <p:selectOneMenu id="estado" value="#{formCardDataController.state}" converter="stateConverter" 
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="#{msg['common.state']}" itemValue="#{radioView.state}" />
-                                    <f:selectItems value="#{radioView.states}"/>
-                                    <f:ajax event="change" listener="#{radioView.reloadCities}" render="ciudad" />
+                                    <f:selectItem itemLabel="#{msg['common.state']}" itemValue="#{formCardDataController.state}" />
+                                    <f:selectItems value="#{formCardDataController.states}"/>
+                                    <f:ajax event="change" listener="#{formCardDataController.reloadCities}" render="ciudad" />
                                   
                 
                                 </p:selectOneMenu> 
                                 <p:outputLabel value="#{msg['common.city']}" for="ciudad" />
-                                <p:selectOneMenu id="ciudad" value="#{radioView.city}" converter="cityConverter"
+                                <p:selectOneMenu id="ciudad" value="#{formCardDataController.city}" converter="cityConverter"
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="#{msg['common.option']}" itemValue="#{radioView.city}" />
-                                    <f:selectItems value="#{radioView.cities}"/>
+                                    <f:selectItem itemLabel="#{msg['common.option']}" itemValue="#{formCardDataController.city}" />
+                                    <f:selectItems value="#{formCardDataController.cities}"/>
                                     
                                 </p:selectOneMenu>
                                <p:outputLabel for="input" value="#{msg['common.address']}"/>
                                   <h:panelGroup styleClass="md-inputfield">
-                                      <p:inputText id="inpStreet" value="#{radioView.solicitude.address}"/>
+                                      <p:inputText id="inpAddress" value="#{formCardDataController.address}"/>
                                     <label>#{msg['common.address']}</label>
                                 </h:panelGroup>
                                
-                                 <p:outputLabel value="#{msg['common.postal.zone']}" for="zipZone" />
+                                 <p:outputLabel value="#{msg['common.postal.zone']}" for="input" />
                                    <h:panelGroup styleClass="md-inputfield">
-                                       <p:inputText id="zipZone" value="#{radioView.solicitude.calle}"/>
+                                       <p:inputText id="zipZone" value="#{formCardDataController.postalCode}"/>
                                     <label>#{msg['common.postal.zone']}</label>
                                 </h:panelGroup>
                                  
-                                 <p:outputLabel for="input" value="#{msg['common.email']}" />
+                                 <p:outputLabel for="inpEmail" value="#{msg['common.email']}" />
                                   <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="inpEmail" value="#{radioView.solicitude.email}" size="40" required="true"  requiredMessage="Por favor ingresa tu direccion de email."/>
+                                    <p:inputText id="inpEmail" value="#{formCardDataController.email}" size="40" required="true"  requiredMessage="Por favor ingresa tu direccion de email."/>
                                     <label>#{msg['common.email']}</label>
                                 </h:panelGroup> 
                                    <p:outputLabel for="input" value="#{msg['common.password']}" />
                                   <h:panelGroup styleClass="md-inputfield">
-                                      <p:password id ="password1" value="#{radioView.solicitude.password1}"/>
+                                      <p:password id ="inpPassword1" value="#{formCardDataController.password1}"/>
                                     <label>#{msg['common.password']}</label>
                                 </h:panelGroup>
                                     <p:outputLabel for="input" value="#{msg['common.password']}" />
                                  <h:panelGroup styleClass="md-inputfield">
                                        
-                                    <p:password  id ="password2" value="#{radioView.solicitude.password2}"/>
+                                    <p:password  id ="inpPassword2" value="#{formCardDataController.password2}"/>
                                     <label>#{msg['common.password']}</label>
                                 </h:panelGroup>
 
@@ -112,12 +110,12 @@
                         <div class="card card-w-title">
                              <p:panelGrid id="grid3" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
                                 <p:outputLabel for="radio1" value="#{msg['form.card.data.msg2']}"/>
-                                <p:selectOneRadio id="radio1" value="#{radioView.solicitude.recommendation}" layout="responsive" columns="2" styleClass="form-group">
-                                    <f:selectItems value="#{radioView.solicitude.recommendations}" var="c" itemLabel="#{recommendation}" itemValue="#{recommendation}"/>
+                                <p:selectOneRadio id="radio1" value="#{formCardDataController.recommendation}" layout="responsive" columns="2" styleClass="form-group">
+                                    <f:selectItems value="#{formCardDataController.recommendations}" var="c" itemLabel="#{recommendation}" itemValue="#{recommendation}"/>
                                 </p:selectOneRadio>
                                 <p:outputLabel for="radio2" value="#{msg['form.card.data.msg3']}"/>
-                                <p:selectOneRadio id="radio2" value="#{radioView.solicitude.promotion}" layout="responsive" columns="2" styleClass="form-group">
-                                    <f:selectItems value="#{radioView.solicitude.promotions}" var="c" itemLabel="#{promotion}" itemValue="#{promotion}"/>
+                                <p:selectOneRadio id="radio2" value="#{formCardDataController.promotion}" layout="responsive" columns="2" styleClass="form-group">
+                                    <f:selectItems value="#{formCardDataController.promotions}" var="c" itemLabel="#{promotion}" itemValue="#{promotion}"/>
                                 </p:selectOneRadio>
                                 
                             </p:panelGrid>
@@ -126,11 +124,11 @@
                                  <p:panelGrid columns="1" styleClass="form-group ui-panelgrid-blank" layout="grid">
                                 
                                  <p:outputLabel for="radio3" value="#{msg['form.card.data.msg4']}"/>
-                                 <p:selectOneRadio id="radio3" value="#{radioView.solicitude.citizen}" layout="responsive" columns="2" styleClass="form-group">
-                                     <f:selectItems value="#{radioView.solicitude.citizens}" var="c" itemLabel="#{citizen}" itemValue="#{citizen}"/>
+                                 <p:selectOneRadio id="radio3" value="#{formCardDataController.citizen}" layout="responsive" columns="2" styleClass="form-group">
+                                     <f:selectItems value="#{formCardDataController.citizens}" var="c" itemLabel="#{citizen}" itemValue="#{citizen}"/>
                                 </p:selectOneRadio>
                                  <p:outputLabel for="calendar" value="#{msg['common.date.of.birth']}"/>
-                                <p:calendar id="calendar" value="#{radioView.solicitude.birthdate}" required="true"/>                                                
+                                <p:calendar id="calendar" value="#{formCardDataController.birthdate}" required="true"/>                                                
                             </p:panelGrid>
                         </div>
                   
@@ -144,9 +142,9 @@
                         </div>
                     </div>
                  <div align="center">
-                <p:commandButton  value="#{msg['boton.send.application']}" id="btnSubmit"   actionListener="#{radioView.doRediret()}" style="margin-bottom:10px;"/>
+                <p:commandButton  value="#{msg['boton.send.application']}" id="btnSubmit"   actionListener="#{formCardDataController.save()}" style="margin-bottom:10px;" />
 
-                <p:commandButton  value="#{msg['boton.cancel']}" id="btnCancel" update=":CardDataCreateForm" actionListener="#{radioView.reset()}" immediate="true" process="@this"/>
+                <p:commandButton  value="#{msg['boton.cancel']}" id="btnCancel" update=":CardDataCreateForm" actionListener="#{formCardDataController.reset()}" immediate="true" process="@this"/>
             </div>
         </h:form>
     </ui:define>

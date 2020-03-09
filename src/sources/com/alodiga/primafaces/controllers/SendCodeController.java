@@ -127,6 +127,9 @@ public class SendCodeController {
         try {
             //enviar codigo
             System.out.println("Pais:"+country.getName() +"Telefono:"+cellNumber);
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cellNumber", cellNumber);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("country", country);
             FacesContext.getCurrentInstance().getExternalContext().redirect("validateCode.xhtml");
         } catch (IOException ex) {
             System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");

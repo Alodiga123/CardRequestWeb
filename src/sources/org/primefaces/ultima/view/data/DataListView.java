@@ -133,13 +133,14 @@ public class DataListView implements Serializable {
         
         if (cards!=null && !cards.isEmpty()){
             service.createCars(cards);
-        }else{
-            cards = new ArrayList<CreditCard>();
-            addCreditCard = new CreditCard(null,solicitude.getCity(), solicitude.getCivilState(), solicitude.getCountry(), solicitude.getDocumentType(), solicitude.getDocumentNumber(), 
-            solicitude.getName(), solicitude.getLastName(), solicitude.getGender(), solicitude.getPlaceBirth(), solicitude.getBirthdate(), solicitude.getMaritalStatus(),
-            solicitude.getProfession(), solicitude.getEmail(), solicitude.getPhoneNumber(), solicitude.getState(), solicitude.getAddress(), solicitude.getPostalCode());
-            cards.add(addCreditCard);
         }
+//        else{
+//            cards = new ArrayList<CreditCard>();
+//            addCreditCard = new CreditCard(null,solicitude.getCity(), solicitude.getCivilState(), solicitude.getCountry(), solicitude.getDocumentType(), solicitude.getDocumentNumber(), 
+//            solicitude.getName(), solicitude.getLastName(), solicitude.getGender(), solicitude.getPlaceBirth(), solicitude.getBirthdate(), solicitude.getMaritalStatus(),
+//            solicitude.getProfession(), solicitude.getEmail(), solicitude.getPhoneNumber(), solicitude.getState(), solicitude.getAddress(), solicitude.getPostalCode());
+//            cards.add(addCreditCard);
+//        }
         addCreditCard = new CreditCard();
         addCreditCard.genders = new ArrayList<String>();
         addCreditCard.genders.add("Masculino");

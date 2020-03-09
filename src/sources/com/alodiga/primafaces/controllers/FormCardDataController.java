@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.primefaces.ultima.view.input;
+package com.alodiga.primafaces.controllers;
 
+import org.primefaces.ultima.view.input.*;
 import com.alodiga.cms.commons.ejb.PersonEJB;
 import com.alodiga.cms.commons.ejb.RequestEJB;
 import com.alodiga.cms.commons.ejb.UtilsEJB;
@@ -52,8 +53,8 @@ import org.primefaces.ultima.domain.Solicitude;
 
 @ManagedBean
 @ViewScoped
-public class RadioView {
-    public Solicitude solicitude;
+public class FormCardDataController {
+//    public Solicitude solicitude;
     private UtilsEJB utilsEJB;
     private PersonEJB personEJB;
     private RequestEJB requestEJB;
@@ -68,54 +69,53 @@ public class RadioView {
     private Map<String, String> titles = null;
     private Title title;
     String cellNumber =null;
+    public List<String> civilStates; 
+    public String name;
+    public String lastName;
+    public String recommendation; 
+    public String promotion; 
+    public String citizen; 
+    public List<String> recommendations;  
+    public List<String> promotions;  
+    public List<String> citizens;  
+    public Date birthdate;
+    public String email;
+    public String address;
+    public String postalCode;
+    public String password1;
+    public String password2;
         
     @PostConstruct
     public void init() {
-//        try {
             utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
             personEJB = (PersonEJB) EJBServiceLocator.getInstance().get(EjbConstants.PERSON_EJB);
             requestEJB= (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
-            solicitude = new Solicitude();
-//            solicitude.genders = new ArrayList<String>();
-            solicitude.recommendations = new ArrayList<String>();
-            solicitude.promotions = new ArrayList<String>();
-            solicitude.citizens = new ArrayList<String>();
+//            solicitude = new Solicitude();
+            recommendations = new ArrayList<String>();
+            promotions = new ArrayList<String>();
+            citizens = new ArrayList<String>();
             Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
             bundle = ResourceBundle.getBundle("com.alodiga.primafeces.messages/message", locale);
-//            solicitude.genders.add(bundle.getString("option.yes"));
-//            solicitude.genders.add(bundle.getString("option.no"));
-            solicitude.recommendations.add(bundle.getString("option.yes"));
-            solicitude.recommendations.add(bundle.getString("option.no"));
-            solicitude.promotions.add(bundle.getString("option.yes"));
-            solicitude.promotions.add(bundle.getString("option.no"));
-            solicitude.citizens.add(bundle.getString("option.yes"));
-            solicitude.citizens.add(bundle.getString("option.no"));
-            
-//            EJBRequest request = new EJBRequest();
-//            request.setParam(2);
-//            country = utilsEJB.loadCountry(request);
-//              countryDocument = utilsEJB.loadCountry(request);
+            recommendations.add(bundle.getString("option.yes"));
+            recommendations.add(bundle.getString("option.no"));
+            promotions.add(bundle.getString("option.yes"));
+            promotions.add(bundle.getString("option.no"));
+            citizens.add(bundle.getString("option.yes"));
+            citizens.add(bundle.getString("option.no"));
+
             country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
-//            countryDocument =  (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
             cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
-//        } catch (RegisterNotFoundException ex) {
-//            Logger.getLogger(RadioView.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (NullParameterException ex) {
-//            Logger.getLogger(RadioView.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (GeneralException ex) {
-//            ex.printStackTrace();
-//            Logger.getLogger(RadioView.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
        
     }
 
-   public Solicitude getSolicitude() {
-        return solicitude;
-    }
-
-    public void setSolicitude(Solicitude solicitude) {
-        this.solicitude = solicitude;
-    }
+//   public Solicitude getSolicitude() {
+//        return solicitude;
+//    }
+//
+//    public void setSolicitude(Solicitude solicitude) {
+//        this.solicitude = solicitude;
+//    }
 
     public Country getCountry() {
         return country;
@@ -147,6 +147,118 @@ public class RadioView {
 
     public void setTitle(Title title) {
         this.title = title;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getRecommendation() {
+        return recommendation;
+    }
+
+    public void setRecommendation(String recommendation) {
+        this.recommendation = recommendation;
+    }
+
+    public String getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(String promotion) {
+        this.promotion = promotion;
+    }
+
+    public String getCitizen() {
+        return citizen;
+    }
+
+    public void setCitizen(String citizen) {
+        this.citizen = citizen;
+    }
+
+    public List<String> getRecommendations() {
+        return recommendations;
+    }
+
+    public void setRecommendations(List<String> recommendations) {
+        this.recommendations = recommendations;
+    }
+
+    public List<String> getPromotions() {
+        return promotions;
+    }
+
+    public void setPromotions(List<String> promotions) {
+        this.promotions = promotions;
+    }
+
+    public List<String> getCitizens() {
+        return citizens;
+    }
+
+    public void setCitizens(List<String> citizens) {
+        this.citizens = citizens;
+    }
+
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getPassword1() {
+        return password1;
+    }
+
+    public void setPassword1(String password1) {
+        this.password1 = password1;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
     }
     
        public Map<String, String> getStates() {
@@ -237,11 +349,11 @@ public class RadioView {
                 cities.put(city.getName(), city.getId().toString());
             }
         } catch (EmptyListException ex) {
-            Logger.getLogger(RadioView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormCardDataController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (GeneralException ex) {
-            Logger.getLogger(RadioView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormCardDataController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullParameterException ex) {
-            Logger.getLogger(RadioView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormCardDataController.class.getName()).log(Level.SEVERE, null, ex);
         }
  
         return cities;
@@ -317,18 +429,15 @@ public class RadioView {
     
       public void save() {
          try {
-            Long requestPersonId = requestEJB. saveRequestPersonData(country.getId(),  solicitude.getEmail(), new Date((new java.util.Date()).getTime()) , solicitude.getName(), solicitude.getLastName(),solicitude.getBirthdate(),  
-                                         solicitude.getCellNumber(), country.getId(), state.getId(), city.getId(), solicitude.getPostalCode(), solicitude.getAddress(),solicitude.getRecommendation().equals(bundle.getString("option.yes"))?true:false,
-                                         solicitude.getPromotion().equals(bundle.getString("option.yes"))?true:false,solicitude.getCitizen().equals(bundle.getString("option.yes"))?true:false, solicitude.getPassword1(), title.getId()); 
+            Long requestPersonId = requestEJB. saveRequestPersonData(country.getId(),  email, new Date((new java.util.Date()).getTime()) , name, lastName,birthdate,  
+                                        cellNumber, country.getId(), state.getId(), city.getId(), postalCode, address,recommendation.equals(bundle.getString("option.yes"))?true:false,
+                                         promotion.equals(bundle.getString("option.yes"))?true:false,citizen.equals(bundle.getString("option.yes"))?true:false, password1, title.getId()); 
 
-            solicitude.setCity(city.getName());
-            solicitude.setCountry(country.getName());
-            solicitude.setState(state.getName());
             FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("solicitude", solicitude);
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("solicitude", solicitude);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("requestPersonId", requestPersonId);
             
-            FacesContext.getCurrentInstance().getExternalContext().redirect("cards.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("completeForm.xhtml");
         } catch (RegisterNotFoundException ex) {
             System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
         } catch (EmptyListException ex) {
