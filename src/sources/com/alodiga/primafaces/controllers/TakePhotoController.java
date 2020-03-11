@@ -26,7 +26,13 @@ import com.cms.commons.models.Country;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.genericEJB.EJBRequest;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,6 +43,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -52,8 +59,8 @@ public class TakePhotoController {
     private String cellNumber;
     private Country country;
     private Map<String, String> countries = null;
-     private UploadedFile file;
-    
+    private UploadedFile file;
+    private Long requestPersonId;
   
     @PostConstruct
     public void init() {
@@ -64,6 +71,7 @@ public class TakePhotoController {
             EJBRequest request = new EJBRequest();
             request.setParam(2);
             country = utilsEJB.loadCountry(request);
+             requestPersonId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("requestPersonId");
         } catch (RegisterNotFoundException ex) {
             Logger.getLogger(TakePhotoController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullParameterException ex) {
@@ -95,11 +103,33 @@ public class TakePhotoController {
     public void handleFileUpload(FileUploadEvent event) {
         FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
         FacesContext.getCurrentInstance().addMessage(null, msg);
+        
         try {
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
+            String name = fmt.format(new Date()) + event.getFile().getFileName().substring( event.getFile().getFileName().lastIndexOf('.'));
+            File file = new File("C:\\Users\\yalmea\\Documents\\NetBeansProjects\\upload\\document-" + requestPersonId + "-"+name);
+//            File file = new File(path + "catalogo_imagens/temporario/" + name);
+            System.out.println("ruta:"+file.getAbsolutePath());;
+
+            InputStream is = event.getFile().getInputstream();
+            OutputStream out = new FileOutputStream(file);
+            byte buf[] = new byte[1024];
+            int len;
+            while ((len = is.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            is.close();
+            out.close();
             FacesContext.getCurrentInstance().getExternalContext().redirect("sendPhoto.xhtml");
-        } catch (IOException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+        } catch (Exception ex) {
+            System.out.println("Erro no upload de imagem" + ex);
         }
+
+//        try {
+//            FacesContext.getCurrentInstance().getExternalContext().redirect("sendPhoto.xhtml");
+//        } catch (IOException ex) {
+//            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+//        }
     }
 
     public Country getCountry() {

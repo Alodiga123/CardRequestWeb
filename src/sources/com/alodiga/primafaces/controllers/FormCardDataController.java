@@ -43,6 +43,7 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIOutput;
@@ -84,6 +85,7 @@ public class FormCardDataController {
     public String postalCode;
     public String password1;
     public String password2;
+    private String messages = null;
         
     @PostConstruct
     public void init() {
@@ -433,21 +435,26 @@ public class FormCardDataController {
                                         cellNumber, country.getId(), state.getId(), city.getId(), postalCode, address,recommendation.equals(bundle.getString("option.yes"))?true:false,
                                          promotion.equals(bundle.getString("option.yes"))?true:false,citizen.equals(bundle.getString("option.yes"))?true:false, password1, title.getId()); 
 
-            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+             if (requestPersonId != 0) {
+                 FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("solicitude", solicitude);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("requestPersonId", requestPersonId);
-            
-            FacesContext.getCurrentInstance().getExternalContext().redirect("completeForm.xhtml");
+                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("requestPersonId", requestPersonId);
+
+                 FacesContext.getCurrentInstance().getExternalContext().redirect("takePhoto.xhtml");
+             }else{
+                messages = "Ha ocurrido un error al guardar la solicitud";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+             }
         } catch (RegisterNotFoundException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+            System.out.println("RegisterNotFoundException..");
         } catch (EmptyListException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+            System.out.println("EmptyListException..");
         } catch (NullParameterException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+            System.out.println("NullParameterException..");
         } catch (GeneralException ex) {
-             System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+             System.out.println("GeneralException..");
         } catch (IOException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+            System.out.println("IOException..");
         } 
     }
 
