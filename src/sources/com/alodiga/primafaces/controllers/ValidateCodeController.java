@@ -20,6 +20,7 @@ import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import java.io.IOException;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -30,7 +31,7 @@ import org.primefaces.context.RequestContext;
 public class ValidateCodeController {
     private UtilsEJB utilsEJB;
     private String code;
- 
+    private String messages = null;
     
     @PostConstruct
     public void init() {
@@ -50,11 +51,17 @@ public class ValidateCodeController {
         RequestContext.getCurrentInstance().reset("formCode:grid");
     }
     
-    public void doRediret() {
+    public void validate() {
         try {
             //validar codigo
-            System.out.println("code:"+code);
-            FacesContext.getCurrentInstance().getExternalContext().redirect("formCardData.xhtml");
+            if (code.equals("123456")){
+                System.out.println("code:"+code);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("formCardData.xhtml");
+            }else{
+                messages = "Codigo invalido";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            }
+
         } catch (IOException ex) {
             System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
         }

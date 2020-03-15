@@ -107,8 +107,8 @@ public class TakePhotoController {
         try {
             SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
             String name = fmt.format(new Date()) + event.getFile().getFileName().substring( event.getFile().getFileName().lastIndexOf('.'));
-            File file = new File("C:\\Users\\yalmea\\Documents\\NetBeansProjects\\upload\\document-" + requestPersonId + "-"+name);
-//            File file = new File(path + "catalogo_imagens/temporario/" + name);
+            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\document-" + requestPersonId + "-"+name);
+//          File file = new File("home/" + requestPersonId + "-"+name);
             System.out.println("ruta:"+file.getAbsolutePath());;
 
             InputStream is = event.getFile().getInputstream();

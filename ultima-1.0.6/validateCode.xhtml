@@ -31,6 +31,9 @@
                 <div class="ui-g-12">
                        <div class="card card-w-title">
                               <p:panelGrid id="grid" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">  
+                              <f:facet name="header">
+                             <p:messages id="messages"  autoUpdate="true" closable="true" />
+                             </f:facet>
                                 <p:outputLabel value="#{msg['validate.code']}" for="phone" />
                                 <h:panelGroup styleClass="md-inputfield">
                                     <p:inputText id="phone" value="#{validateCodeController.code}" required="true" />
@@ -39,11 +42,10 @@
                             </p:panelGrid>
     
                         </div>
-                        
                    <!--</div>-->
             </div>
                  <div align="center">
-                <p:commandButton  value="#{msg['boton.next']}" id="btnSubmit"  actionListener="#{validateCodeController.doRediret()}"/>
+                <p:commandButton  value="#{msg['boton.next']}" id="btnSubmit"  actionListener="#{validateCodeController.validate()}"/>
             
             </div>
             

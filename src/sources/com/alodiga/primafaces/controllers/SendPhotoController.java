@@ -148,7 +148,7 @@ public class SendPhotoController {
             String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
             SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
             String name = fmt.format(new Date()) + event.getFile().getFileName().substring( event.getFile().getFileName().lastIndexOf('.'));
-            File file = new File("C:\\Users\\yalmea\\Documents\\NetBeansProjects\\upload\\person-" + requestPersonId + "-"+name);
+            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\person-" + requestPersonId + "-"+name);
 //            File file = new File(path + "catalogo_imagens/temporario/" + name);
             System.out.println("ruta:"+file.getAbsolutePath());;
 
