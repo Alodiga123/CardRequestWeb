@@ -26,11 +26,13 @@ import com.cms.commons.models.Country;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.genericEJB.EJBRequest;
+import com.cms.commons.models.ApplicantNaturalPerson;
+import com.cms.commons.models.ImagensAplicantNaturalPerson;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -59,7 +61,7 @@ public class SendPhotoController {
     private Country country;
     private Map<String, String> countries = null;
     private UploadedFile file;
-    private Long requestPersonId;
+    private ApplicantNaturalPerson applicantNaturalPerson;
   
     @PostConstruct
     public void init() {
@@ -67,7 +69,7 @@ public class SendPhotoController {
             utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
             personEJB = (PersonEJB) EJBServiceLocator.getInstance().get(EjbConstants.PERSON_EJB);
             requestEJB= (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
-             requestPersonId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("requestPersonId");
+            applicantNaturalPerson = (ApplicantNaturalPerson) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("applicantNaturalPerson");
             EJBRequest request = new EJBRequest();
             request.setParam(2);
             country = utilsEJB.loadCountry(request);
@@ -145,12 +147,11 @@ public class SendPhotoController {
         FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
         FacesContext.getCurrentInstance().addMessage(null, msg);    
          try {
-            String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
             SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
             String name = fmt.format(new Date()) + event.getFile().getFileName().substring( event.getFile().getFileName().lastIndexOf('.'));
-            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\person-" + requestPersonId + "-"+name);
+            String id =applicantNaturalPerson!=null?applicantNaturalPerson.getId().toString():"0";
+            File file = new File("C:\\Users\\yalmea\\Documents\\NetBeansProjects\\upload\\person-" + id + "-"+name);
 //            File file = new File(path + "catalogo_imagens/temporario/" + name);
-            System.out.println("ruta:"+file.getAbsolutePath());;
 
             InputStream is = event.getFile().getInputstream();
             OutputStream out = new FileOutputStream(file);
@@ -161,11 +162,24 @@ public class SendPhotoController {
             }
             is.close();
             out.close();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("completeForm.xhtml");
+            try {
+                ImagensAplicantNaturalPerson imagen = new ImagensAplicantNaturalPerson();
+                imagen.setApplicantNaturalPersonId(applicantNaturalPerson);
+                imagen.setObservations("Imagen de ApplicantNaturalPersonId: " + applicantNaturalPerson.getId() + " con el documento");
+                imagen.setUrlImageFile(file.getAbsolutePath());
+                imagen.setCreateDate(new Timestamp(new Date().getTime()));
+                requestEJB.saveImagensAplicantNaturalPerson(imagen);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("completeForm.xhtml");
+            } catch (NullParameterException ex) {
+                Logger.getLogger(SendPhotoController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (GeneralException ex) {
+               System.out.println("Error no al guardar la imagen" + ex);
+            }
+            
         } catch (Exception ex) {
-            System.out.println("Erro no upload de imagem" + ex);
+            System.out.println("Error no upload de imagem" + ex);
         }
-        
+         
     }
     
       

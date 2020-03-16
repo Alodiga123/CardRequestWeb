@@ -29,11 +29,15 @@ import com.cms.commons.models.State;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.genericEJB.EJBRequest;
+import com.cms.commons.models.ApplicantNaturalPerson;
 import com.cms.commons.models.Title;
 import com.cms.commons.util.QueryConstants;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -431,20 +435,22 @@ public class FormCardDataController {
     
       public void save() {
          try {
-            Long requestPersonId = requestEJB. saveRequestPersonData(country.getId(),  email, new Date((new java.util.Date()).getTime()) , name, lastName,birthdate,  
-                                        cellNumber, country.getId(), state.getId(), city.getId(), postalCode, address,recommendation.equals(bundle.getString("option.yes"))?true:false,
-                                         promotion.equals(bundle.getString("option.yes"))?true:false,citizen.equals(bundle.getString("option.yes"))?true:false, password1, title.getId()); 
+             if (validations()) {
+                 ApplicantNaturalPerson applicantNaturalPerson = requestEJB.saveRequestPersonData(country.getId(), email, new Date((new java.util.Date()).getTime()), name, lastName, birthdate,
+                         cellNumber, country.getId(), state.getId(), city.getId(), postalCode, address, recommendation.equals(bundle.getString("option.yes")) ? true : false,
+                         promotion.equals(bundle.getString("option.yes")) ? true : false, citizen.equals(bundle.getString("option.yes")) ? true : false, password1, title.getId());
 
-             if (requestPersonId != 0) {
-                 FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+                 if (applicantNaturalPerson != null) {
+                     FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("solicitude", solicitude);
-                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("requestPersonId", requestPersonId);
+                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("applicantNaturalPerson", applicantNaturalPerson);
 
-                 FacesContext.getCurrentInstance().getExternalContext().redirect("takePhoto.xhtml");
-             }else{
-                messages = "Ha ocurrido un error al guardar la solicitud";
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-             }
+                     FacesContext.getCurrentInstance().getExternalContext().redirect("takePhoto.xhtml");
+                 } else {
+                     messages = bundle.getString("common.error.save.form");
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+                 }
+             } 
         } catch (RegisterNotFoundException ex) {
             System.out.println("RegisterNotFoundException..");
         } catch (EmptyListException ex) {
@@ -458,6 +464,46 @@ public class FormCardDataController {
         } 
     }
 
+    public boolean validations(){
+    boolean valid= true;
+    if (!password1.equals(password2)) {
+         messages = bundle.getString("common.password.not.match");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (getEdad(birthdate)<18){
+         messages = bundle.getString("common.adult");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }
+
+    return valid;
+    }
+    
+    public static int getEdad(Date fechaNacimiento) {
+        if (fechaNacimiento != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            if (fechaNacimiento != null) {
+                Calendar c = new GregorianCalendar();
+                c.setTime(fechaNacimiento);
+                return calcularEdad(c);
+            }
+            
+        }
+        return 0;
+    }
+    
+    private static int calcularEdad(Calendar fechaNac) {
+        Calendar today = Calendar.getInstance();
+        int diffYear = today.get(Calendar.YEAR) - fechaNac.get(Calendar.YEAR);
+        int diffMonth = today.get(Calendar.MONTH) - fechaNac.get(Calendar.MONTH);
+        int diffDay = today.get(Calendar.DAY_OF_MONTH) - fechaNac.get(Calendar.DAY_OF_MONTH);
+        // Si está en ese año pero todavía no los ha cumplido
+        if (diffMonth < 0 || (diffMonth == 0 && diffDay < 0)) {
+            diffYear = diffYear - 1;
+        }
+        return diffYear;
+    }
+    
     public void reset() {
         RequestContext.getCurrentInstance().reset("CardDataCreateForm:grid");
     }

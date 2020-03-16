@@ -26,11 +26,14 @@ import com.cms.commons.models.Country;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.genericEJB.EJBRequest;
+import com.cms.commons.models.ApplicantNaturalPerson;
+import com.cms.commons.models.ImagensAplicantNaturalPerson;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +63,7 @@ public class TakePhotoController {
     private Country country;
     private Map<String, String> countries = null;
     private UploadedFile file;
-    private Long requestPersonId;
+    private ApplicantNaturalPerson applicantNaturalPerson;
   
     @PostConstruct
     public void init() {
@@ -71,7 +74,7 @@ public class TakePhotoController {
             EJBRequest request = new EJBRequest();
             request.setParam(2);
             country = utilsEJB.loadCountry(request);
-             requestPersonId = (Long) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("requestPersonId");
+            applicantNaturalPerson = (ApplicantNaturalPerson) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("applicantNaturalPerson");
         } catch (RegisterNotFoundException ex) {
             Logger.getLogger(TakePhotoController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullParameterException ex) {
@@ -107,9 +110,9 @@ public class TakePhotoController {
         try {
             SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
             String name = fmt.format(new Date()) + event.getFile().getFileName().substring( event.getFile().getFileName().lastIndexOf('.'));
-            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\document-" + requestPersonId + "-"+name);
+            String id =applicantNaturalPerson!=null?applicantNaturalPerson.getId().toString():"0";
+            File file = new File("C:\\Users\\yalmea\\Documents\\NetBeansProjects\\upload\\document-" + id + "-"+name);
 //          File file = new File("home/" + requestPersonId + "-"+name);
-            System.out.println("ruta:"+file.getAbsolutePath());;
 
             InputStream is = event.getFile().getInputstream();
             OutputStream out = new FileOutputStream(file);
@@ -120,16 +123,23 @@ public class TakePhotoController {
             }
             is.close();
             out.close();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("sendPhoto.xhtml");
+            try {
+                ImagensAplicantNaturalPerson imagen = new ImagensAplicantNaturalPerson();
+                imagen.setApplicantNaturalPersonId(applicantNaturalPerson);
+                imagen.setObservations("Imagen del documento de ApplicantNaturalPersonId: " + applicantNaturalPerson.getId());
+                imagen.setUrlImageFile(file.getAbsolutePath());
+                imagen.setCreateDate(new Timestamp(new Date().getTime()));
+                requestEJB.saveImagensAplicantNaturalPerson(imagen);
+                FacesContext.getCurrentInstance().getExternalContext().redirect("sendPhoto.xhtml");
+            } catch (NullParameterException ex) {
+                Logger.getLogger(SendPhotoController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (GeneralException ex) {
+               System.out.println("Error no al guardar la imagen" + ex);
+            }
         } catch (Exception ex) {
             System.out.println("Erro no upload de imagem" + ex);
         }
 
-//        try {
-//            FacesContext.getCurrentInstance().getExternalContext().redirect("sendPhoto.xhtml");
-//        } catch (IOException ex) {
-//            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
-//        }
     }
 
     public Country getCountry() {

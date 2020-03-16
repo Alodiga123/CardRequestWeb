@@ -28,6 +28,9 @@
                         <div class="card card-w-title">
                             <h1>#{msg['common.personal.information']}</h1>
                             <p:panelGrid id="grid" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                <f:facet name="header">
+                                <p:messages id="messages"  autoUpdate="true" closable="true" />
+                                </f:facet>
                                 <p:outputLabel for="input" value="#{msg['common.titel']}"/>
                                 <p:selectOneMenu id="title" value="#{formCardDataController.title}" converter="titleConverter">
                                     <f:selectItem itemLabel="#{formCardDataController.title.description}" itemValue="#{formCardDataController.title.id}" />

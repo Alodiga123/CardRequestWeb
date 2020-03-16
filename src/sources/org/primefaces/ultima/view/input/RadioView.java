@@ -28,6 +28,7 @@ import com.cms.commons.models.State;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.genericEJB.EJBRequest;
+import com.cms.commons.models.ApplicantNaturalPerson;
 import com.cms.commons.models.Title;
 import com.cms.commons.util.QueryConstants;
 import java.io.IOException;
@@ -317,7 +318,7 @@ public class RadioView {
     
       public void save() {
          try {
-            Long requestPersonId = requestEJB. saveRequestPersonData(country.getId(),  solicitude.getEmail(), new Date((new java.util.Date()).getTime()) , solicitude.getName(), solicitude.getLastName(),solicitude.getBirthdate(),  
+            ApplicantNaturalPerson requestPersonId = requestEJB. saveRequestPersonData(country.getId(),  solicitude.getEmail(), new Date((new java.util.Date()).getTime()) , solicitude.getName(), solicitude.getLastName(),solicitude.getBirthdate(),  
                                          solicitude.getCellNumber(), country.getId(), state.getId(), city.getId(), solicitude.getPostalCode(), solicitude.getAddress(),solicitude.getRecommendation().equals(bundle.getString("option.yes"))?true:false,
                                          solicitude.getPromotion().equals(bundle.getString("option.yes"))?true:false,solicitude.getCitizen().equals(bundle.getString("option.yes"))?true:false, solicitude.getPassword1(), title.getId()); 
 
