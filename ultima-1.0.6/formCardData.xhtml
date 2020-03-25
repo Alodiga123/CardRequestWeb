@@ -41,13 +41,11 @@
                                 <p:outputLabel for="input" value="#{msg['common.names']}" />
                                 <h:panelGroup styleClass="md-inputfield">
                                     <p:inputText id="input" value="#{formCardDataController.name}" required="true"/>
-                                    <label>#{msg['common.names']}</label>
                                 </h:panelGroup>
                                 
                                 <p:outputLabel for="input" value="#{msg['common.lastNames']}" />
                                   <h:panelGroup styleClass="md-inputfield">
                                     <p:inputText id="inp" value="#{formCardDataController.lastName}" required="true"/>
-                                    <label>#{msg['common.lastNames']}</label>
                                 </h:panelGroup>
                                 <p:outputLabel value="#{msg['common.country']}" for="pais" />
                                 <p:selectOneMenu id="pais" value="#{formCardDataController.country}" converter="countryConverter"
@@ -76,30 +74,25 @@
                                <p:outputLabel for="input" value="#{msg['common.address']}"/>
                                   <h:panelGroup styleClass="md-inputfield">
                                       <p:inputText id="inpAddress" value="#{formCardDataController.address}"/>
-                                    <label>#{msg['common.address']}</label>
                                 </h:panelGroup>
                                
                                  <p:outputLabel value="#{msg['common.postal.zone']}" for="input" />
                                    <h:panelGroup styleClass="md-inputfield">
                                        <p:inputText id="zipZone" value="#{formCardDataController.postalCode}"/>
-                                    <label>#{msg['common.postal.zone']}</label>
                                 </h:panelGroup>
                                  
                                  <p:outputLabel for="inpEmail" value="#{msg['common.email']}" />
                                   <h:panelGroup styleClass="md-inputfield">
                                     <p:inputText id="inpEmail" value="#{formCardDataController.email}" size="40" required="true"  requiredMessage="Por favor ingresa tu direccion de email."/>
-                                    <label>#{msg['common.email']}</label>
                                 </h:panelGroup> 
                                    <p:outputLabel for="input" value="#{msg['common.password']}" />
                                   <h:panelGroup styleClass="md-inputfield">
                                       <p:password id ="inpPassword1" value="#{formCardDataController.password1}"/>
-                                    <label>#{msg['common.password']}</label>
                                 </h:panelGroup>
                                     <p:outputLabel for="input" value="#{msg['common.password']}" />
                                  <h:panelGroup styleClass="md-inputfield">
                                        
                                     <p:password  id ="inpPassword2" value="#{formCardDataController.password2}"/>
-                                    <label>#{msg['common.password']}</label>
                                 </h:panelGroup>
 
                             </p:panelGrid>
@@ -141,7 +134,9 @@
                         <div id="features" align="center" class="ui-g-12">            
                             <h4 style="color: #454D3E;">#{msg['form.card.data.msg6']}</h4>
                          </div>
-
+                        <div id="features" align="center" class="ui-g-12">            
+                            <h4 style="color: #454D3E;">#{msg['form.card.data.msg7']}</h4>
+                         </div>
                         </div>
                     </div>
                  <div align="center">
