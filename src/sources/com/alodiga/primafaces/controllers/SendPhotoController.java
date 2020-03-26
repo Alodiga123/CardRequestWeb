@@ -205,8 +205,11 @@ public class SendPhotoController {
                 try {
                     collectionsRequests = requestEJB.getCollectionsByRequest(request1);
                     for (CollectionsRequest collectionsRequest1 : collectionsRequests) {
-                        if (collectionsRequest1.getId() == Constants.APP_IDENTIFICATION_DOCUMENT) {
-                            collectionsRequest = collectionsRequest1;
+                        if (collectionsRequest1.getCollectionTypeId().getId() == Constants.APP_IDENTIFICATION_DOCUMENT) {
+                            request1 = new EJBRequest();
+                            request1.setParam(collectionsRequest1.getId());
+                            collectionsRequest = requestEJB.loadCollectionsRequest(request1);
+                            System.out.println("encontro"+ collectionsRequest.getId());
                         }
                     }
                 } catch (EmptyListException e) {
@@ -237,7 +240,7 @@ public class SendPhotoController {
                 requestHasCollectionsRequest.setObservations("Imagen de ApplicantNaturalPersonId: " + applicantNaturalPerson.getId() + " con el documento");
                 requestHasCollectionsRequest.setUrlImageFile(file.getAbsolutePath());
                 requestHasCollectionsRequest.setCreateDate(new Timestamp(new Date().getTime()));
-//                requestHasCollectionsRequest = requestEJB.saveRequestHasCollectionsRequest(requestHasCollectionsRequest);
+                requestHasCollectionsRequest = requestEJB.saveRequestHasCollectionsRequest(requestHasCollectionsRequest);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("completeForm.xhtml");
             } catch (NullParameterException ex) {
                 Logger.getLogger(SendPhotoController.class.getName()).log(Level.SEVERE, null, ex);
