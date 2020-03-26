@@ -119,8 +119,8 @@ public class TakePhotoController {
             SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
             String name = fmt.format(new Date()) + event.getFile().getFileName().substring( event.getFile().getFileName().lastIndexOf('.'));
             String id =applicantNaturalPerson!=null?applicantNaturalPerson.getId().toString():"0";
-            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\document-" + id + "-"+name);
-//          File file = new File("home/" + requestPersonId + "-"+name);
+//            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\document-" + id + "-"+name);
+            File file = new File("/opt/proyecto/cms/imagenes/document-" + id + "-"+name);
 
             InputStream is = event.getFile().getInputstream();
             OutputStream out = new FileOutputStream(file);
@@ -193,7 +193,7 @@ public class TakePhotoController {
                 requestHasCollectionsRequest.setObservations("Imagen del documento de ApplicantNaturalPersonId: " + applicantNaturalPerson.getId());
                 requestHasCollectionsRequest.setUrlImageFile(file.getAbsolutePath());
                 requestHasCollectionsRequest.setCreateDate(new Timestamp(new Date().getTime()));
-                requestHasCollectionsRequest = requestEJB.saveRequestHasCollectionsRequest(requestHasCollectionsRequest);
+//                requestHasCollectionsRequest = requestEJB.saveRequestHasCollectionsRequest(requestHasCollectionsRequest);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("sendPhoto.xhtml");
             } catch (NullParameterException ex) {
                 Logger.getLogger(SendPhotoController.class.getName()).log(Level.SEVERE, null, ex);
