@@ -83,6 +83,7 @@ public class TakePhotoController {
             request1.setParam(2);
             country = utilsEJB.loadCountry(request1);
             applicantNaturalPerson = (ApplicantNaturalPerson) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("applicantNaturalPerson");
+//            System.out.println("ApplicantNaturalPerson que llego:"+applicantNaturalPerson.getId());
         } catch (RegisterNotFoundException ex) {
             Logger.getLogger(TakePhotoController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullParameterException ex) {

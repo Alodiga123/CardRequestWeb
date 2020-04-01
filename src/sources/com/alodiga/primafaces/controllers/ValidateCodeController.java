@@ -32,10 +32,12 @@ public class ValidateCodeController {
     private UtilsEJB utilsEJB;
     private String code;
     private String messages = null;
+    private String codigo = null;
     
     @PostConstruct
     public void init() {
             utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
+            codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
     }
 
     public String getCode() {
@@ -54,7 +56,7 @@ public class ValidateCodeController {
     public void validate() {
         try {
             //validar codigo
-            if (code.equals("123456")){
+            if (code.equals("123456") || code.equals(codigo)){
                 System.out.println("code:"+code);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("formCardData.xhtml");
             }else{

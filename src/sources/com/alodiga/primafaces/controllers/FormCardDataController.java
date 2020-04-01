@@ -32,6 +32,7 @@ import com.cms.commons.genericEJB.EJBRequest;
 import com.cms.commons.models.ApplicantNaturalPerson;
 import com.cms.commons.models.Title;
 import com.cms.commons.util.QueryConstants;
+import com.ericsson.alodiga.ws.APIRegistroUnificadoProxy;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -90,6 +91,7 @@ public class FormCardDataController {
     public String password1;
     public String password2;
     private String messages = null;
+      private String codigo = null;
         
     @PostConstruct
     public void init() {
@@ -111,17 +113,11 @@ public class FormCardDataController {
 
             country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
             cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
-
-       
+            codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
+            
+//            System.out.println("Country que llego:"+country.getName());
     }
 
-//   public Solicitude getSolicitude() {
-//        return solicitude;
-//    }
-//
-//    public void setSolicitude(Solicitude solicitude) {
-//        this.solicitude = solicitude;
-//    }
 
     public Country getCountry() {
         return country;
@@ -439,7 +435,9 @@ public class FormCardDataController {
                  ApplicantNaturalPerson applicantNaturalPerson = requestEJB.saveRequestPersonData(country.getId(), email, new Date((new java.util.Date()).getTime()), name, lastName, birthdate,
                          cellNumber, country.getId(), state.getId(), city.getId(), postalCode, address, recommendation.equals(bundle.getString("option.yes")) ? true : false,
                          promotion.equals(bundle.getString("option.yes")) ? true : false, citizen.equals(bundle.getString("option.yes")) ? true : false, password1, title.getId());
-
+                 APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
+                 proxy.guardarUsuarioAplicacionMovil("usuarioWS", "passwordWS", email, name, lastName, password1, email, cellNumber, birthdate.toString(), address, String.valueOf(country.getId()),  String.valueOf(state.getId()),  String.valueOf(city.getId()),
+                         null, postalCode, codigo, name, null, null, null);
                  if (applicantNaturalPerson != null) {
                      FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("solicitude", solicitude);

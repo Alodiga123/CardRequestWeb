@@ -55,14 +55,17 @@
             <!--<div class="ui-g ui-fluid">-->
                 <div class="ui-g-12">
                        <div class="card card-w-title">
-                                                   <p:panelGrid id="grid" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
-                                
+                            <p:panelGrid id="grid" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                  <f:facet name="header">
+                                <p:messages id="messages"  autoUpdate="true" closable="true" />
+                                </f:facet>
                                <p:outputLabel for="onemenu" value="#{msg['common.country']}"/>
                                  <p:selectOneMenu id="onemenu" value="#{sendCodeController.country}" converter="countryConverter"
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="#{sendCodeController.country.name}"
                                                   itemValue="#{sendCodeController.country.id}" />
                                     <f:selectItems value="#{sendCodeController.countries}"/>
+                                    <f:ajax event="change" listener="#{sendCodeController.reloadCountry}" render="cell" />
                                </p:selectOneMenu> 
                          
                       
