@@ -25,7 +25,7 @@ import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.genericEJB.EJBRequest;
 import com.ericsson.alodiga.ws.APIRegistroUnificadoProxy;
-import com.ericsson.alodiga.ws.Respuesta;
+import com.ericsson.alodiga.ws.RespuestaCodigoRandom;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -131,11 +131,12 @@ public class SendCodeController {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("country", country);
             APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
             
-            Respuesta response =proxy.generarCodigoMovilSMS("usuarioWS", "passwordWS", cellNumber);
-            System.out.println("Respuesta Codigo:"+response.getCodigoRespuesta());
+            RespuestaCodigoRandom response =proxy.generarCodigoMovil(cellNumber);
+            System.out.println("Respuesta Code:"+response.getCodigoRespuesta());
             System.out.println("Respuesta Mensaje:"+response.getMensajeRespuesta());
+            System.out.println("Respuesta Codigo:"+response.getDatosRespuesta());
             if (response.getCodigoRespuesta().equals("00")) {
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", response.getMensajeRespuesta());
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", response.getDatosRespuesta());
                 FacesContext.getCurrentInstance().getExternalContext().redirect("validateCode.xhtml");
             }else{
                 messages = bundle.getString("common.error.send.code");

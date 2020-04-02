@@ -435,9 +435,9 @@ public class FormCardDataController {
                  ApplicantNaturalPerson applicantNaturalPerson = requestEJB.saveRequestPersonData(country.getId(), email, new Date((new java.util.Date()).getTime()), name, lastName, birthdate,
                          cellNumber, country.getId(), state.getId(), city.getId(), postalCode, address, recommendation.equals(bundle.getString("option.yes")) ? true : false,
                          promotion.equals(bundle.getString("option.yes")) ? true : false, citizen.equals(bundle.getString("option.yes")) ? true : false, password1, title.getId());
-                 APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
-                 proxy.guardarUsuarioAplicacionMovil("usuarioWS", "passwordWS", email, name, lastName, password1, email, cellNumber, birthdate.toString(), address, String.valueOf(country.getId()),  String.valueOf(state.getId()),  String.valueOf(city.getId()),
-                         null, postalCode, codigo, name, null, null, null);
+//                 APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
+//                 proxy.guardarUsuarioAplicacionMovil("usuarioWS", "passwordWS", email, name, lastName, password1, email, cellNumber, birthdate.toString(), address, String.valueOf(country.getId()),  String.valueOf(state.getId()),  String.valueOf(city.getId()),
+//                         null, postalCode, codigo, name, null, null, null);
                  if (applicantNaturalPerson != null) {
                      FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("solicitude", solicitude);
