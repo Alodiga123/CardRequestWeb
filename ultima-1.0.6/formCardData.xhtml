@@ -31,11 +31,16 @@
                                 <f:facet name="header">
                                 <p:messages id="messages"  autoUpdate="true" closable="true" />
                                 </f:facet>
-                                <p:outputLabel for="input" value="#{msg['common.titel']}"/>
-                                <p:selectOneMenu id="title" value="#{formCardDataController.title}" converter="titleConverter">
-                                    <f:selectItem itemLabel="#{formCardDataController.title.description}" itemValue="#{formCardDataController.title.id}" />
-                                    <f:selectItems value="#{formCardDataController.titles}"/>
-                                </p:selectOneMenu> 
+                                  <p:outputLabel for="documentsPersonType" value="#{msg['common.document.type']}" />
+                                <p:selectOneMenu id="documentsPersonType" value="#{formCardDataController.documentsPersonType}" converter="documentsPersonTypeConverter">
+                                    <f:selectItem itemLabel="#{formCardDataController.documentsPersonType.description}" itemValue="#{formCardDataController.documentsPersonType.id}" />
+                                    <f:selectItems value="#{formCardDataController.documentsPersonTypes}"/>
+                                </p:selectOneMenu>
+                               
+                                <p:outputLabel for="input" value="#{msg['common.document.number']}" />
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="inputDocumentNumber" value="#{formCardDataController.documentNumber}" required="true"/>
+                                </h:panelGroup>
                                   
                                                                                            
                                 <p:outputLabel for="input" value="#{msg['common.names']}" />
@@ -47,6 +52,39 @@
                                   <h:panelGroup styleClass="md-inputfield">
                                     <p:inputText id="inp" value="#{formCardDataController.lastName}" required="true"/>
                                 </h:panelGroup>
+                                
+                                  <p:outputLabel for="radio" value="#{msg['common.gender']}"/>
+                                <p:selectOneRadio id="radio" value="#{formCardDataController.gender}" layout="responsive" columns="2" styleClass="form-group">
+                                    <f:selectItems value="#{formCardDataController.genders}" var="c" itemLabel="#{gender}" itemValue="#{gender}"/>
+                                </p:selectOneRadio>
+                                
+                                <p:outputLabel for="calendar" value="#{msg['common.birthday']}"/>
+                                <p:calendar id="calendar" value="#{formCardDataController.birthdate}" required="true"/>                                      
+                                
+                               <p:outputLabel for="radio" value="#{msg['common.marital.status']}"/>
+                               <p:selectOneMenu id="civilStatus" value="#{formCardDataController.civilStatus}" converter="civilStatusConverter">
+                                    <f:selectItem itemLabel="#{formCardDataController.civilStatus.description}" itemValue="#{formCardDataController.civilStatus.id}" />
+                                    <f:selectItems value="#{formCardDataController.civilStatuses}"/>
+                                </p:selectOneMenu>
+                               
+                                <p:outputLabel for="inpEmail" value="#{msg['common.email']}" />
+                                  <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="inpEmail" value="#{formCardDataController.email}" size="40" required="true"  requiredMessage="#{msg['common.message.require.email']}"/>
+                                </h:panelGroup> 
+                                   <p:outputLabel for="input" value="#{msg['common.password']}" />
+                                  <h:panelGroup styleClass="md-inputfield">
+                                      <p:password id ="inpPassword1" value="#{formCardDataController.password1}" size="6" required="true"  requiredMessage="#{msg['common.message.require.password']}"/>
+                                </h:panelGroup>
+                                    <p:outputLabel for="input" value="#{msg['common.password']}" />
+                                 <h:panelGroup styleClass="md-inputfield">
+                                       
+                                    <p:password  id ="inpPassword2" value="#{formCardDataController.password2}" size="6" required="true"  requiredMessage="#{msg['common.message.require.password.confir']}"/>
+                                </h:panelGroup>
+                               <p:outputLabel for="input" value="#{msg['common.pin']}" />
+                               <h:panelGroup styleClass="md-inputfield">
+                                      <p:password id ="inpPin" value="#{formCardDataController.pin}" size="4" required="true"  requiredMessage="#{msg['common.message.require.pin']}"/>
+                                </h:panelGroup>
+                               
                                 <p:outputLabel value="#{msg['common.country']}" for="pais" />
                                 <p:selectOneMenu id="pais" value="#{formCardDataController.country}" converter="countryConverter"
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
@@ -69,31 +107,30 @@
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="#{msg['common.option']}" itemValue="#{formCardDataController.city}" />
                                     <f:selectItems value="#{formCardDataController.cities}"/>
-                                    
+                                   <p:ajax process="@this" listener="#{formCardDataController.reloadZipZOne}" event="change" update=":CardDataCreateForm:zipZone"  />   
                                 </p:selectOneMenu>
-                               <p:outputLabel for="input" value="#{msg['common.address']}"/>
+                                  <p:outputLabel for="input" value="#{msg['common.edification.type']}"/>
+                                 <p:selectOneMenu id="edificationType" value="#{formCardDataController.edificationType}" converter="edificationTypeConverter">
+                                     <f:selectItem itemLabel="#{formCardDataController.edificationType.description}" itemValue="#{formCardDataController.edificationType.id}" />
+                                     <f:selectItems value="#{formCardDataController.edificationTypes}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel for="input" value="#{msg['common.street']}"/>
                                   <h:panelGroup styleClass="md-inputfield">
-                                      <p:inputText id="inpAddress" value="#{formCardDataController.address}"/>
+                                      <p:inputText id="inpStreet" value="#{formCardDataController.street}"/>
+                                </h:panelGroup>
+                               <p:outputLabel for="input" value="#{msg['common.number']}"/>
+                                  <h:panelGroup styleClass="md-inputfield">
+                                      <p:inputText id="inpAddress" value="#{formCardDataController.number}"/>
                                 </h:panelGroup>
                                
-                                 <p:outputLabel value="#{msg['common.postal.zone']}" for="input" />
-                                   <h:panelGroup styleClass="md-inputfield">
-                                       <p:inputText id="zipZone" value="#{formCardDataController.postalCode}"/>
-                                </h:panelGroup>
+                               <p:outputLabel value="#{msg['common.postal.zone']}" for="zipZone" />
+                               <p:selectOneMenu id="zipZone" value="#{formCardDataController.zipZone}" converter="zipZoneConverter" 
+                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                     <f:selectItem itemLabel="Selecione Uno" itemValue="#{formCardDataController.zipZone}" />
+                                     <f:selectItems value="#{formCardDataController.zipZones}"/>
+                                </p:selectOneMenu>   
                                  
-                                 <p:outputLabel for="inpEmail" value="#{msg['common.email']}" />
-                                  <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="inpEmail" value="#{formCardDataController.email}" size="40" required="true"  requiredMessage="Por favor ingresa tu direccion de email."/>
-                                </h:panelGroup> 
-                                   <p:outputLabel for="input" value="#{msg['common.password']}" />
-                                  <h:panelGroup styleClass="md-inputfield">
-                                      <p:password id ="inpPassword1" value="#{formCardDataController.password1}"/>
-                                </h:panelGroup>
-                                    <p:outputLabel for="input" value="#{msg['common.password']}" />
-                                 <h:panelGroup styleClass="md-inputfield">
-                                       
-                                    <p:password  id ="inpPassword2" value="#{formCardDataController.password2}"/>
-                                </h:panelGroup>
+
 
                             </p:panelGrid>
     
@@ -123,8 +160,7 @@
                                  <p:selectOneRadio id="radio3" value="#{formCardDataController.citizen}" layout="responsive" columns="2" styleClass="form-group">
                                      <f:selectItems value="#{formCardDataController.citizens}" var="c" itemLabel="#{citizen}" itemValue="#{citizen}"/>
                                 </p:selectOneRadio>
-                                 <p:outputLabel for="calendar" value="#{msg['common.date.of.birth']}"/>
-                                <p:calendar id="calendar" value="#{formCardDataController.birthdate}" required="true"/>                                                
+                                
                             </p:panelGrid>
                         </div>
                   

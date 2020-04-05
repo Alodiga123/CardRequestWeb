@@ -126,7 +126,8 @@ public class SendCodeController {
         try {
             //enviar codigo
             System.out.println("Pais:"+country.getName() +"Telefono:"+cellNumber);
-            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+//            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cellNumber", cellNumber);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("country", country);
             APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();

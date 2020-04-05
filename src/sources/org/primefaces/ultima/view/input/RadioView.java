@@ -317,30 +317,30 @@ public class RadioView {
     }
     
       public void save() {
-         try {
-            ApplicantNaturalPerson requestPersonId = requestEJB. saveRequestPersonData(country.getId(),  solicitude.getEmail(), new Date((new java.util.Date()).getTime()) , solicitude.getName(), solicitude.getLastName(),solicitude.getBirthdate(),  
-                                         solicitude.getCellNumber(), country.getId(), state.getId(), city.getId(), solicitude.getPostalCode(), solicitude.getAddress(),solicitude.getRecommendation().equals(bundle.getString("option.yes"))?true:false,
-                                         solicitude.getPromotion().equals(bundle.getString("option.yes"))?true:false,solicitude.getCitizen().equals(bundle.getString("option.yes"))?true:false, solicitude.getPassword1(), title.getId()); 
-
-            solicitude.setCity(city.getName());
-            solicitude.setCountry(country.getName());
-            solicitude.setState(state.getName());
-            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("solicitude", solicitude);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("requestPersonId", requestPersonId);
-            
-            FacesContext.getCurrentInstance().getExternalContext().redirect("cards.xhtml");
-        } catch (RegisterNotFoundException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
-        } catch (EmptyListException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
-        } catch (NullParameterException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
-        } catch (GeneralException ex) {
-             System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
-        } catch (IOException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
-        } 
+//         try {
+//            ApplicantNaturalPerson requestPersonId = requestEJB. saveRequestPersonData(country.getId(),  solicitude.getEmail(), new Date((new java.util.Date()).getTime()) , solicitude.getName(), solicitude.getLastName(),solicitude.getBirthdate(),  
+//                                         solicitude.getCellNumber(), country.getId(), state.getId(), city.getId(), solicitude.getPostalCode(), solicitude.getAddress(),solicitude.getRecommendation().equals(bundle.getString("option.yes"))?true:false,
+//                                         solicitude.getPromotion().equals(bundle.getString("option.yes"))?true:false,solicitude.getCitizen().equals(bundle.getString("option.yes"))?true:false, solicitude.getPassword1(), title.getId()); 
+//
+//            solicitude.setCity(city.getName());
+//            solicitude.setCountry(country.getName());
+//            solicitude.setState(state.getName());
+//            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("solicitude", solicitude);
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("requestPersonId", requestPersonId);
+//            
+//            FacesContext.getCurrentInstance().getExternalContext().redirect("cards.xhtml");
+//        } catch (RegisterNotFoundException ex) {
+//            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+//        } catch (EmptyListException ex) {
+//            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+//        } catch (NullParameterException ex) {
+//            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+//        } catch (GeneralException ex) {
+//             System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+//        } catch (IOException ex) {
+//            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+//        } 
     }
 
     public void reset() {

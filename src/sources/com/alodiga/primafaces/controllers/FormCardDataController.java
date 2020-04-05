@@ -30,7 +30,12 @@ import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.genericEJB.EJBRequest;
 import com.cms.commons.models.ApplicantNaturalPerson;
+import com.cms.commons.models.CivilStatus;
+import com.cms.commons.models.DocumentsPersonType;
+import com.cms.commons.models.EdificationType;
+import com.cms.commons.models.StreetType;
 import com.cms.commons.models.Title;
+import com.cms.commons.models.ZipZone;
 import com.cms.commons.util.QueryConstants;
 import com.ericsson.alodiga.ws.APIRegistroUnificadoProxy;
 import java.io.IOException;
@@ -54,6 +59,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 import org.primefaces.ultima.domain.Solicitude;
 
@@ -86,19 +92,34 @@ public class FormCardDataController {
     public List<String> citizens;  
     public Date birthdate;
     public String email;
-    public String address;
-    public String postalCode;
     public String password1;
     public String password2;
+    public List<String> genders;  
+    public String gender; 
+    public String maritalStatus;
+    public String documentNumber;
+    public String edification;
+    public String street;
+    public String number;
+    private DocumentsPersonType documentsPersonType;
+    private EdificationType edificationType;
+    private StreetType streetType;
+    private CivilStatus civilStatus;
+    private Map<String, String> edificationTypes = null;
+    private Map<String, String> documentsPersonTypes = null;
+    private Map<String, String> civilStatuses = null;
+    private Map<String, String> zipZones = null;
+    private ZipZone zipZone;
     private String messages = null;
-      private String codigo = null;
+    private String codigo = null;
+    private String pin;
+    private String ipRemoteAddress;
         
     @PostConstruct
     public void init() {
             utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
             personEJB = (PersonEJB) EJBServiceLocator.getInstance().get(EjbConstants.PERSON_EJB);
             requestEJB= (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
-//            solicitude = new Solicitude();
             recommendations = new ArrayList<String>();
             promotions = new ArrayList<String>();
             citizens = new ArrayList<String>();
@@ -110,12 +131,15 @@ public class FormCardDataController {
             promotions.add(bundle.getString("option.no"));
             citizens.add(bundle.getString("option.yes"));
             citizens.add(bundle.getString("option.no"));
-
+            genders = new ArrayList<String>();
+            genders.add(bundle.getString("common.female"));
+            genders.add(bundle.getString("common.male"));
             country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
             cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
             codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
+            ipRemoteAddress = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRemoteAddr(); 
             
-//            System.out.println("Country que llego:"+country.getName());
+            System.out.println("Ip remota:"+ipRemoteAddress);
     }
 
 
@@ -231,21 +255,6 @@ public class FormCardDataController {
         this.email = email;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
 
     public String getPassword1() {
         return password1;
@@ -262,7 +271,197 @@ public class FormCardDataController {
     public void setPassword2(String password2) {
         this.password2 = password2;
     }
+
+    public String getCellNumber() {
+        return cellNumber;
+    }
+
+    public void setCellNumber(String cellNumber) {
+        this.cellNumber = cellNumber;
+    }
+
+    public List<String> getGenders() {
+        return genders;
+    }
+
+    public void setGenders(List<String> genders) {
+        this.genders = genders;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    public String getEdification() {
+        return edification;
+    }
+
+    public void setEdification(String edification) {
+        this.edification = edification;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
+    public DocumentsPersonType getDocumentsPersonType() {
+        return documentsPersonType;
+    }
+
+    public void setDocumentsPersonType(DocumentsPersonType documentsPersonType) {
+        this.documentsPersonType = documentsPersonType;
+    }
+
+    public EdificationType getEdificationType() {
+        return edificationType;
+    }
+
+    public void setEdificationType(EdificationType edificationType) {
+        this.edificationType = edificationType;
+    }
+
+    public CivilStatus getCivilStatus() {
+        return civilStatus;
+    }
+
+    public void setCivilStatus(CivilStatus civilStatus) {
+        this.civilStatus = civilStatus;
+    }
+
+    public List<String> getCivilStates() {
+        return civilStates;
+    }
+
+    public void setCivilStates(List<String> civilStates) {
+        this.civilStates = civilStates;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public StreetType getStreetType() {
+        return streetType;
+    }
+
+    public void setStreetType(StreetType streetType) {
+        this.streetType = streetType;
+    }
+
+    public ZipZone getZipZone() {
+        return zipZone;
+    }
+
+    public void setZipZone(ZipZone zipZone) {
+        this.zipZone = zipZone;
+    }
     
+    
+
+    public Map<String, String> getEdificationTypes() {
+        EJBRequest request = new EJBRequest();  
+        edificationTypes = new TreeMap<String, String>();
+        try {
+            List<EdificationType> dts = utilsEJB.getEdificationTypes(request);
+            for (EdificationType edificationType1 : dts) {
+                edificationTypes.put(edificationType1.getDescription(), edificationType1.getId().toString());
+            }
+        } catch (EmptyListException ex) {
+//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+//            Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullParameterException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return edificationTypes;
+    }
+
+    public void setEdificationTypes(Map<String, String> edificationTypes) {
+        this.edificationTypes = edificationTypes;
+    }
+
+    public Map<String, String> getDocumentsPersonTypes() {
+         EJBRequest request = new EJBRequest();
+        
+        documentsPersonTypes = new TreeMap<String, String>();
+        try {
+            List<DocumentsPersonType> dts = utilsEJB.getDocumentsPersonType(request);
+            for (DocumentsPersonType documentType : dts) {
+                documentsPersonTypes.put(documentType.getDescription(), documentType.getId().toString());
+            }
+        } catch (EmptyListException ex) {
+//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+//            Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullParameterException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return documentsPersonTypes;
+    }
+
+    public void setDocumentsPersonTypes(Map<String, String> documentsPersonTypes) {
+        this.documentsPersonTypes = documentsPersonTypes;
+    }
+
+    public Map<String, String> getCivilStatuses() {
+         EJBRequest request = new EJBRequest();
+        civilStatuses = new TreeMap<String, String>();
+        try {
+            List<CivilStatus> dts = personEJB.getCivilStatus(request);
+            for (CivilStatus civilStatus : dts) {
+                civilStatuses.put(civilStatus.getDescription(), civilStatus.getId().toString());
+            }
+        } catch (EmptyListException ex) {
+//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+//            Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullParameterException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return civilStatuses;
+    }
+
+    public void setCivilStatuses(Map<String, String> civilStatuses) {
+        this.civilStatuses = civilStatuses;
+    }
+    
+       
        public Map<String, String> getStates() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
@@ -407,6 +606,57 @@ public class FormCardDataController {
         }
     }
     
+     public Map<String, String> getZipZones() {
+        EJBRequest request = new EJBRequest();
+        Map params = new HashMap();
+        params.put(QueryConstants.PARAM_CITY_ID, city != null ? city.getId() : null);
+        request.setParams(params);
+        zipZones = new TreeMap<String, String>();
+        try {
+            List<ZipZone> zipZoneByCities = utilsEJB.getZipZoneByCities(request);
+            for (ZipZone zipZone : zipZoneByCities) {
+                zipZones.put(zipZone.getName(), zipZone.getId().toString());
+            }
+        } catch (EmptyListException ex) {
+//            Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+            ex.printStackTrace();
+//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullParameterException ex) {
+//            Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+             ex.printStackTrace();
+//            Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return zipZones;
+    }
+
+    public void setZipZones(Map<String, String> zipZones) {
+        this.zipZones = zipZones;
+    }
+    
+    public void reloadZipZOne(AjaxBehaviorEvent event) {
+        City city = (City) ((UIOutput) event.getSource()).getValue();
+        EJBRequest request = new EJBRequest();
+        Map params = new HashMap();
+        params.put(QueryConstants.PARAM_CITY_ID, city != null ? city.getId() : null);
+        request.setParams(params);
+        zipZones = new TreeMap<String, String>();
+        try {
+            List<ZipZone> zipZoneByCities = utilsEJB.getZipZoneByCities(request);
+            for (ZipZone zone : zipZoneByCities) {
+                zipZones.put(zone.getName(), zone.getId().toString());
+            }
+        } catch (EmptyListException ex) {
+//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullParameterException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public void reloadCities(AjaxBehaviorEvent event) {
         State state = (State) ((UIOutput) event.getSource()).getValue();
@@ -430,14 +680,17 @@ public class FormCardDataController {
     }
     
       public void save() {
+         String address = null;
          try {
              if (validations()) {
+                 address = street + " " + number;
                  ApplicantNaturalPerson applicantNaturalPerson = requestEJB.saveRequestPersonData(country.getId(), email, new Date((new java.util.Date()).getTime()), name, lastName, birthdate,
-                         cellNumber, country.getId(), state.getId(), city.getId(), postalCode, address, recommendation.equals(bundle.getString("option.yes")) ? true : false,
-                         promotion.equals(bundle.getString("option.yes")) ? true : false, citizen.equals(bundle.getString("option.yes")) ? true : false, password1, title.getId());
-//                 APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
-//                 proxy.guardarUsuarioAplicacionMovil("usuarioWS", "passwordWS", email, name, lastName, password1, email, cellNumber, birthdate.toString(), address, String.valueOf(country.getId()),  String.valueOf(state.getId()),  String.valueOf(city.getId()),
-//                         null, postalCode, codigo, name, null, null, null);
+                         cellNumber, country.getId(), state.getId(), city.getId(), zipZone, recommendation.equals(bundle.getString("option.yes")) ? true : false,
+                         promotion.equals(bundle.getString("option.yes")) ? true : false, citizen.equals(bundle.getString("option.yes")) ? true : false, password1, documentsPersonType,
+                         documentNumber,gender.equals(bundle.getString("common.female"))?"F":"M",civilStatus,edificationType,street,number);
+                 APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
+                 proxy.guardarUsuarioAplicacionMovil("usuarioWS", "passwordWS", null, name, lastName, password1, email, cellNumber, birthdate.toString(), address, String.valueOf(country.getId()),  String.valueOf(state.getId()),  String.valueOf(city.getId()),
+                         null, zipZone.getCode(), codigo, null, null, ipRemoteAddress, pin);
                  if (applicantNaturalPerson != null) {
                      FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 //            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("solicitude", solicitude);
@@ -464,11 +717,95 @@ public class FormCardDataController {
 
     public boolean validations(){
     boolean valid= true;
-    if (!password1.equals(password2)) {
+    if (documentsPersonType==null) {
+         messages = bundle.getString("common.error.document.type");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (documentNumber==null) {
+         messages = bundle.getString("common.error.document.number");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (name==null) {
+         messages = bundle.getString("common.error.name");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (lastName==null) {
+         messages = bundle.getString("common.error.last.name");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (gender==null) {
+         messages = bundle.getString("common.error.gender");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    } else if (birthdate==null) {
+         messages = bundle.getString("common.error.birthday");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (civilStatus==null) {
+         messages = bundle.getString("common.error.marital.status");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (email==null) {
+         messages = bundle.getString("common.error.email");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (password1==null) {
+         messages = bundle.getString("common.error.require.password");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (password2==null) {
+         messages = bundle.getString("common.error.confir.password");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if(!password2.equals(password2)) {
          messages = bundle.getString("common.password.not.match");
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
          valid = false;
-    }else if (getEdad(birthdate)<18){
+    } else if (pin==null) {
+         messages = bundle.getString("common.error.pin");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (country==null) {
+         messages = bundle.getString("common.error.country");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (state==null) {
+         messages = bundle.getString("common.error.state");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (city==null) {
+         messages = bundle.getString("common.error.city");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (edificationType==null) {
+         messages = bundle.getString("common.error.edification.type");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (street==null) {
+         messages = bundle.getString("common.error.street");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (number==null) {
+         messages = bundle.getString("common.error.number");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (zipZone==null) {
+         messages = bundle.getString("common.error.postal.zone");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (recommendation==null) {
+         messages = bundle.getString("common.error.recommendation");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (promotion==null) {
+         messages = bundle.getString("common.error.promotion");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    }else if (citizen==null) {
+         messages = bundle.getString("common.error.citizen");
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+         valid = false;
+    } else if (getEdad(birthdate)<18){
          messages = bundle.getString("common.adult");
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
          valid = false;
