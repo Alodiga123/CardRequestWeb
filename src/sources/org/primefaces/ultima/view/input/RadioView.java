@@ -29,7 +29,6 @@ import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.genericEJB.EJBRequest;
 import com.cms.commons.models.ApplicantNaturalPerson;
-import com.cms.commons.models.Title;
 import com.cms.commons.util.QueryConstants;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,8 +65,6 @@ public class RadioView {
     private Map<String, String> states = null;
     private Map<String, String> cities = null;
     ResourceBundle bundle = null;
-    private Map<String, String> titles = null;
-    private Title title;
     String cellNumber =null;
         
     @PostConstruct
@@ -142,14 +139,7 @@ public class RadioView {
         this.city = city;
     }
 
-    public Title getTitle() {
-        return title;
-    }
-
-    public void setTitle(Title title) {
-        this.title = title;
-    }
-    
+   
        public Map<String, String> getStates() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
@@ -254,24 +244,7 @@ public class RadioView {
    
     
    
-     public Map<String, String> getTitles() {
-        EJBRequest request = new EJBRequest();
-        titles = new TreeMap<String, String>();
-        try {
-            List<Title> dts = personEJB.getTitles(request);
-            for (Title title : dts) {
-                titles.put(title.getDescription(), title.getId().toString());
-            }
-        } catch (EmptyListException ex) {
-//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GeneralException ex) {
-//            Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullParameterException ex) {
-//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return titles;
-    }
-     
+   
     
     public void reloadStates(AjaxBehaviorEvent event) {
         Country country1 = (Country) ((UIOutput) event.getSource()).getValue();

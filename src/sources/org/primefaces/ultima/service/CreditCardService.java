@@ -35,8 +35,8 @@ public class CreditCardService {
         list = new  ArrayList<CreditCard>();
         for (CreditCard creditCard: creditCards){
         list.add(new CreditCard(creditCard.getPerson(), creditCard.getCity(), creditCard.getCivilState(), creditCard.getCountry(), creditCard.getDocumentType(), creditCard.getDocumentNumber(), 
-                creditCard.getName(), creditCard.getLastName(), creditCard.getGender(), creditCard.getPlaceBirth(), creditCard.getBirthdate(), creditCard.getMaritalStatus(),
-                creditCard.getProfession(), creditCard.getEmail(), creditCard.getPhoneNumber(), creditCard.getState(), creditCard.getAddress(), creditCard.getPostalCode()));
+                creditCard.getName(), creditCard.getLastName(), creditCard.getGender(), creditCard.getBirthdate(), creditCard.getMaritalStatus(),
+                creditCard.getEmail(), creditCard.getPhoneNumber(), creditCard.getState(), creditCard.getAddress(), creditCard.getPostalCode()));
         }
         return list;
     }

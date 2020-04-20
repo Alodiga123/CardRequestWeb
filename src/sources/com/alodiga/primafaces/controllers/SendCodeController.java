@@ -132,12 +132,15 @@ public class SendCodeController {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("country", country);
             APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
             
-            RespuestaCodigoRandom response =proxy.generarCodigoMovil(cellNumber);
-            System.out.println("Respuesta Code:"+response.getCodigoRespuesta());
-            System.out.println("Respuesta Mensaje:"+response.getMensajeRespuesta());
-            System.out.println("Respuesta Codigo:"+response.getDatosRespuesta());
-            if (response.getCodigoRespuesta().equals("00")) {
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", response.getDatosRespuesta());
+//            RespuestaCodigoRandom response =proxy.generarCodigoMovilSMS("usuarioWS","passwordWS",cellNumber);
+//            System.out.println("Respuesta Code:"+response.getCodigoRespuesta());
+//            System.out.println("Respuesta Mensaje:"+response.getMensajeRespuesta());
+//            System.out.println("Respuesta Codigo:"+response.getDatosRespuesta());
+//            if (response.getCodigoRespuesta().equals("00")) {
+//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", response.getDatosRespuesta());
+//                FacesContext.getCurrentInstance().getExternalContext().redirect("validateCode.xhtml");
+           if (true) {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", "12345");
                 FacesContext.getCurrentInstance().getExternalContext().redirect("validateCode.xhtml");
             }else{
                 messages = bundle.getString("common.error.send.code");

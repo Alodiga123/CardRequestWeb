@@ -15,7 +15,6 @@
  */
 package com.alodiga.primafaces.controllers;
 
-import org.primefaces.ultima.view.input.*;
 import com.alodiga.cms.commons.ejb.PersonEJB;
 import com.alodiga.cms.commons.ejb.RequestEJB;
 import com.alodiga.cms.commons.ejb.UtilsEJB;
@@ -34,7 +33,6 @@ import com.cms.commons.models.CivilStatus;
 import com.cms.commons.models.DocumentsPersonType;
 import com.cms.commons.models.EdificationType;
 import com.cms.commons.models.StreetType;
-import com.cms.commons.models.Title;
 import com.cms.commons.models.ZipZone;
 import com.cms.commons.util.QueryConstants;
 import com.ericsson.alodiga.ws.APIRegistroUnificadoProxy;
@@ -61,7 +59,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
-import org.primefaces.ultima.domain.Solicitude;
 
 @ManagedBean
 @ViewScoped
@@ -78,9 +75,7 @@ public class FormCardDataController {
     private Map<String, String> states = null;
     private Map<String, String> cities = null;
     ResourceBundle bundle = null;
-    private Map<String, String> titles = null;
-    private Title title;
-    String cellNumber =null;
+    private String cellNumber =null;
     public List<String> civilStates; 
     public String name;
     public String lastName;
@@ -165,14 +160,6 @@ public class FormCardDataController {
 
     public void setCity(City city) {
         this.city = city;
-    }
-
-    public Title getTitle() {
-        return title;
-    }
-
-    public void setTitle(Title title) {
-        this.title = title;
     }
 
     public String getName() {
@@ -566,24 +553,7 @@ public class FormCardDataController {
    
     
    
-     public Map<String, String> getTitles() {
-        EJBRequest request = new EJBRequest();
-        titles = new TreeMap<String, String>();
-        try {
-            List<Title> dts = personEJB.getTitles(request);
-            for (Title title : dts) {
-                titles.put(title.getDescription(), title.getId().toString());
-            }
-        } catch (EmptyListException ex) {
-//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GeneralException ex) {
-//            Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullParameterException ex) {
-//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return titles;
-    }
-     
+   
     
     public void reloadStates(AjaxBehaviorEvent event) {
         Country country1 = (Country) ((UIOutput) event.getSource()).getValue();
@@ -686,7 +656,7 @@ public class FormCardDataController {
                  address = street + " " + number;
                  ApplicantNaturalPerson applicantNaturalPerson = requestEJB.saveRequestPersonData(country.getId(), email, new Date((new java.util.Date()).getTime()), name, lastName, birthdate,
                          cellNumber, country.getId(), state.getId(), city.getId(), zipZone, recommendation.equals(bundle.getString("option.yes")) ? true : false,
-                         promotion.equals(bundle.getString("option.yes")) ? true : false, citizen.equals(bundle.getString("option.yes")) ? true : false, password1, documentsPersonType,
+                         promotion.equals(bundle.getString("option.yes")) ? true : false, citizen.equals(bundle.getString("option.yes")) ? true : false,  documentsPersonType,
                          documentNumber,gender.equals(bundle.getString("common.female"))?"F":"M",civilStatus,edificationType,street,number);
                  APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
                  proxy.guardarUsuarioAplicacionMovil("usuarioWS", "passwordWS", null, name, lastName, password1, email, cellNumber, birthdate.toString(), address, String.valueOf(country.getId()),  String.valueOf(state.getId()),  String.valueOf(city.getId()),
@@ -715,103 +685,114 @@ public class FormCardDataController {
         } 
     }
 
-    public boolean validations(){
-    boolean valid= true;
-    if (documentsPersonType==null) {
-         messages = bundle.getString("common.error.document.type");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (documentNumber==null) {
-         messages = bundle.getString("common.error.document.number");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (name==null) {
-         messages = bundle.getString("common.error.name");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (lastName==null) {
-         messages = bundle.getString("common.error.last.name");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (gender==null) {
-         messages = bundle.getString("common.error.gender");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    } else if (birthdate==null) {
-         messages = bundle.getString("common.error.birthday");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (civilStatus==null) {
-         messages = bundle.getString("common.error.marital.status");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (email==null) {
-         messages = bundle.getString("common.error.email");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (password1==null) {
-         messages = bundle.getString("common.error.require.password");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (password2==null) {
-         messages = bundle.getString("common.error.confir.password");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if(!password2.equals(password2)) {
-         messages = bundle.getString("common.password.not.match");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    } else if (pin==null) {
-         messages = bundle.getString("common.error.pin");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (country==null) {
-         messages = bundle.getString("common.error.country");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (state==null) {
-         messages = bundle.getString("common.error.state");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (city==null) {
-         messages = bundle.getString("common.error.city");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (edificationType==null) {
-         messages = bundle.getString("common.error.edification.type");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (street==null) {
-         messages = bundle.getString("common.error.street");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (number==null) {
-         messages = bundle.getString("common.error.number");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (zipZone==null) {
-         messages = bundle.getString("common.error.postal.zone");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (recommendation==null) {
-         messages = bundle.getString("common.error.recommendation");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (promotion==null) {
-         messages = bundle.getString("common.error.promotion");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }else if (citizen==null) {
-         messages = bundle.getString("common.error.citizen");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    } else if (getEdad(birthdate)<18){
-         messages = bundle.getString("common.adult");
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-         valid = false;
-    }
-
-    return valid;
+    public boolean validations() {
+        boolean valid = true;
+        if (documentsPersonType == null) {
+            messages = bundle.getString("common.error.document.type");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (documentNumber == null) {
+            messages = bundle.getString("common.error.document.number");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (name == null) {
+            messages = bundle.getString("common.error.name");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (lastName == null) {
+            messages = bundle.getString("common.error.last.name");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (gender == null) {
+            messages = bundle.getString("common.error.gender");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (birthdate == null) {
+            messages = bundle.getString("common.error.birthday");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (civilStatus == null) {
+            messages = bundle.getString("common.error.marital.status");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (email == null) {
+            messages = bundle.getString("common.error.email");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (password1 == null) {
+            messages = bundle.getString("common.error.require.password");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (password2 == null) {
+            messages = bundle.getString("common.error.confir.password");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (!password2.equals(password2)) {
+            messages = bundle.getString("common.password.not.match");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (pin == null) {
+            messages = bundle.getString("common.error.pin");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (country == null) {
+            messages = bundle.getString("common.error.country");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (state == null) {
+            messages = bundle.getString("common.error.state");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (city == null) {
+            messages = bundle.getString("common.error.city");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (edificationType == null) {
+            messages = bundle.getString("common.error.edification.type");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (street == null) {
+            messages = bundle.getString("common.error.street");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (number == null) {
+            messages = bundle.getString("common.error.number");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (zipZone == null) {
+            messages = bundle.getString("common.error.postal.zone");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (recommendation == null) {
+            messages = bundle.getString("common.error.recommendation");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (promotion == null) {
+            messages = bundle.getString("common.error.promotion");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (citizen == null) {
+            messages = bundle.getString("common.error.citizen");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (getEdad(birthdate) < 18) {
+            messages = bundle.getString("common.adult");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        }else {
+            try {
+                if (requestEJB.existsApplicantNaturalPersonByEmail(email)) {
+                    messages = bundle.getString("common.error.exists.email");
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+                    valid = false;
+                }
+            } catch (Exception ex) {
+                messages = bundle.getString("common.error.general.exists.email");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+                valid = false;
+            }
+        }
+        return valid;
     }
     
     public static int getEdad(Date fechaNacimiento) {

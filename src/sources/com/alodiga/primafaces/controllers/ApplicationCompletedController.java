@@ -8,29 +8,22 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @ViewScoped
-public class CompleteFormController {
+public class ApplicationCompletedController {
 
   
     @PostConstruct
     public void init() {
-             
+              
     }
 
-     
+   
+   
     public void doRediret() {
-        try {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("addComplementaryCard.xhtml");
-        } catch (IOException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
-        }
-    }
-    
-     public void doCompleted() {
         try {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
             FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
         } catch (IOException ex) {
-
+            System.out.println("com.alodiga.primefaces.ultima.controller.ApplicationCompletedController.doRediret()");
         }
     }
     

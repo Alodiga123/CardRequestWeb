@@ -1,0 +1,150 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Alodiga Tarjeta Prepagada</ui:define>
+
+    <ui:define name="content">
+        <h:form id="CityCreateForm">
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="card card-w-title">
+                            <h1>#{msg['common.add.complementary.card.request']}</h1>
+                          
+                              <p:panelGrid id="grid" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
+                                <f:facet name="header">
+                                    <p:messages id="messages"  autoUpdate="true" closable="true" />
+                                </f:facet>
+                             
+                               <p:outputLabel for="documentsPersonType" value="#{msg['common.document.type']}" />
+                                <p:selectOneMenu id="documentsPersonType" value="#{addComplementaryCard.documentsPersonType}" converter="documentsPersonTypeConverter">
+                                    <f:selectItem itemLabel="#{addComplementaryCard.documentsPersonType.description}" itemValue="#{addComplementaryCard.documentsPersonType.id}" />
+                                    <f:selectItems value="#{addComplementaryCard.documentsPersonTypes}"/>
+                                </p:selectOneMenu>
+                               
+                                <p:outputLabel for="inputDocumentNumber" value="#{msg['common.document.number']}" />
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="inputDocumentNumber" value="#{addComplementaryCard.addCreditCard.documentNumber}" required="true"/>
+                                </h:panelGroup>
+                                                        
+                                
+                                <p:outputLabel for="inputName" value="#{msg['common.names']}" />
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="inputName" value="#{addComplementaryCard.addCreditCard.name}" required="true"/>
+                                </h:panelGroup>
+                                
+                                <p:outputLabel for="inpLastName" value="#{msg['common.lastNames']}" />
+                                  <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="inpLastName" value="#{addComplementaryCard.addCreditCard.lastName}" required="true"/>
+                                  </h:panelGroup>
+                                                              
+                                <p:outputLabel for="radio" value="#{msg['common.gender']}"/>
+                                <p:selectOneRadio id="radio" value="#{addComplementaryCard.addCreditCard.gender}" layout="responsive" columns="2" styleClass="form-group">
+                                    <f:selectItems value="#{addComplementaryCard.addCreditCard.genders}" var="c" itemLabel="#{gender}" itemValue="#{gender}"/>
+                                </p:selectOneRadio>
+                                                             
+                                <p:outputLabel for="calendar" value="#{msg['common.birthday']}"/>
+                                <p:calendar id="calendar" value="#{addComplementaryCard.addCreditCard.birthdate}" required="true"/>
+                                                              
+                               <p:outputLabel for="civilStatus" value="#{msg['common.marital.status']}"/>
+                               <p:selectOneMenu id="civilStatus" value="#{addComplementaryCard.civilStatus}" converter="civilStatusConverter">
+                                    <f:selectItem itemLabel="#{addComplementaryCard.civilStatus.description}" itemValue="#{addComplementaryCard.civilStatus.id}" />
+                                    <f:selectItems value="#{addComplementaryCard.civilStatuses}"/>
+                                </p:selectOneMenu>
+                               
+                                 <p:outputLabel for="parentesco" value="#{msg['common.relation.ship']}"/>
+                                <p:selectOneMenu id="parentesco" value="#{addComplementaryCard.kinShipApplicant}" converter="kinShipApplicantConverter">
+                                    <f:selectItem itemLabel="#{addComplementaryCard.kinShipApplicant.description}" itemValue="#{addComplementaryCard.kinShipApplicant.id}" />
+                                    <f:selectItems value="#{addComplementaryCard.kinShipApplicants}"/>
+                                </p:selectOneMenu>
+
+                                  <p:outputLabel for="inpEmail" value="#{msg['common.email']}" />
+                                  <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="inpEmail" value="#{addComplementaryCard.addCreditCard.email}" size="40" required="true"  requiredMessage="Por favor ingresa tu direccion de email."/>
+                                </h:panelGroup>
+                                  
+                                <p:outputLabel value="#{msg['common.phone.number']}" for="phone" />
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="phone" value="#{addComplementaryCard.addCreditCard.phoneNumber}"  required="true" />
+                                </h:panelGroup>
+                                
+                                 <p:outputLabel for="inpPassword1" value="#{msg['common.password']}" />
+                                  <h:panelGroup styleClass="md-inputfield">
+                                      <p:password id ="inpPassword1" value="#{addComplementaryCard.addCreditCard.password1}" size="6" required="true"  requiredMessage="#{msg['common.message.require.password']}"/>
+                                </h:panelGroup>
+                                    <p:outputLabel for="inpPassword2" value="#{msg['common.password']}" />
+                                 <h:panelGroup styleClass="md-inputfield">
+                                       
+                                    <p:password  id ="inpPassword2" value="#{addComplementaryCard.addCreditCard.password2}" size="6" required="true"  requiredMessage="#{msg['common.message.require.password.confir']}"/>
+                                </h:panelGroup>
+                               <p:outputLabel for="inpPin" value="#{msg['common.pin']}" />
+                               <h:panelGroup styleClass="md-inputfield">
+                                      <p:password id ="inpPin" value="#{addComplementaryCard.addCreditCard.pin}" size="4" required="true"  requiredMessage="#{msg['common.message.require.pin']}"/>
+                                </h:panelGroup>
+                                
+                               <p:outputLabel value="#{msg['common.country']}" for="pais" />
+                                <p:selectOneMenu id="pais" value="#{addComplementaryCard.country}" converter="countryConverter"
+                                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="#{addComplementaryCard.country.name}"
+                                                  itemValue="#{addComplementaryCard.country.id}" />
+                                    <f:selectItems value="#{addComplementaryCard.countries}"/>
+                                    <f:ajax event="change" listener="#{addComplementaryCard.reloadStates}" render="estado" />
+                                </p:selectOneMenu> 
+                                <p:outputLabel value="#{msg['common.state']}" for="estado" />
+                                <p:selectOneMenu id="estado" value="#{addComplementaryCard.state}" converter="stateConverter" 
+                                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="#{msg['common.state']}" itemValue="#{addComplementaryCard.state}" />
+                                    <f:selectItems value="#{addComplementaryCard.states}"/>
+                                    <f:ajax event="change" listener="#{addComplementaryCard.reloadCities}" render="ciudad" />
+                                  
+                
+                                </p:selectOneMenu> 
+                                <p:outputLabel value="#{msg['common.city']}" for="ciudad" />
+                                <p:selectOneMenu id="ciudad" value="#{addComplementaryCard.city}" converter="cityConverter"
+                                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="#{msg['common.option']}" itemValue="#{addComplementaryCard.city}" />
+                                    <f:selectItems value="#{addComplementaryCard.cities}"/>
+                                   <p:ajax process="@this" listener="#{addComplementaryCard.reloadZipZOne}" event="change" update=":CityCreateForm:zipZone"  />   
+                                </p:selectOneMenu>
+                                  <p:outputLabel for="edificationType" value="#{msg['common.edification.type']}"/>
+                                 <p:selectOneMenu id="edificationType" value="#{addComplementaryCard.edificationType}" converter="edificationTypeConverter">
+                                     <f:selectItem itemLabel="#{addComplementaryCard.edificationType.description}" itemValue="#{addComplementaryCard.edificationType.id}" />
+                                     <f:selectItems value="#{addComplementaryCard.edificationTypes}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel for="inpStreet" value="#{msg['common.street']}"/>
+                                  <h:panelGroup styleClass="md-inputfield">
+                                      <p:inputText id="inpStreet" value="#{addComplementaryCard.addCreditCard.street}"/>
+                                </h:panelGroup>
+                               <p:outputLabel for="inpAddress" value="#{msg['common.number']}"/>
+                                  <h:panelGroup styleClass="md-inputfield">
+                                      <p:inputText id="inpAddress" value="#{addComplementaryCard.addCreditCard.number}"/>
+                                </h:panelGroup>
+                               
+                               <p:outputLabel value="#{msg['common.postal.zone']}" for="zipZone" />
+                               <p:selectOneMenu id="zipZone" value="#{addComplementaryCard.zipZone}" converter="zipZoneConverter" 
+                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                     <f:selectItem itemLabel="#{msg['common.option']}" itemValue="#{addComplementaryCard.zipZone}" />
+                                     <f:selectItems value="#{addComplementaryCard.zipZones}"/>
+                                </p:selectOneMenu>   
+ 
+                            </p:panelGrid>
+                                       
+                     
+                        </div>
+                       
+                      
+                         </div>
+                     </div>
+                 </div>
+            <div align="center">
+                <p:commandButton  value="Guardar" id="btnSubmit" icon="ui-icon-save" actionListener="#{addComplementaryCard.saveCreditCard()}" />
+                <p:commandButton  value="Cancelar" id="btnCancel" icon="ui-icon-cancel" update=":CityCreateForm" actionListener="#{addComplementaryCard.resetCreditCard()}" immediate="true" process="@this"/>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

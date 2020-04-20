@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Misc</ui:define>
+    <ui:define name="title">Alodiga Tarjeta Prepagada</ui:define>
   <ui:define name="head">
         <style type="text/css">
             .ui-steps .ui-steps-item {
@@ -21,28 +21,21 @@
                         <p:messages id="messages"  autoUpdate="true" closable="true" />
                     </f:facet>
                     <div class="ui-g-12" align="center">            
-                    <b> <h2 style="color: #454D3E;">#{msg['complete.form.msg1']}</h2></b>
+                    <b> <h2 style="color: #454D3E;">#{msg['complete.complementary.card.msg1']}</h2></b>
                     </div>
-                    <div id="features" align="center" class="ui-g-12">            
+                     <div id="features" align="center" class="ui-g-12">            
                      <h4 style="color: #454D3E;">#{msg['complete.form.msg2']}</h4>
                     </div>
-
                     <div id="features" align="center" class="ui-g-12">            
-                       <h4 style="color: #454D3E;">#{msg['complete.form.msg3']}</h4>
+                     <h4 style="color: #454D3E;">#{msg['complete.complementary.card.msg2']}</h4>
                     </div>
-                    <div id="features" align="center" class="ui-g-12">            
-                        <h4 style="color: #454D3E;">#{msg['complete.form.msg4']}</h4>
-                    </div>
-
+                 
                 </div>
               </div>
               <div align="center">
-                   <p:commandButton  value="#{msg['boton.complete.form']}" id="btnSubmit"   actionListener="#{completeFormController.doRediret()}" style="margin-bottom:10px;"/>
-                   <p:commandButton  value="#{msg['boton.finalize']}" id="btnComplet"   actionListener="#{completeFormController.doCompleted()}" style="margin-bottom:10px;"/>                  
+                   <p:commandButton  value="#{msg['boton.complete.form']}" id="btnSubmit"   actionListener="#{completeComplementaryCardController.doRediret()}" style="margin-bottom:10px;"/>
+                   <p:commandButton  value="#{msg['boton.finalize']}" id="btnComplet"   actionListener="#{completeComplementaryCardController.doCompleted()}" style="margin-bottom:10px;"/>                  
                </div>
-<!--         <div align="center">     
-             <p:graphicImage name="ultima-layout/images/imagen_nuestra_vision_sabor.png" alt="Nuestra Vision" width="380" height="100" />
-         </div>-->
 
         </h:form>    
     </ui:define>

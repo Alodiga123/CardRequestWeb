@@ -8,20 +8,21 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @ViewScoped
-public class CompleteFormController {
+public class CompleteComplementaryCardController {
 
   
     @PostConstruct
     public void init() {
-             
+              
     }
 
-     
+   
+   
     public void doRediret() {
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("addComplementaryCard.xhtml");
         } catch (IOException ex) {
-            System.out.println("com.alodiga.primefaces.ultima.controller.StoreController.doRediret()");
+            System.out.println("com.alodiga.primefaces.ultima.controller.CompleteComplementaryCardController.doRediret()");
         }
     }
     
@@ -33,6 +34,5 @@ public class CompleteFormController {
 
         }
     }
-    
       
 }

@@ -28,33 +28,36 @@ public class CreditCard implements Serializable {
     public String civilState;
     public List<String> genders;  
     public List<String> civilStates; 
+    public String recommendation; 
+    public String promotion; 
+    public String citizen; 
+    public List<String> recommendations;  
+    public List<String> promotions;  
+    public List<String> citizens; 
+    public String password1;
+    public String password2;
+    public String pin;
+    public String edification;
+    public String street;
+    public String number;
     public String country;
     public String documentType;
     public String documentNumber;
     public String name;
     public String lastName;
     public String gender; 
-    public String placeBirth;
     public Date birthdate;
     public String maritalStatus;
-    public String profession;
     public String email;
     public String phoneNumber;
-    public String cellNumber;
     public String state;
     public String address;
     public String postalCode;
-    public String edification;
-    public String torre;
-    public int piso;
-    public String calle;
-    public String Urbanizacion;
-    public String marriedLastName;
     public ApplicantNaturalPerson person;
 
     public CreditCard() {}
 
-    public CreditCard(ApplicantNaturalPerson person,String city, String civilState, String country, String documentType, String documentNumber, String name, String lastName, String gender, String placeBirth, Date birthdate, String maritalStatus, String profession, String email, String phoneNumber, String state, String address, String postalCode) {
+    public CreditCard(ApplicantNaturalPerson person,String city, String civilState, String country, String documentType, String documentNumber, String name, String lastName, String gender, Date birthdate, String maritalStatus, String email, String phoneNumber, String state, String address, String postalCode) {
         this.person = person;
         this.city = city;
         this.civilState = civilState;
@@ -64,10 +67,8 @@ public class CreditCard implements Serializable {
         this.name = name;
         this.lastName = lastName;
         this.gender = gender;
-        this.placeBirth = placeBirth;
         this.birthdate = birthdate;
         this.maritalStatus = maritalStatus;
-        this.profession = profession;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.state = state;
@@ -165,28 +166,12 @@ public class CreditCard implements Serializable {
         this.gender = gender;
     }
 
-    public String getPlaceBirth() {
-        return placeBirth;
-    }
-
-    public void setPlaceBirth(String placeBirth) {
-        this.placeBirth = placeBirth;
-    }
-
-       public String getMaritalStatus() {
+    public String getMaritalStatus() {
         return maritalStatus;
     }
 
     public void setMaritalStatus(String maritalStatus) {
         this.maritalStatus = maritalStatus;
-    }
-
-    public String getProfession() {
-        return profession;
-    }
-
-    public void setProfession(String profession) {
-        this.profession = profession;
     }
 
     public String getEmail() {
@@ -237,61 +222,12 @@ public class CreditCard implements Serializable {
         this.birthdate = birthdate;
     }
 
-    public String getCellNumber() {
-        return cellNumber;
-    }
-
-    public void setCellNumber(String cellNumber) {
-        this.cellNumber = cellNumber;
-    }
-
     public String getEdification() {
         return edification;
     }
 
     public void setEdification(String edification) {
         this.edification = edification;
-    }
-
-    public String getTorre() {
-        return torre;
-    }
-
-    public void setTorre(String torre) {
-        this.torre = torre;
-    }
-
-    public int getPiso() {
-        return piso;
-    }
-
-    public void setPiso(int piso) {
-        this.piso = piso;
-    }
-
-    public String getCalle() {
-        return calle;
-    }
-
-    public void setCalle(String calle) {
-        this.calle = calle;
-    }
-
-  
-    public String getUrbanizacion() {
-        return Urbanizacion;
-    }
-
-    public void setUrbanizacion(String Urbanizacion) {
-        this.Urbanizacion = Urbanizacion;
-    }
-
-    public String getMarriedLastName() {
-        return marriedLastName;
-    }
-
-    public void setMarriedLastName(String marriedLastName) {
-        this.marriedLastName = marriedLastName;
     }
 
     public ApplicantNaturalPerson getPerson() {
@@ -302,6 +238,93 @@ public class CreditCard implements Serializable {
         this.person = person;
     }
 
+    public String getRecommendation() {
+        return recommendation;
+    }
+
+    public void setRecommendation(String recommendation) {
+        this.recommendation = recommendation;
+    }
+
+    public String getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(String promotion) {
+        this.promotion = promotion;
+    }
+
+    public String getCitizen() {
+        return citizen;
+    }
+
+    public void setCitizen(String citizen) {
+        this.citizen = citizen;
+    }
+
+    public List<String> getRecommendations() {
+        return recommendations;
+    }
+
+    public void setRecommendations(List<String> recommendations) {
+        this.recommendations = recommendations;
+    }
+
+    public List<String> getPromotions() {
+        return promotions;
+    }
+
+    public void setPromotions(List<String> promotions) {
+        this.promotions = promotions;
+    }
+
+    public List<String> getCitizens() {
+        return citizens;
+    }
+
+    public void setCitizens(List<String> citizens) {
+        this.citizens = citizens;
+    }
+
+    public String getPassword1() {
+        return password1;
+    }
+
+    public void setPassword1(String password1) {
+        this.password1 = password1;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
     
     @Override
     public int hashCode() {

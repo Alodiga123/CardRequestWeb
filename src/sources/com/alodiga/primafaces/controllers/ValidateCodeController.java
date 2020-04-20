@@ -15,10 +15,16 @@
  */
 package com.alodiga.primafaces.controllers;
 
+import com.alodiga.cms.commons.ejb.RequestEJB;
 import com.alodiga.cms.commons.ejb.UtilsEJB;
+import com.cms.commons.models.Country;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
+import com.ericsson.alodiga.ws.APIRegistroUnificadoProxy;
+import com.ericsson.alodiga.ws.RespuestaCodigoRandom;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -29,15 +35,22 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class ValidateCodeController {
-    private UtilsEJB utilsEJB;
+    private RequestEJB requestEJB;
     private String code;
     private String messages = null;
     private String codigo = null;
+    private String cellNumber =null;
+    private Country country;
+    ResourceBundle bundle = null;
     
     @PostConstruct
     public void init() {
-            utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
-            codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
+        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        bundle = ResourceBundle.getBundle("com.alodiga.primafeces.messages/message", locale);
+        requestEJB = (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
+        codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
+        country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
+        cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
     }
 
     public String getCode() {
@@ -56,10 +69,12 @@ public class ValidateCodeController {
     public void validate() {
         try {
             //validar codigo
-            if (code.equals("123456") || code.equals(codigo)){
-                System.out.println("code:"+code);
-                FacesContext.getCurrentInstance().getExternalContext().redirect("formCardData.xhtml");
-            }else{
+            if (code.equals("123456") || code.equals(codigo)) {
+                System.out.println("code:" + code);
+                if (validations()) {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("formCardData.xhtml");
+                }
+            } else{
                 messages = "Codigo invalido";
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             }
@@ -69,5 +84,50 @@ public class ValidateCodeController {
         }
     }
     
-       
+     public void forward() {
+        try {
+            //enviar codigo
+            System.out.println("Pais:"+country.getName() +"Telefono:"+cellNumber);
+            APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
+            
+            RespuestaCodigoRandom response =proxy.generarCodigoMovilSMS("usuarioWS","passwordWS",cellNumber);
+            System.out.println("Respuesta Code:"+response.getCodigoRespuesta());
+            System.out.println("Respuesta Mensaje:"+response.getMensajeRespuesta());
+            System.out.println("Respuesta Codigo:"+response.getDatosRespuesta());
+            if (response.getCodigoRespuesta().equals("00")) {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("codigo");
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", response.getDatosRespuesta());
+                FacesContext.getCurrentInstance().getExternalContext().redirect("validateCode.xhtml");
+            }else{
+                messages = bundle.getString("common.error.forward.code");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages)); 
+            }
+        
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            messages = bundle.getString("common.error.send.code");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            System.out.println("Error Send Code");
+        }
+    }
+      
+       public boolean validations() {
+        boolean valid = true;
+        try {
+            System.out.println("llamando a validar numero");
+            if (requestEJB.existsApplicantNaturalPersonByPhoneNumber(cellNumber)) {
+                System.out.println("el numero exitse numero");
+                messages = bundle.getString("common.error.exists.phone.number");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+                valid = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            messages = bundle.getString("common.error.general.exists.phone.number");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        }
+        System.out.println("validacions:"+ valid);
+        return valid;
+    }
 }
