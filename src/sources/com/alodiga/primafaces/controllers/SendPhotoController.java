@@ -163,8 +163,8 @@ public class SendPhotoController {
             SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
             String name = fmt.format(new Date()) + event.getFile().getFileName().substring( event.getFile().getFileName().lastIndexOf('.'));
             String id =applicantNaturalPerson!=null?applicantNaturalPerson.getId().toString():"0";
-            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\person-" + id + "-"+name);
-//            File file = new File("/opt/proyecto/cms/imagenes/person-" + id + "-"+name);
+//            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\person-" + id + "-"+name);
+            File file = new File("/opt/proyecto/cms/imagenes/person-" + id + "-"+name);
 
             InputStream is = event.getFile().getInputstream();
             OutputStream out = new FileOutputStream(file);

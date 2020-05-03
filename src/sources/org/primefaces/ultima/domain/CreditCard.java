@@ -39,6 +39,7 @@ public class CreditCard implements Serializable {
     public String pin;
     public String edification;
     public String street;
+    public String street2;
     public String number;
     public String country;
     public String documentType;
@@ -310,6 +311,15 @@ public class CreditCard implements Serializable {
         this.street = street;
     }
 
+    public String getStreet2() {
+        return street2;
+    }
+
+    public void setStreet2(String street2) {
+        this.street2 = street2;
+    }
+
+    
     public String getNumber() {
         return number;
     }

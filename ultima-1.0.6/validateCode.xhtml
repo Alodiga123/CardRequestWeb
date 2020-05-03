@@ -34,9 +34,9 @@
                               <f:facet name="header">
                              <p:messages id="messages"  autoUpdate="true" closable="true" />
                              </f:facet>
-                                <p:outputLabel value="#{msg['validate.code']}" for="phone" />
+                                <p:outputLabel value="#{msg['validate.code']}"  />
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="phone" value="#{validateCodeController.code}" required="true" />
+                                    <p:inputText  value="#{validateCodeController.code}"  />
                                 </h:panelGroup>   
                             </p:panelGrid>
     
@@ -44,7 +44,8 @@
                    <!--</div>-->
             </div>
                  <div align="center">
-                 <p:commandButton  value="#{msg['validate.forward.code']}" id="btnForward"  actionListener="#{validateCodeController.forward()}"/>
+                 <p:commandButton  value="#{msg['validate.forward.code']}"   actionListener="#{validateCodeController.forward()}"/>
+                  <p:commandButton  value="#{msg['validate.change.code']}"   actionListener="#{validateCodeController.changeNumber()}"/>
                 <p:commandButton  value="#{msg['boton.next']}" id="btnSubmit"  actionListener="#{validateCodeController.validate()}"/>
             
             </div>

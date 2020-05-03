@@ -61,7 +61,7 @@
                                 <p:outputLabel for="calendar" value="#{msg['common.birthday']}"/>
                                 <p:calendar id="calendar" value="#{formCardDataController.birthdate}" required="true"/>                                      
                                 
-                               <p:outputLabel for="radio" value="#{msg['common.marital.status']}"/>
+                               <p:outputLabel for="civilStatus" value="#{msg['common.marital.status']}"/>
                                <p:selectOneMenu id="civilStatus" value="#{formCardDataController.civilStatus}" converter="civilStatusConverter">
                                     <f:selectItem itemLabel="#{formCardDataController.civilStatus.description}" itemValue="#{formCardDataController.civilStatus.id}" />
                                     <f:selectItems value="#{formCardDataController.civilStatuses}"/>
@@ -92,6 +92,8 @@
                                                   itemValue="#{formCardDataController.country.id}" />
                                     <f:selectItems value="#{formCardDataController.countries}"/>
                                     <f:ajax event="change" listener="#{formCardDataController.reloadStates}" render="estado" />
+                                    <f:ajax event="change" listener="#{formCardDataController.reloadSDocumentPersonType}" render="documentsPersonType" />
+                                    <f:ajax event="change" listener="#{formCardDataController.reloadSCivilStatus}" render="civilStatus" />
                                 </p:selectOneMenu> 
                                 <p:outputLabel value="#{msg['common.state']}" for="estado" />
                                 <p:selectOneMenu id="estado" value="#{formCardDataController.state}" converter="stateConverter" 
@@ -109,14 +111,14 @@
                                     <f:selectItems value="#{formCardDataController.cities}"/>
                                    <p:ajax process="@this" listener="#{formCardDataController.reloadZipZOne}" event="change" update=":CardDataCreateForm:zipZone"  />   
                                 </p:selectOneMenu>
-                                  <p:outputLabel for="input" value="#{msg['common.edification.type']}"/>
-                                 <p:selectOneMenu id="edificationType" value="#{formCardDataController.edificationType}" converter="edificationTypeConverter">
-                                     <f:selectItem itemLabel="#{formCardDataController.edificationType.description}" itemValue="#{formCardDataController.edificationType.id}" />
-                                     <f:selectItems value="#{formCardDataController.edificationTypes}"/>
-                                </p:selectOneMenu>
-                                <p:outputLabel for="input" value="#{msg['common.street']}"/>
+                                
+                                <p:outputLabel for="input" value="#{msg['common.street1']}"/>
                                   <h:panelGroup styleClass="md-inputfield">
-                                      <p:inputText id="inpStreet" value="#{formCardDataController.street}"/>
+                                      <p:inputText id="inpStreet1" value="#{formCardDataController.street}"/>
+                                </h:panelGroup>
+                                 <p:outputLabel  value="#{msg['common.street2']}"/>
+                                  <h:panelGroup >
+                                      <p:inputText value="#{formCardDataController.street2}"/>
                                 </h:panelGroup>
                                <p:outputLabel for="input" value="#{msg['common.number']}"/>
                                   <h:panelGroup styleClass="md-inputfield">

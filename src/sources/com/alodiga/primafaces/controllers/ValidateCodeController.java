@@ -130,4 +130,14 @@ public class ValidateCodeController {
         System.out.println("validacions:"+ valid);
         return valid;
     }
+   
+    public void changeNumber() {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("codigo");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("sendCode.xhtml");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+    }
 }

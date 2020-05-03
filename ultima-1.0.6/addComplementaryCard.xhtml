@@ -93,6 +93,8 @@
                                                   itemValue="#{addComplementaryCard.country.id}" />
                                     <f:selectItems value="#{addComplementaryCard.countries}"/>
                                     <f:ajax event="change" listener="#{addComplementaryCard.reloadStates}" render="estado" />
+                                    <f:ajax event="change" listener="#{addComplementaryCard.reloadSDocumentPersonType}" render="documentsPersonType" />
+                                    <f:ajax event="change" listener="#{addComplementaryCard.reloadSCivilStatus}" render="civilStatus" />
                                 </p:selectOneMenu> 
                                 <p:outputLabel value="#{msg['common.state']}" for="estado" />
                                 <p:selectOneMenu id="estado" value="#{addComplementaryCard.state}" converter="stateConverter" 
@@ -110,14 +112,14 @@
                                     <f:selectItems value="#{addComplementaryCard.cities}"/>
                                    <p:ajax process="@this" listener="#{addComplementaryCard.reloadZipZOne}" event="change" update=":CityCreateForm:zipZone"  />   
                                 </p:selectOneMenu>
-                                  <p:outputLabel for="edificationType" value="#{msg['common.edification.type']}"/>
-                                 <p:selectOneMenu id="edificationType" value="#{addComplementaryCard.edificationType}" converter="edificationTypeConverter">
-                                     <f:selectItem itemLabel="#{addComplementaryCard.edificationType.description}" itemValue="#{addComplementaryCard.edificationType.id}" />
-                                     <f:selectItems value="#{addComplementaryCard.edificationTypes}"/>
-                                </p:selectOneMenu>
-                                <p:outputLabel for="inpStreet" value="#{msg['common.street']}"/>
+                                 
+                                <p:outputLabel for="inpStreet1" value="#{msg['common.street']}"/>
                                   <h:panelGroup styleClass="md-inputfield">
-                                      <p:inputText id="inpStreet" value="#{addComplementaryCard.addCreditCard.street}"/>
+                                      <p:inputText id="inpStreet1" value="#{addComplementaryCard.addCreditCard.street}"/>
+                                </h:panelGroup>
+                                <p:outputLabel  value="#{msg['common.street2']}"/>
+                                  <h:panelGroup styleClass="md-inputfield">
+                                      <p:inputText  value="#{addComplementaryCard.addCreditCard.street2}"/>
                                 </h:panelGroup>
                                <p:outputLabel for="inpAddress" value="#{msg['common.number']}"/>
                                   <h:panelGroup styleClass="md-inputfield">

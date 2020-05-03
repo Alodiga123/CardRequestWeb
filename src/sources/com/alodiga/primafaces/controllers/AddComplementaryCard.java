@@ -14,7 +14,6 @@ import com.cms.commons.models.City;
 import com.cms.commons.models.CivilStatus;
 import com.cms.commons.models.Country;
 import com.cms.commons.models.DocumentsPersonType;
-import com.cms.commons.models.EdificationType;
 import com.cms.commons.models.KinShipApplicant;
 import com.cms.commons.models.State;
 import com.cms.commons.models.ZipZone;
@@ -59,7 +58,6 @@ public class AddComplementaryCard implements Serializable {
     private State state;
     private City city;
     private DocumentsPersonType documentsPersonType;
-    private EdificationType edificationType;
     private CivilStatus civilStatus;
     private KinShipApplicant kinShipApplicant;
     private ZipZone zipZone;
@@ -71,13 +69,12 @@ public class AddComplementaryCard implements Serializable {
     private Map<String, String> countriesDoc = null;
     private Map<String, String> states = null;
     private Map<String, String> cities = null;
-    private Map<String, String> edificationTypes = null;
     private Map<String, String> documentsPersonTypes = null;
     private Map<String, String> civilStatuses = null;
     private Map<String, String>  kinShipApplicants= null;
     private Map<String, String> zipZones = null;
     ResourceBundle bundle = null;
-//    private String ipRemoteAddress;
+    Long personTypeId = null;
     private String messages = null;
     private Long countCardComplementaryByApplicant = 0L;
 
@@ -114,6 +111,12 @@ public class AddComplementaryCard implements Serializable {
         request.setParam(2);
         try {
             country = utilsEJB.loadCountry(request);
+            if (country!=null){
+             if (country.getId()==1)
+                 personTypeId=3L;
+             else
+                 personTypeId=4L; 
+            }
         } catch (RegisterNotFoundException ex) {
             Logger.getLogger(AddComplementaryCard.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullParameterException ex) {
@@ -161,13 +164,6 @@ public class AddComplementaryCard implements Serializable {
         this.addCreditCard = addCreditCard;
     }
    
-     public EdificationType getEdificationType() {
-        return edificationType;
-    }
-
-    public void setEdificationType(EdificationType edificationType) {
-        this.edificationType = edificationType;
-    }
 
     public CivilStatus getCivilStatus() {
         return civilStatus;
@@ -325,6 +321,54 @@ public class AddComplementaryCard implements Serializable {
         }
     }
     
+     public void reloadSDocumentPersonType(AjaxBehaviorEvent event) {
+        Country country1 = (Country) ((UIOutput) event.getSource()).getValue();
+        if (country1!=null){
+             if (country1.getId()==1)
+                 personTypeId=3L;
+             else
+                 personTypeId=4L; 
+            }
+        EJBRequest request = new EJBRequest();
+        Map params = new HashMap();
+        params.put(EjbConstants.PARAM_PERSON_TYPE_ID, personTypeId != null ? personTypeId : null);
+        request.setParams(params);
+        documentsPersonTypes = new TreeMap<String, String>();
+        try {
+            List<DocumentsPersonType> dts = personEJB.getDocumentsPersonTypeByPersonType(request);
+            for (DocumentsPersonType documentType : dts) {
+                documentsPersonTypes.put(documentType.getDescription(), documentType.getId().toString());
+            }
+        } catch (EmptyListException ex) {
+//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullParameterException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+     
+      public void reloadSCivilStatus(AjaxBehaviorEvent event) {
+        Country country1 = (Country) ((UIOutput) event.getSource()).getValue();
+        EJBRequest request = new EJBRequest();
+        Map params = new HashMap();
+        params.put(QueryConstants.PARAM_COUNTRY_ID, country != null ? country.getId() : null);
+        request.setParams(params);
+        civilStatuses = new TreeMap<String, String>();
+        try {
+            List<CivilStatus> dts = personEJB.getCivilStatusByCountry(request);
+            for (CivilStatus civil : dts) {
+                civilStatuses.put(civil.getDescription(), civil.getId().toString());
+            }
+        } catch (EmptyListException ex) {
+//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullParameterException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void reloadCities(AjaxBehaviorEvent event) {
         State state = (State) ((UIOutput) event.getSource()).getValue();
         EJBRequest request = new EJBRequest();
@@ -371,10 +415,12 @@ public class AddComplementaryCard implements Serializable {
     
      public Map<String, String> getDocumentsPersonTypes() {
         EJBRequest request = new EJBRequest();
-        
+        Map params = new HashMap();
+        params.put(EjbConstants.PARAM_PERSON_TYPE_ID, personTypeId != null ? personTypeId : null);
+        request.setParams(params);
         documentsPersonTypes = new TreeMap<String, String>();
         try {
-            List<DocumentsPersonType> dts = utilsEJB.getDocumentsPersonType(request);
+            List<DocumentsPersonType> dts = personEJB.getDocumentsPersonTypeByPersonType(request);
             for (DocumentsPersonType documentType : dts) {
                 documentsPersonTypes.put(documentType.getDescription(), documentType.getId().toString());
             }
@@ -392,31 +438,15 @@ public class AddComplementaryCard implements Serializable {
         this.documentsPersonTypes = documentsPersonTypes;
     }
      
-   public Map<String, String> getEdificationTypes() {
-        EJBRequest request = new EJBRequest();  
-        edificationTypes = new TreeMap<String, String>();
-        try {
-            List<EdificationType> dts = utilsEJB.getEdificationTypes(request);
-            for (EdificationType edificationType1 : dts) {
-                edificationTypes.put(edificationType1.getDescription(), edificationType1.getId().toString());
-            }
-        } catch (EmptyListException ex) {
-//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GeneralException ex) {
-//            Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullParameterException ex) {
-//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return edificationTypes;
-    }
-   
- 
-    
+     
     public Map<String, String> getCivilStatuses() {
         EJBRequest request = new EJBRequest();
-        civilStatuses = new TreeMap<String, String>();
+        Map params = new HashMap();
+        params.put(QueryConstants.PARAM_COUNTRY_ID, country != null ? country.getId() : null);
+        request.setParams(params);
+        states = new TreeMap<String, String>();
         try {
-            List<CivilStatus> dts = personEJB.getCivilStatus(request);
+            List<CivilStatus> dts = personEJB.getCivilStatusByCountry(request);
             for (CivilStatus civilStatus : dts) {
                 civilStatuses.put(civilStatus.getDescription(), civilStatus.getId().toString());
             }
@@ -478,11 +508,7 @@ public class AddComplementaryCard implements Serializable {
         this.zipZones = zipZones;
     }
     
-    public void setEdificationTypes(Map<String, String> edificationTypes) {
-        this.edificationTypes = edificationTypes;
-    }
-
-
+ 
     public void setCivilStatuses(Map<String, String> civilStatuses) {
         this.civilStatuses = civilStatuses;
     }
@@ -497,7 +523,7 @@ public class AddComplementaryCard implements Serializable {
             if (validations()) {
                 ApplicantNaturalPerson person= requestEJB.saveCardComplementary(country.getId(), addCreditCard.getEmail(), documentsPersonType.getId(), addCreditCard.getDocumentNumber(), new Date((new java.util.Date()).getTime()), addCreditCard.getName(), addCreditCard.getLastName(), addCreditCard.getGender().equals("Feminino")?"F":"M",
                         addCreditCard.getBirthdate(), civilStatus.getId(), addCreditCard.getPhoneNumber(),
-                        country.getId(), state.getId(), city.getId(), zipZone.getId(), edificationType.getId(), addCreditCard.getStreet(),  applicantNaturalPerson.getId(), kinShipApplicant.getId());
+                        country.getId(), state.getId(), city.getId(), zipZone.getId(),  addCreditCard.getStreet(),addCreditCard.getStreet2(),  applicantNaturalPerson.getId(), kinShipApplicant.getId());
                 if (person != null) {
                     try {
                         countCardComplementaryByApplicant = personEJB.countCardComplementaryByApplicant(applicantNaturalPerson.getId());
@@ -582,10 +608,6 @@ public class AddComplementaryCard implements Serializable {
             valid = false;
         } else if (city == null) {
             messages = bundle.getString("common.error.city");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-            valid = false;
-        } else if (edificationType == null) {
-            messages = bundle.getString("common.error.edification.type");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
         } else if (addCreditCard.street == null) {
