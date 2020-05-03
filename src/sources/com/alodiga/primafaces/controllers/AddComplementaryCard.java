@@ -444,7 +444,7 @@ public class AddComplementaryCard implements Serializable {
         Map params = new HashMap();
         params.put(QueryConstants.PARAM_COUNTRY_ID, country != null ? country.getId() : null);
         request.setParams(params);
-        states = new TreeMap<String, String>();
+        civilStatuses = new TreeMap<String, String>();
         try {
             List<CivilStatus> dts = personEJB.getCivilStatusByCountry(request);
             for (CivilStatus civilStatus : dts) {
