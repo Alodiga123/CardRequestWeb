@@ -54,6 +54,7 @@ public class CreditCard implements Serializable {
     public String state;
     public String address;
     public String postalCode;
+    public String zipZone;
     public ApplicantNaturalPerson person;
 
     public CreditCard() {}
@@ -125,6 +126,14 @@ public class CreditCard implements Serializable {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getZipZone() {
+        return zipZone;
+    }
+
+    public void setZipZone(String zipZone) {
+        this.zipZone = zipZone;
     }
 
     public String getDocumentType() {

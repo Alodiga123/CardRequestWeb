@@ -109,7 +109,6 @@
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="#{msg['common.option']}" itemValue="#{formCardDataController.city}" />
                                     <f:selectItems value="#{formCardDataController.cities}"/>
-                                   <p:ajax process="@this" listener="#{formCardDataController.reloadZipZOne}" event="change" update=":CardDataCreateForm:zipZone"  />   
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="input" value="#{msg['common.street1']}"/>
@@ -126,12 +125,10 @@
                                 </h:panelGroup>
                                
                                <p:outputLabel value="#{msg['common.postal.zone']}" for="zipZone" />
-                               <p:selectOneMenu id="zipZone" value="#{formCardDataController.zipZone}" converter="zipZoneConverter" 
-                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
-                                     <f:selectItem itemLabel="Selecione Uno" itemValue="#{formCardDataController.zipZone}" />
-                                     <f:selectItems value="#{formCardDataController.zipZones}"/>
-                                </p:selectOneMenu>   
-                                 
+                                 <h:panelGroup styleClass="md-inputfield">
+                                      <p:inputText id="zipZone" value="#{formCardDataController.zipZone}"/>
+                                </h:panelGroup>
+                                                           
 
 
                             </p:panelGrid>

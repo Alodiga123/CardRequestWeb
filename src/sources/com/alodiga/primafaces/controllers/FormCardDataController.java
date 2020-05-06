@@ -103,7 +103,7 @@ public class FormCardDataController {
     private Map<String, String> documentsPersonTypes = null;
     private Map<String, String> civilStatuses = null;
     private Map<String, String> zipZones = null;
-    private ZipZone zipZone;
+    private String zipZone;
     private String messages = null;
     private String codigo = null;
     private String pin;
@@ -377,15 +377,14 @@ public class FormCardDataController {
         this.streetType = streetType;
     }
 
-    public ZipZone getZipZone() {
+    public String getZipZone() {
         return zipZone;
     }
 
-    public void setZipZone(ZipZone zipZone) {
+    public void setZipZone(String zipZone) {
         this.zipZone = zipZone;
     }
     
-
 
     public Map<String, String> getDocumentsPersonTypes() {
         EJBRequest request = new EJBRequest();
@@ -693,17 +692,25 @@ public class FormCardDataController {
          String address = null;
          try {
              if (validations()) {
+                 ZipZone postalZone = new ZipZone();
+                 postalZone.setName(street);
+                 postalZone.setCode(zipZone);
+                 postalZone = utilsEJB.saveZipZone(postalZone);
+                 System.out.println("postalZone guardado:"+postalZone.getId());
                  address = street + " " + number;
                  ApplicantNaturalPerson applicantNaturalPerson = requestEJB.saveRequestPersonData(country.getId(), email, new Date((new java.util.Date()).getTime()), name, lastName, birthdate,
-                         cellNumber, country.getId(), state.getId(), city.getId(), zipZone, recommendation.equals(bundle.getString("option.yes")) ? true : false,
+                         cellNumber, country.getId(), state.getId(), city.getId(), postalZone, recommendation.equals(bundle.getString("option.yes")) ? true : false,
                          promotion.equals(bundle.getString("option.yes")) ? true : false, citizen.equals(bundle.getString("option.yes")) ? true : false,  documentsPersonType,
                          documentNumber,gender.equals(bundle.getString("common.female"))?"F":"M",civilStatus,street,street2,number);
-                 APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
-                 proxy.guardarUsuarioAplicacionMovil("usuarioWS", "passwordWS", null, name, lastName, password1, email, cellNumber, birthdate.toString(), address, String.valueOf(country.getId()),  String.valueOf(state.getId()),  String.valueOf(city.getId()),
-                         null, zipZone.getCode(), codigo, null, null, ipRemoteAddress, pin);
+                 try {
+                     APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
+                     proxy.guardarUsuarioAplicacionMovil("usuarioWS", "passwordWS", null, name, lastName, password1, email, cellNumber, birthdate.toString(), address, String.valueOf(country.getId()), String.valueOf(state.getId()), String.valueOf(city.getId()),
+                             null, zipZone, codigo, null, null, ipRemoteAddress, pin);
+                 } catch (Exception ex) {
+                     System.out.println("Registro Unificado no esta funcionando no registro applicantNaturalPersonId" +applicantNaturalPerson.getId());
+                 }
                  if (applicantNaturalPerson != null) {
                      FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("solicitude", solicitude);
                      FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("applicantNaturalPerson", applicantNaturalPerson);
 
                      FacesContext.getCurrentInstance().getExternalContext().redirect("takePhoto.xhtml");

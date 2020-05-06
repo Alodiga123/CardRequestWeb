@@ -60,7 +60,6 @@ public class AddComplementaryCard implements Serializable {
     private DocumentsPersonType documentsPersonType;
     private CivilStatus civilStatus;
     private KinShipApplicant kinShipApplicant;
-    private ZipZone zipZone;
     private UtilsEJB utilsEJB;
     private PersonEJB personEJB;
     private RequestEJB requestEJB;
@@ -190,14 +189,6 @@ public class AddComplementaryCard implements Serializable {
         this.kinShipApplicant = kinShipApplicant;
     }
 
-    public ZipZone getZipZone() {
-        return zipZone;
-    }
-
-    public void setZipZone(ZipZone zipZone) {
-        this.zipZone = zipZone;
-    }
-    
   
    public Map<String, String> getStates() {
         EJBRequest request = new EJBRequest();
@@ -521,9 +512,14 @@ public class AddComplementaryCard implements Serializable {
     public void saveCreditCard() {
         try {
             if (validations()) {
+             
+                ZipZone postalZone = new ZipZone();
+                postalZone.setName(addCreditCard.getStreet());
+                postalZone.setCode(addCreditCard.getZipZone());
+                postalZone = utilsEJB.saveZipZone(postalZone);
                 ApplicantNaturalPerson person= requestEJB.saveCardComplementary(country.getId(), addCreditCard.getEmail(), documentsPersonType.getId(), addCreditCard.getDocumentNumber(), new Date((new java.util.Date()).getTime()), addCreditCard.getName(), addCreditCard.getLastName(), addCreditCard.getGender().equals("Feminino")?"F":"M",
                         addCreditCard.getBirthdate(), civilStatus.getId(), addCreditCard.getPhoneNumber(),
-                        country.getId(), state.getId(), city.getId(), zipZone.getId(),  addCreditCard.getStreet(),addCreditCard.getStreet2(),  applicantNaturalPerson.getId(), kinShipApplicant.getId());
+                        country.getId(), state.getId(), city.getId(), postalZone.getId(),  addCreditCard.getStreet(),addCreditCard.getStreet2(),  applicantNaturalPerson.getId(), kinShipApplicant.getId());
                 if (person != null) {
                     try {
                         countCardComplementaryByApplicant = personEJB.countCardComplementaryByApplicant(applicantNaturalPerson.getId());
@@ -618,7 +614,7 @@ public class AddComplementaryCard implements Serializable {
             messages = bundle.getString("common.error.number");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (zipZone == null) {
+        } else if (addCreditCard.zipZone == null) {
             messages = bundle.getString("common.error.postal.zone");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;

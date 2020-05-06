@@ -109,8 +109,7 @@
                                 <p:selectOneMenu id="ciudad" value="#{addComplementaryCard.city}" converter="cityConverter"
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="#{msg['common.option']}" itemValue="#{addComplementaryCard.city}" />
-                                    <f:selectItems value="#{addComplementaryCard.cities}"/>
-                                   <p:ajax process="@this" listener="#{addComplementaryCard.reloadZipZOne}" event="change" update=":CityCreateForm:zipZone"  />   
+                                    <f:selectItems value="#{addComplementaryCard.cities}"/> 
                                 </p:selectOneMenu>
                                  
                                 <p:outputLabel for="inpStreet1" value="#{msg['common.street1']}"/>
@@ -127,12 +126,10 @@
                                 </h:panelGroup>
                                
                                <p:outputLabel value="#{msg['common.postal.zone']}" for="zipZone" />
-                               <p:selectOneMenu id="zipZone" value="#{addComplementaryCard.zipZone}" converter="zipZoneConverter" 
-                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
-                                     <f:selectItem itemLabel="#{msg['common.option']}" itemValue="#{addComplementaryCard.zipZone}" />
-                                     <f:selectItems value="#{addComplementaryCard.zipZones}"/>
-                                </p:selectOneMenu>   
- 
+                                <h:panelGroup styleClass="md-inputfield">
+                                      <p:inputText id="zipZone" value="#{addComplementaryCard.addCreditCard.zipZone}"/>
+                                </h:panelGroup>
+                              
                             </p:panelGrid>
                                        
                      
