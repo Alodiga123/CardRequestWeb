@@ -19,7 +19,17 @@
                                 <f:facet name="header">
                                     <p:messages id="messages"  autoUpdate="true" closable="true" />
                                 </f:facet>
-                             
+                               <p:outputLabel value="#{msg['common.country']}" for="pais" />
+                                <p:selectOneMenu id="pais" value="#{addComplementaryCard.country}" converter="countryConverter"
+                                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
+                                    <f:selectItem itemLabel="#{addComplementaryCard.country.name}"
+                                                  itemValue="#{addComplementaryCard.country.id}" />
+                                    <f:selectItems value="#{addComplementaryCard.countries}"/>
+                                    <f:ajax event="change" listener="#{addComplementaryCard.reloadStates}" render="estado" />
+                                    <f:ajax event="change" listener="#{addComplementaryCard.reloadSDocumentPersonType}" render="documentsPersonType" />
+                      
+                                </p:selectOneMenu> 
+                                                        
                                <p:outputLabel for="documentsPersonType" value="#{msg['common.document.type']}" />
                                 <p:selectOneMenu id="documentsPersonType" value="#{addComplementaryCard.documentsPersonType}" converter="documentsPersonTypeConverter">
                                     <f:selectItem itemLabel="#{addComplementaryCard.documentsPersonType.description}" itemValue="#{addComplementaryCard.documentsPersonType.id}" />
@@ -86,16 +96,7 @@
                                       <p:password id ="inpPin" value="#{addComplementaryCard.addCreditCard.pin}" size="4" required="true"  requiredMessage="#{msg['common.message.require.pin']}"/>
                                 </h:panelGroup>
                                 
-                               <p:outputLabel value="#{msg['common.country']}" for="pais" />
-                                <p:selectOneMenu id="pais" value="#{addComplementaryCard.country}" converter="countryConverter"
-                                                 effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
-                                    <f:selectItem itemLabel="#{addComplementaryCard.country.name}"
-                                                  itemValue="#{addComplementaryCard.country.id}" />
-                                    <f:selectItems value="#{addComplementaryCard.countries}"/>
-                                    <f:ajax event="change" listener="#{addComplementaryCard.reloadStates}" render="estado" />
-                                    <f:ajax event="change" listener="#{addComplementaryCard.reloadSDocumentPersonType}" render="documentsPersonType" />
-                      
-                                </p:selectOneMenu> 
+    
                                 <p:outputLabel value="#{msg['common.state']}" for="estado" />
                                 <p:selectOneMenu id="estado" value="#{addComplementaryCard.state}" converter="stateConverter" 
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
@@ -135,8 +136,8 @@
                      </div>
                  </div>
             <div align="center">
-                <p:commandButton  value="Guardar" id="btnSubmit" icon="ui-icon-save" actionListener="#{addComplementaryCard.saveCreditCard()}" />
-                <p:commandButton  value="Cancelar" id="btnCancel" icon="ui-icon-cancel" update=":CityCreateForm" actionListener="#{addComplementaryCard.resetCreditCard()}" immediate="true" process="@this"/>
+                <p:commandButton  value="#{msg['boton.save']}" id="btnSubmit" icon="ui-icon-save" actionListener="#{addComplementaryCard.saveCreditCard()}" />
+                <p:commandButton  value="#{msg['boton.cancel']}" id="btnCancel" icon="ui-icon-cancel" update=":CityCreateForm" actionListener="#{addComplementaryCard.resetCreditCard()}" immediate="true" process="@this"/>
             </div>
         </h:form>
     </ui:define>

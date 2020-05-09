@@ -6,6 +6,7 @@ import com.alodiga.cms.commons.ejb.UtilsEJB;
 import com.alodiga.cms.commons.exception.EmptyListException;
 import com.alodiga.cms.commons.exception.GeneralException;
 import com.alodiga.cms.commons.exception.NullParameterException;
+import com.alodiga.cms.commons.exception.RegisterNotFoundException;
 import static com.alodiga.primafaces.controllers.FormCardDataController.getEdad;
 import com.cms.commons.genericEJB.EJBRequest;
 import com.cms.commons.models.ApplicantNaturalPerson;
@@ -77,7 +78,8 @@ public class AddComplementaryCard implements Serializable {
     Long personTypeId = null;
     private String messages = null;
     private Long countCardComplementaryByApplicant = 0L;
-    private Language language =null;
+    private String language =null;
+    private Language idioma= null;
     
     @ManagedProperty("#{creditCardService}")
     private CreditCardService service;
@@ -89,7 +91,7 @@ public class AddComplementaryCard implements Serializable {
         requestEJB = (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
         applicantNaturalPerson = (ApplicantNaturalPerson) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("applicantNaturalPerson");
         country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
-        language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+        language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
         if (country != null && applicantNaturalPerson!=null){
             if (country.getId() == 1) {
                 personTypeId = 3L;
@@ -103,6 +105,21 @@ public class AddComplementaryCard implements Serializable {
             } catch (IOException ex) {
 
             }
+        }
+        System.out.println("... lenguage ....:" + language);
+        EJBRequest request = new EJBRequest();
+        if (language.equals("es"))
+            request.setParam(2L);
+        else
+            request.setParam(1L);
+        try {
+            idioma = utilsEJB.loadLanguage(request);
+        } catch (RegisterNotFoundException ex) {
+            Logger.getLogger(FormCardDataController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullParameterException ex) {
+            Logger.getLogger(FormCardDataController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+            Logger.getLogger(FormCardDataController.class.getName()).log(Level.SEVERE, null, ex);
         }
         Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
         bundle = ResourceBundle.getBundle("com.alodiga.primafeces.messages/message", locale);
@@ -412,7 +429,7 @@ public class AddComplementaryCard implements Serializable {
     public Map<String, String> getCivilStatuses() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
-        params.put(QueryConstants.PARAM_LANGUAGE_ID, language != null ? language.getId() : null);
+        params.put(QueryConstants.PARAM_LANGUAGE_ID, idioma != null ? idioma.getId() : null);
         request.setParams(params);
         civilStatuses = new TreeMap<String, String>();
         try {
@@ -435,7 +452,7 @@ public class AddComplementaryCard implements Serializable {
      public Map<String, String> getKinShipApplicants() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
-        params.put(QueryConstants.PARAM_LANGUAGE_ID, language != null ? language.getId() : null);
+        params.put(QueryConstants.PARAM_LANGUAGE_ID, idioma != null ? idioma.getId() : null);
         request.setParams(params);
         kinShipApplicants = new TreeMap<String, String>();
         try {

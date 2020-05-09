@@ -10,11 +10,11 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @ViewScoped
 public class CompleteComplementaryCardController {
-    private Language language =null;
+    private String language =null;
   
     @PostConstruct
     public void init() {
-        language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");      
+        language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");      
     }
 
    

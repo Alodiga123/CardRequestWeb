@@ -11,11 +11,11 @@ import javax.faces.context.FacesContext;
 @ViewScoped
 public class ApplicationCompletedController {
 
-    private Language language =null;
+    private String language =null;
 
     @PostConstruct
     public void init() {
-        language = (Language) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+        language = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
     }
 
     public void doRediret() {

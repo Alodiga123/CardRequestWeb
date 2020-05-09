@@ -41,7 +41,7 @@ public class ValidateCodeController {
     private String messages = null;
     private String codigo = null;
     private String cellNumber =null;
-    private Language language =null;
+    private String language =null;
     private Country country;
     ResourceBundle bundle = null;
     
@@ -53,7 +53,7 @@ public class ValidateCodeController {
         codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
         country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
         cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
-        language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+        language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
     }
 
     public String getCode() {

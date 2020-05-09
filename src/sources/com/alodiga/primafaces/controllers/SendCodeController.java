@@ -55,7 +55,7 @@ public class SendCodeController {
     private Map<String, String> countries = null;
     private String messages = null;
     ResourceBundle bundle = null;
-    private Language language =null;
+    private String language =null;
    
     @PostConstruct
     public void init() {
@@ -63,7 +63,7 @@ public class SendCodeController {
             Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
             bundle = ResourceBundle.getBundle("com.alodiga.primafeces.messages/message", locale);
             utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
-            language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+            language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
             EJBRequest request = new EJBRequest();
             request.setParam(2);
             country = utilsEJB.loadCountry(request);

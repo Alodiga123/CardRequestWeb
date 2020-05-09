@@ -5,19 +5,8 @@
  */
 package org.primefaces.ultima.component.util;
 
-import com.alodiga.cms.commons.ejb.UtilsEJB;
-import com.alodiga.cms.commons.exception.GeneralException;
-import com.alodiga.cms.commons.exception.NullParameterException;
-import com.alodiga.cms.commons.exception.RegisterNotFoundException;
-import com.alodiga.primafaces.controllers.FormCardDataController;
-import com.cms.commons.genericEJB.EJBRequest;
-import com.cms.commons.models.Language;
-import com.cms.commons.util.EJBServiceLocator;
-import com.cms.commons.util.EjbConstants;
 import java.io.Serializable;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -33,67 +22,40 @@ import javax.faces.event.ValueChangeEvent;
 @ManagedBean(name="languajeBean")
 public class LanguajeBean implements Serializable{
     
-    private String languaje;
-    private Language language;
-    private UtilsEJB utilsEJB;
+    private String language;
 
     public LanguajeBean() {
-        language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
-        if (language == null || languaje==null) {
-            try {
-                languaje = "es";
-                FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("es","espana"));
-                utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
-                EJBRequest request = new EJBRequest();
-                request.setParam(2L);
-                language = utilsEJB.loadLanguage(request);
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
-            } catch (RegisterNotFoundException ex) {
-                Logger.getLogger(LanguajeBean.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NullParameterException ex) {
-                Logger.getLogger(LanguajeBean.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (GeneralException ex) {
-                Logger.getLogger(LanguajeBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else
-             languaje = language.getIso();
-            
-        System.out.println("Entro al constructor");
+        language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+        System.out.println("lenguage constructor:"+language);
+        if (language==null){
+            language = "es";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
+            language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+        }
+        System.out.println("salida constructor:"+language); 
     }
 
-    public String getLanguaje() {
-        System.out.println("el lenguage es:"+languaje);
-        return languaje;
+    public String getLanguage() {
+        System.out.println("el lenguage es:"+language);
+        return language;
     }
 
-    public void setLanguaje(String languaje) {
-        this.languaje = languaje;
+    public void setLanguage(String language) {
+        this.language = language;
     }
     
     public void localityChanged(ValueChangeEvent e){
         String newLocaleValue = e.getNewValue().toString();
-        utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
-        EJBRequest request = new EJBRequest();
         if (newLocaleValue.equals("en")){
-            languaje= "en";
+            language= "en";
             FacesContext.getCurrentInstance().getViewRoot().setLocale(Locale.ENGLISH);
-            request.setParam(1L);
         }else{
             FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("es","espana"));
-            languaje= "es";
-             request.setParam(2L);
+            language= "es";
         }
-
-        try {
-            language = utilsEJB.loadLanguage(request);
-        } catch (RegisterNotFoundException ex) {
-            Logger.getLogger(LanguajeBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullParameterException ex) {
-            Logger.getLogger(LanguajeBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GeneralException ex) {
-            Logger.getLogger(LanguajeBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+//        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//        HttpSession session = request.getSession(false);
+//        session.setAttribute("languaje", languaje);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
     }
 

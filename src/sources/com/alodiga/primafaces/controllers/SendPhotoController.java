@@ -74,7 +74,7 @@ public class SendPhotoController {
     private Map<String, String> countries = null;
     private UploadedFile file;
     private ApplicantNaturalPerson applicantNaturalPerson;
-    private Language language =null;
+    private String language =null;
   
     @PostConstruct
     public void init() {
@@ -85,7 +85,7 @@ public class SendPhotoController {
             programEJB = (ProgramEJB) EJBServiceLocator.getInstance().get(EjbConstants.PROGRAM_EJB);
             applicantNaturalPerson = (ApplicantNaturalPerson) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("applicantNaturalPerson");
             country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");         
-            language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+            language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
     }
 
     public Country getCountry() {
@@ -152,8 +152,8 @@ public class SendPhotoController {
             SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
             String name = fmt.format(new Date()) + event.getFile().getFileName().substring( event.getFile().getFileName().lastIndexOf('.'));
             String id =applicantNaturalPerson!=null?applicantNaturalPerson.getId().toString():"0";
-            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\person-" + id + "-"+name);
-//            File file = new File("/opt/proyecto/cms/imagenes/person-" + id + "-"+name);
+//            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\person-" + id + "-"+name);
+            File file = new File("/opt/proyecto/cms/imagenes/person-" + id + "-"+name);
 
             InputStream is = event.getFile().getInputstream();
             OutputStream out = new FileOutputStream(file);

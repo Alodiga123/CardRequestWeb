@@ -107,38 +107,54 @@ public class FormCardDataController {
     private String codigo = null;
     private String pin;
     private String ipRemoteAddress;
-    private Language language =null;
+    private String language =null;
+    private Language idioma= null;
     Long personTypeId = null;
 
     @PostConstruct
     public void init() {
-            utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
-            personEJB = (PersonEJB) EJBServiceLocator.getInstance().get(EjbConstants.PERSON_EJB);
-            requestEJB= (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
-            recommendations = new ArrayList<String>();
-            promotions = new ArrayList<String>();
-            citizens = new ArrayList<String>();
-            Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
-            bundle = ResourceBundle.getBundle("com.alodiga.primafeces.messages/message", locale);
-            recommendations.add(bundle.getString("option.yes"));
-            recommendations.add(bundle.getString("option.no"));
-            promotions.add(bundle.getString("option.yes"));
-            promotions.add(bundle.getString("option.no"));
-            citizens.add(bundle.getString("option.yes"));
-            citizens.add(bundle.getString("option.no"));
-            genders = new ArrayList<String>();
-            genders.add(bundle.getString("common.female"));
-            genders.add(bundle.getString("common.male"));
-            country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
-            language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
-            System.out.println("... lenguage ....:"+language.getId()+language.getDescription());
-            cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
-            if (country!=null && cellNumber!=null){
-             if (country.getId()==1)
-                 personTypeId=3L;
-             else
-                 personTypeId=4L; 
-            }else {
+        utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
+        personEJB = (PersonEJB) EJBServiceLocator.getInstance().get(EjbConstants.PERSON_EJB);
+        requestEJB = (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
+        recommendations = new ArrayList<String>();
+        promotions = new ArrayList<String>();
+        citizens = new ArrayList<String>();
+        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        bundle = ResourceBundle.getBundle("com.alodiga.primafeces.messages/message", locale);
+        recommendations.add(bundle.getString("option.yes"));
+        recommendations.add(bundle.getString("option.no"));
+        promotions.add(bundle.getString("option.yes"));
+        promotions.add(bundle.getString("option.no"));
+        citizens.add(bundle.getString("option.yes"));
+        citizens.add(bundle.getString("option.no"));
+        genders = new ArrayList<String>();
+        genders.add(bundle.getString("common.female"));
+        genders.add(bundle.getString("common.male"));
+        country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
+        language = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+        System.out.println("... lenguage ....:" + language);
+        EJBRequest request = new EJBRequest();
+        if (language.equals("es"))
+            request.setParam(2L);
+        else
+            request.setParam(1L);
+        try {
+            idioma = utilsEJB.loadLanguage(request);
+        } catch (RegisterNotFoundException ex) {
+            Logger.getLogger(FormCardDataController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullParameterException ex) {
+            Logger.getLogger(FormCardDataController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+            Logger.getLogger(FormCardDataController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
+        if (country != null && cellNumber != null) {
+            if (country.getId() == 1) {
+                personTypeId = 3L;
+            } else {
+                personTypeId = 4L;
+            }
+        } else {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
@@ -146,7 +162,7 @@ public class FormCardDataController {
 
             }
         }
-            codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
+        codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
             ipRemoteAddress = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRemoteAddr(); 
             
             System.out.println("Ip remota:"+ipRemoteAddress);
@@ -423,7 +439,7 @@ public class FormCardDataController {
     public Map<String, String> getCivilStatuses() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
-        params.put(QueryConstants.PARAM_LANGUAGE_ID, language != null ? language.getId() : null);
+        params.put(QueryConstants.PARAM_LANGUAGE_ID, idioma != null ? idioma.getId() : null);
         request.setParams(params);
         civilStatuses = new TreeMap<String, String>();
         try {
@@ -576,7 +592,7 @@ public class FormCardDataController {
      public void reloadSCivilStatus() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
-        params.put(QueryConstants.PARAM_LANGUAGE_ID, language != null ? language.getId() : null);
+        params.put(QueryConstants.PARAM_LANGUAGE_ID, idioma != null ? idioma.getId() : null);
         request.setParams(params);
         civilStatuses = new TreeMap<String, String>();
         try {

@@ -5,7 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
     xmlns:pu="http://primefaces.org/ultima">
-<f:view contentType="text/html" locale='#{languajeBean.languaje}' id="fview" >
+<f:view contentType="text/html" locale='#{languajeBean.language}' id="fview" >
     <div class="topbar clearfix">
             <div class="topbar-left">
              <p:graphicImage name="ultima-layout/images/logo_alodiga2.jpg" alt="Nuestra Vision" width="50" height="50" />
@@ -17,7 +17,7 @@
                                 <a href="#">
                                     <!--<div class="ui-g-12 ui-md-2"><i class="ui-icon ui-icon-language"></i>language</div>-->
                                     <i class="ui-icon ui-icon-language"></i>
-                                    <p:selectOneMenu value="#{languajeBean.languaje}" onchange="submit()" valueChangeListener="#{languajeBean.localityChanged}">
+                                    <p:selectOneMenu value="#{languajeBean.language}" onchange="submit()" valueChangeListener="#{languajeBean.localityChanged}">
                                 <f:selectItem itemLabel="Español" itemValue="es"/>
                                 <f:selectItem itemLabel="English" itemValue="en"/>
                             </p:selectOneMenu>
