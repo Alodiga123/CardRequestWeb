@@ -6,7 +6,6 @@ import com.alodiga.cms.commons.ejb.UtilsEJB;
 import com.alodiga.cms.commons.exception.EmptyListException;
 import com.alodiga.cms.commons.exception.GeneralException;
 import com.alodiga.cms.commons.exception.NullParameterException;
-import com.alodiga.cms.commons.exception.RegisterNotFoundException;
 import static com.alodiga.primafaces.controllers.FormCardDataController.getEdad;
 import com.cms.commons.genericEJB.EJBRequest;
 import com.cms.commons.models.ApplicantNaturalPerson;
@@ -15,11 +14,13 @@ import com.cms.commons.models.CivilStatus;
 import com.cms.commons.models.Country;
 import com.cms.commons.models.DocumentsPersonType;
 import com.cms.commons.models.KinShipApplicant;
+import com.cms.commons.models.Language;
 import com.cms.commons.models.State;
 import com.cms.commons.models.ZipZone;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.util.QueryConstants;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,7 +77,7 @@ public class AddComplementaryCard implements Serializable {
     Long personTypeId = null;
     private String messages = null;
     private Long countCardComplementaryByApplicant = 0L;
-
+    private Language language =null;
     
     @ManagedProperty("#{creditCardService}")
     private CreditCardService service;
@@ -87,7 +88,22 @@ public class AddComplementaryCard implements Serializable {
         personEJB = (PersonEJB) EJBServiceLocator.getInstance().get(EjbConstants.PERSON_EJB);
         requestEJB = (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
         applicantNaturalPerson = (ApplicantNaturalPerson) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("applicantNaturalPerson");
-        System.out.println("applicantNaturalPerson:"+applicantNaturalPerson.getId());//quitar
+        country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
+        language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+        if (country != null && applicantNaturalPerson!=null){
+            if (country.getId() == 1) {
+                personTypeId = 3L;
+            } else {
+                personTypeId = 4L;
+            }
+        } else {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            } catch (IOException ex) {
+
+            }
+        }
         Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
         bundle = ResourceBundle.getBundle("com.alodiga.primafeces.messages/message", locale);
         addCreditCard = new CreditCard();
@@ -106,24 +122,7 @@ public class AddComplementaryCard implements Serializable {
         addCreditCard.genders = new ArrayList<String>();
         addCreditCard.genders.add(bundle.getString("common.female"));
         addCreditCard.genders.add(bundle.getString("common.male"));
-        EJBRequest request = new EJBRequest();
-        request.setParam(2);
-        try {
-            country = utilsEJB.loadCountry(request);
-            if (country!=null){
-             if (country.getId()==1)
-                 personTypeId=3L;
-             else
-                 personTypeId=4L; 
-            }
-        } catch (RegisterNotFoundException ex) {
-            Logger.getLogger(AddComplementaryCard.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullParameterException ex) {
-            Logger.getLogger(AddComplementaryCard.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GeneralException ex) {
-            Logger.getLogger(AddComplementaryCard.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
+
     }
   
     public void setService(CreditCardService service) {
@@ -339,27 +338,7 @@ public class AddComplementaryCard implements Serializable {
         }
     }
      
-      public void reloadSCivilStatus(AjaxBehaviorEvent event) {
-        Country country1 = (Country) ((UIOutput) event.getSource()).getValue();
-        EJBRequest request = new EJBRequest();
-        Map params = new HashMap();
-        params.put(QueryConstants.PARAM_COUNTRY_ID, country != null ? country.getId() : null);
-        request.setParams(params);
-        civilStatuses = new TreeMap<String, String>();
-        try {
-            List<CivilStatus> dts = personEJB.getCivilStatusByCountry(request);
-            for (CivilStatus civil : dts) {
-                civilStatuses.put(civil.getDescription(), civil.getId().toString());
-            }
-        } catch (EmptyListException ex) {
-//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GeneralException ex) {
-//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullParameterException ex) {
-//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
+     
     public void reloadCities(AjaxBehaviorEvent event) {
         State state = (State) ((UIOutput) event.getSource()).getValue();
         EJBRequest request = new EJBRequest();
@@ -433,11 +412,11 @@ public class AddComplementaryCard implements Serializable {
     public Map<String, String> getCivilStatuses() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
-        params.put(QueryConstants.PARAM_COUNTRY_ID, country != null ? country.getId() : null);
+        params.put(QueryConstants.PARAM_LANGUAGE_ID, language != null ? language.getId() : null);
         request.setParams(params);
         civilStatuses = new TreeMap<String, String>();
         try {
-            List<CivilStatus> dts = personEJB.getCivilStatusByCountry(request);
+            List<CivilStatus> dts = personEJB.getCivilStatusByLanguage(request);
             for (CivilStatus civilStatus : dts) {
                 civilStatuses.put(civilStatus.getDescription(), civilStatus.getId().toString());
             }
@@ -452,11 +431,15 @@ public class AddComplementaryCard implements Serializable {
     }
     
     
+    
      public Map<String, String> getKinShipApplicants() {
         EJBRequest request = new EJBRequest();
+        Map params = new HashMap();
+        params.put(QueryConstants.PARAM_LANGUAGE_ID, language != null ? language.getId() : null);
+        request.setParams(params);
         kinShipApplicants = new TreeMap<String, String>();
         try {
-            List<KinShipApplicant> dts = personEJB.getKinShipApplicant(request);
+            List<KinShipApplicant> dts = personEJB.getKinShipApplicantByLanguage(request);
             for (KinShipApplicant kinShipApplicant : dts) {
                 kinShipApplicants.put(kinShipApplicant.getDescription(), kinShipApplicant.getId().toString());
             }
@@ -523,6 +506,7 @@ public class AddComplementaryCard implements Serializable {
                 if (person != null) {
                     try {
                         countCardComplementaryByApplicant = personEJB.countCardComplementaryByApplicant(applicantNaturalPerson.getId());
+                        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
                         if (countCardComplementaryByApplicant < 2L) {
                             FacesContext.getCurrentInstance().getExternalContext().redirect("completeComplementaryCard.xhtml");
                         }else{
@@ -610,11 +594,7 @@ public class AddComplementaryCard implements Serializable {
             messages = bundle.getString("common.error.street");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.number == null) {
-            messages = bundle.getString("common.error.number");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-            valid = false;
-        } else if (addCreditCard.zipZone == null) {
+        }  else if (addCreditCard.zipZone == null) {
             messages = bundle.getString("common.error.postal.zone");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;

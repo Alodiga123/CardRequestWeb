@@ -24,6 +24,7 @@ import com.cms.commons.models.Country;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.genericEJB.EJBRequest;
+import com.cms.commons.models.Language;
 import com.ericsson.alodiga.ws.APIRegistroUnificadoProxy;
 import com.ericsson.alodiga.ws.RespuestaCodigoRandom;
 import java.util.List;
@@ -54,13 +55,15 @@ public class SendCodeController {
     private Map<String, String> countries = null;
     private String messages = null;
     ResourceBundle bundle = null;
-  
+    private Language language =null;
+   
     @PostConstruct
     public void init() {
         try {
             Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
             bundle = ResourceBundle.getBundle("com.alodiga.primafeces.messages/message", locale);
             utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
+            language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
             EJBRequest request = new EJBRequest();
             request.setParam(2);
             country = utilsEJB.loadCountry(request);
@@ -130,6 +133,7 @@ public class SendCodeController {
             System.out.println("Pais:"+country.getName() +"Telefono:"+cellNumber);
 //            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cellNumber", cellNumber);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("country", country);
             APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();

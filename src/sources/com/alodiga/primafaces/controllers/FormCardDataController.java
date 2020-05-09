@@ -31,7 +31,7 @@ import com.cms.commons.genericEJB.EJBRequest;
 import com.cms.commons.models.ApplicantNaturalPerson;
 import com.cms.commons.models.CivilStatus;
 import com.cms.commons.models.DocumentsPersonType;
-import com.cms.commons.models.EdificationType;
+import com.cms.commons.models.Language;
 import com.cms.commons.models.StreetType;
 import com.cms.commons.models.ZipZone;
 import com.cms.commons.util.QueryConstants;
@@ -63,7 +63,6 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class FormCardDataController {
-//    public Solicitude solicitude;
     private UtilsEJB utilsEJB;
     private PersonEJB personEJB;
     private RequestEJB requestEJB;
@@ -108,8 +107,9 @@ public class FormCardDataController {
     private String codigo = null;
     private String pin;
     private String ipRemoteAddress;
+    private Language language =null;
     Long personTypeId = null;
-        
+
     @PostConstruct
     public void init() {
             utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
@@ -130,13 +130,22 @@ public class FormCardDataController {
             genders.add(bundle.getString("common.female"));
             genders.add(bundle.getString("common.male"));
             country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
-            if (country!=null){
+            language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+            System.out.println("... lenguage ....:"+language.getId()+language.getDescription());
+            cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
+            if (country!=null && cellNumber!=null){
              if (country.getId()==1)
                  personTypeId=3L;
              else
                  personTypeId=4L; 
+            }else {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            } catch (IOException ex) {
+
             }
-            cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
+        }
             codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
             ipRemoteAddress = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRemoteAddr(); 
             
@@ -414,11 +423,11 @@ public class FormCardDataController {
     public Map<String, String> getCivilStatuses() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
-        params.put(QueryConstants.PARAM_COUNTRY_ID, country != null ? country.getId() : null);
+        params.put(QueryConstants.PARAM_LANGUAGE_ID, language != null ? language.getId() : null);
         request.setParams(params);
         civilStatuses = new TreeMap<String, String>();
         try {
-            List<CivilStatus> dts = personEJB.getCivilStatusByCountry(request);
+            List<CivilStatus> dts = personEJB.getCivilStatusByLanguage(request);
             for (CivilStatus civil : dts) {
                 civilStatuses.put(civil.getDescription(), civil.getId().toString());
             }
@@ -564,6 +573,27 @@ public class FormCardDataController {
         }
     }
     
+     public void reloadSCivilStatus() {
+        EJBRequest request = new EJBRequest();
+        Map params = new HashMap();
+        params.put(QueryConstants.PARAM_LANGUAGE_ID, language != null ? language.getId() : null);
+        request.setParams(params);
+        civilStatuses = new TreeMap<String, String>();
+        try {
+            List<CivilStatus> dts = personEJB.getCivilStatusByLanguage(request);
+            for (CivilStatus civil : dts) {
+                civilStatuses.put(civil.getDescription(), civil.getId().toString());
+            }
+        } catch (EmptyListException ex) {
+//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneralException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullParameterException ex) {
+//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+     
+     
      public void reloadSDocumentPersonType(AjaxBehaviorEvent event) {
         Country country1 = (Country) ((UIOutput) event.getSource()).getValue();
         if (country1!=null){
@@ -593,26 +623,7 @@ public class FormCardDataController {
     }
      
      
-     public void reloadSCivilStatus(AjaxBehaviorEvent event) {
-        Country country1 = (Country) ((UIOutput) event.getSource()).getValue();
-        EJBRequest request = new EJBRequest();
-        Map params = new HashMap();
-        params.put(QueryConstants.PARAM_COUNTRY_ID, country != null ? country.getId() : null);
-        request.setParams(params);
-        civilStatuses = new TreeMap<String, String>();
-        try {
-            List<CivilStatus> dts = personEJB.getCivilStatusByCountry(request);
-            for (CivilStatus civil : dts) {
-                civilStatuses.put(civil.getDescription(), civil.getId().toString());
-            }
-        } catch (EmptyListException ex) {
-//           Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GeneralException ex) {
-//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullParameterException ex) {
-//          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
      
      
      public Map<String, String> getZipZones() {
@@ -712,7 +723,8 @@ public class FormCardDataController {
                  if (applicantNaturalPerson != null) {
                      FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
                      FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("applicantNaturalPerson", applicantNaturalPerson);
-
+                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("country", country);
+                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
                      FacesContext.getCurrentInstance().getExternalContext().redirect("takePhoto.xhtml");
                  } else {
                      messages = bundle.getString("common.error.save.form");
@@ -796,10 +808,6 @@ public class FormCardDataController {
             valid = false;
         } else if (street == null) {
             messages = bundle.getString("common.error.street");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-            valid = false;
-        } else if (number == null) {
-            messages = bundle.getString("common.error.number");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
         } else if (zipZone == null) {

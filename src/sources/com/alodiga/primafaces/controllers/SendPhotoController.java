@@ -31,6 +31,7 @@ import com.cms.commons.genericEJB.EJBRequest;
 import com.cms.commons.models.ApplicantNaturalPerson;
 import com.cms.commons.models.CollectionType;
 import com.cms.commons.models.CollectionsRequest;
+import com.cms.commons.models.Language;
 import com.cms.commons.models.PersonType;
 import com.cms.commons.models.ProductType;
 import com.cms.commons.models.Program;
@@ -73,31 +74,19 @@ public class SendPhotoController {
     private Map<String, String> countries = null;
     private UploadedFile file;
     private ApplicantNaturalPerson applicantNaturalPerson;
+    private Language language =null;
   
     @PostConstruct
     public void init() {
-        try {
             utilsEJB = (UtilsEJB) EJBServiceLocator.getInstance().get(EjbConstants.UTILS_EJB);
             personEJB = (PersonEJB) EJBServiceLocator.getInstance().get(EjbConstants.PERSON_EJB);
             requestEJB= (RequestEJB) EJBServiceLocator.getInstance().get(EjbConstants.REQUEST_EJB);
             productEJB  = (ProductEJB) EJBServiceLocator.getInstance().get(EjbConstants.PRODUCT_EJB);
             programEJB = (ProgramEJB) EJBServiceLocator.getInstance().get(EjbConstants.PROGRAM_EJB);
             applicantNaturalPerson = (ApplicantNaturalPerson) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("applicantNaturalPerson");
-            EJBRequest request = new EJBRequest();
-            request.setParam(2);
-            country = utilsEJB.loadCountry(request);
-        } catch (RegisterNotFoundException ex) {
-            Logger.getLogger(SendPhotoController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullParameterException ex) {
-            Logger.getLogger(SendPhotoController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GeneralException ex) {
-            ex.printStackTrace();
-            Logger.getLogger(SendPhotoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
+            country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");         
+            language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
     }
-
- 
 
     public Country getCountry() {
         return country;
@@ -163,8 +152,8 @@ public class SendPhotoController {
             SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
             String name = fmt.format(new Date()) + event.getFile().getFileName().substring( event.getFile().getFileName().lastIndexOf('.'));
             String id =applicantNaturalPerson!=null?applicantNaturalPerson.getId().toString():"0";
-//            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\person-" + id + "-"+name);
-            File file = new File("/opt/proyecto/cms/imagenes/person-" + id + "-"+name);
+            File file = new File("C:\\Users\\yamea\\OneDrive\\Documentos\\NetBeansProjects\\upload\\person-" + id + "-"+name);
+//            File file = new File("/opt/proyecto/cms/imagenes/person-" + id + "-"+name);
 
             InputStream is = event.getFile().getInputstream();
             OutputStream out = new FileOutputStream(file);
@@ -241,6 +230,7 @@ public class SendPhotoController {
                 requestHasCollectionsRequest.setUrlImageFile(file.getAbsolutePath());
                 requestHasCollectionsRequest.setCreateDate(new Timestamp(new Date().getTime()));
                 requestHasCollectionsRequest = requestEJB.saveRequestHasCollectionsRequest(requestHasCollectionsRequest);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
                 FacesContext.getCurrentInstance().getExternalContext().redirect("completeForm.xhtml");
             } catch (NullParameterException ex) {
                 Logger.getLogger(SendPhotoController.class.getName()).log(Level.SEVERE, null, ex);

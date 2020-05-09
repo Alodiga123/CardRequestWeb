@@ -94,7 +94,7 @@
                                     <f:selectItems value="#{addComplementaryCard.countries}"/>
                                     <f:ajax event="change" listener="#{addComplementaryCard.reloadStates}" render="estado" />
                                     <f:ajax event="change" listener="#{addComplementaryCard.reloadSDocumentPersonType}" render="documentsPersonType" />
-                                    <f:ajax event="change" listener="#{addComplementaryCard.reloadSCivilStatus}" render="civilStatus" />
+                      
                                 </p:selectOneMenu> 
                                 <p:outputLabel value="#{msg['common.state']}" for="estado" />
                                 <p:selectOneMenu id="estado" value="#{addComplementaryCard.state}" converter="stateConverter" 
@@ -119,12 +119,7 @@
                                 <p:outputLabel  value="#{msg['common.street2']}"/>
                                   <h:panelGroup styleClass="md-inputfield">
                                       <p:inputText  value="#{addComplementaryCard.addCreditCard.street2}"/>
-                                </h:panelGroup>
-                               <p:outputLabel for="inpAddress" value="#{msg['common.number']}"/>
-                                  <h:panelGroup styleClass="md-inputfield">
-                                      <p:inputText id="inpAddress" value="#{addComplementaryCard.addCreditCard.number}"/>
-                                </h:panelGroup>
-                               
+                                </h:panelGroup>                              
                                <p:outputLabel value="#{msg['common.postal.zone']}" for="zipZone" />
                                 <h:panelGroup styleClass="md-inputfield">
                                       <p:inputText id="zipZone" value="#{addComplementaryCard.addCreditCard.zipZone}"/>

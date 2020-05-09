@@ -18,6 +18,7 @@ package com.alodiga.primafaces.controllers;
 import com.alodiga.cms.commons.ejb.RequestEJB;
 import com.alodiga.cms.commons.ejb.UtilsEJB;
 import com.cms.commons.models.Country;
+import com.cms.commons.models.Language;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.ericsson.alodiga.ws.APIRegistroUnificadoProxy;
@@ -40,6 +41,7 @@ public class ValidateCodeController {
     private String messages = null;
     private String codigo = null;
     private String cellNumber =null;
+    private Language language =null;
     private Country country;
     ResourceBundle bundle = null;
     
@@ -51,6 +53,7 @@ public class ValidateCodeController {
         codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
         country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
         cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
+        language = (Language)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
     }
 
     public String getCode() {
@@ -72,6 +75,7 @@ public class ValidateCodeController {
             if (code.equals("99999999") || code.equals(codigo)) {
                 System.out.println("code:" + code);
                 if (validations()) {
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
                     FacesContext.getCurrentInstance().getExternalContext().redirect("formCardData.xhtml");
                 }
             } else{
@@ -96,6 +100,7 @@ public class ValidateCodeController {
             System.out.println("Respuesta Codigo:"+response.getDatosRespuesta());
             if (response.getCodigoRespuesta().equals("00")) {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("codigo");
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", response.getDatosRespuesta());
                 FacesContext.getCurrentInstance().getExternalContext().redirect("validateCode.xhtml");
             }else{
@@ -134,6 +139,7 @@ public class ValidateCodeController {
     public void changeNumber() {
         try {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("codigo");
+              FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
             FacesContext.getCurrentInstance().getExternalContext().redirect("sendCode.xhtml");
         } catch (Exception ex) {
             ex.printStackTrace();

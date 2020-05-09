@@ -93,7 +93,7 @@
                                     <f:selectItems value="#{formCardDataController.countries}"/>
                                     <f:ajax event="change" listener="#{formCardDataController.reloadStates}" render="estado" />
                                     <f:ajax event="change" listener="#{formCardDataController.reloadSDocumentPersonType}" render="documentsPersonType" />
-                                    <f:ajax event="change" listener="#{formCardDataController.reloadSCivilStatus}" render="civilStatus" />
+                           
                                 </p:selectOneMenu> 
                                 <p:outputLabel value="#{msg['common.state']}" for="estado" />
                                 <p:selectOneMenu id="estado" value="#{formCardDataController.state}" converter="stateConverter" 
@@ -118,12 +118,7 @@
                                  <p:outputLabel  value="#{msg['common.street2']}"/>
                                   <h:panelGroup >
                                       <p:inputText value="#{formCardDataController.street2}"/>
-                                </h:panelGroup>
-                               <p:outputLabel for="input" value="#{msg['common.number']}"/>
-                                  <h:panelGroup styleClass="md-inputfield">
-                                      <p:inputText id="inpAddress" value="#{formCardDataController.number}"/>
-                                </h:panelGroup>
-                               
+                                </h:panelGroup>                               
                                <p:outputLabel value="#{msg['common.postal.zone']}" for="zipZone" />
                                  <h:panelGroup styleClass="md-inputfield">
                                       <p:inputText id="zipZone" value="#{formCardDataController.zipZone}"/>
