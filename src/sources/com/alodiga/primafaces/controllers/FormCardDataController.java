@@ -110,6 +110,7 @@ public class FormCardDataController {
     private String language =null;
     private Language idioma= null;
     Long personTypeId = null;
+    private Date currentDate = new Date();
 
     @PostConstruct
     public void init() {
@@ -168,6 +169,9 @@ public class FormCardDataController {
             System.out.println("Ip remota:"+ipRemoteAddress);
     }
 
+    public Date getCurrentDate() {
+        return currentDate;
+    }
 
     public Country getCountry() {
         return country;

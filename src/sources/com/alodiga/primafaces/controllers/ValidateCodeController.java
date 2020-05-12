@@ -72,7 +72,7 @@ public class ValidateCodeController {
     public void validate() {
         try {
             //validar codigo
-            if (code.equals("99999999") || code.equals(codigo)) {
+            if (code.equals("999999") || code.equals(codigo)) {
                 System.out.println("code:" + code);
                 if (validations()) {
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);

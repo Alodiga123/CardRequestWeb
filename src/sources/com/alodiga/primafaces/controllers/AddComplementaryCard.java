@@ -84,6 +84,7 @@ public class AddComplementaryCard implements Serializable {
     private Language idioma= null;
     private String ipRemoteAddress;
     private String codigo = null;
+    private Date currentDate = new Date();
     
     @ManagedProperty("#{creditCardService}")
     private CreditCardService service;
@@ -147,6 +148,10 @@ public class AddComplementaryCard implements Serializable {
         ipRemoteAddress = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRemoteAddr(); 
     }
   
+    public Date getCurrentDate() {
+        return currentDate;
+    }
+
     public void setService(CreditCardService service) {
         this.service = service;
     }
