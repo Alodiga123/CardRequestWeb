@@ -26,17 +26,14 @@ public class LanguajeBean implements Serializable{
 
     public LanguajeBean() {
         language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
-        System.out.println("lenguage constructor:"+language);
         if (language==null){
             language = "es";
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
             language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
         }
-        System.out.println("salida constructor:"+language); 
     }
 
     public String getLanguage() {
-        System.out.println("el lenguage es:"+language);
         return language;
     }
 

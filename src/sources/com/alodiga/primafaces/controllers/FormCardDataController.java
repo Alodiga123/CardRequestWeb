@@ -766,15 +766,15 @@ public class FormCardDataController {
             messages = bundle.getString("common.error.document.type");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (documentNumber == null) {
+        } else if (documentNumber == null || documentNumber.isEmpty()) {
             messages = bundle.getString("common.error.document.number");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (name == null) {
+        } else if (name == null || name.isEmpty()) {
             messages = bundle.getString("common.error.name");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (lastName == null) {
+        } else if (lastName == null || lastName.isEmpty()) {
             messages = bundle.getString("common.error.last.name");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
@@ -790,15 +790,15 @@ public class FormCardDataController {
             messages = bundle.getString("common.error.marital.status");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (email == null) {
+        } else if (email == null || email.isEmpty()) {
             messages = bundle.getString("common.error.email");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (password1 == null) {
+        } else if (password1 == null || password1.isEmpty()) {
             messages = bundle.getString("common.error.require.password");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (password2 == null) {
+        } else if (password2 == null || password2.isEmpty()) {
             messages = bundle.getString("common.error.confir.password");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
@@ -806,7 +806,7 @@ public class FormCardDataController {
             messages = bundle.getString("common.password.not.match");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (pin == null) {
+        } else if (pin == null || pin.isEmpty()) {
             messages = bundle.getString("common.error.pin");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
@@ -822,11 +822,11 @@ public class FormCardDataController {
             messages = bundle.getString("common.error.city");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (street == null) {
+        } else if (street == null || street.isEmpty()) {
             messages = bundle.getString("common.error.street");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (zipZone == null) {
+        } else if (zipZone == null || zipZone.isEmpty()) {
             messages = bundle.getString("common.error.postal.zone");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
@@ -846,7 +846,7 @@ public class FormCardDataController {
             messages = bundle.getString("common.adult");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        }else {
+        }else if (email != null && !email.isEmpty()) {
             try {
                 if (requestEJB.existsApplicantNaturalPersonByEmail(email)) {
                     messages = bundle.getString("common.error.exists.email");

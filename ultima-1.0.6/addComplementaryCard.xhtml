@@ -16,9 +16,6 @@
                             <h1>#{msg['common.add.complementary.card.request']}</h1>
                           
                               <p:panelGrid id="grid" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank form-group" style="border:0px none; background-color:transparent;">
-                                <f:facet name="header">
-                                    <p:messages id="messages"  autoUpdate="true" closable="true" />
-                                </f:facet>
                                <p:outputLabel value="#{msg['common.country']}" for="pais" />
                                 <p:selectOneMenu id="pais" value="#{addComplementaryCard.country}" converter="countryConverter"
                                                  effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith">
@@ -38,18 +35,18 @@
                                
                                 <p:outputLabel for="inputDocumentNumber" value="#{msg['common.document.number']}" />
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="inputDocumentNumber" value="#{addComplementaryCard.addCreditCard.documentNumber}" required="true"/>
+                                    <p:inputText id="inputDocumentNumber" value="#{addComplementaryCard.addCreditCard.documentNumber}" />
                                 </h:panelGroup>
                                                         
                                 
                                 <p:outputLabel for="inputName" value="#{msg['common.names']}" />
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="inputName" value="#{addComplementaryCard.addCreditCard.name}" required="true"/>
+                                    <p:inputText id="inputName" value="#{addComplementaryCard.addCreditCard.name}" />
                                 </h:panelGroup>
                                 
                                 <p:outputLabel for="inpLastName" value="#{msg['common.lastNames']}" />
                                   <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="inpLastName" value="#{addComplementaryCard.addCreditCard.lastName}" required="true"/>
+                                    <p:inputText id="inpLastName" value="#{addComplementaryCard.addCreditCard.lastName}" />
                                   </h:panelGroup>
                                                               
                                 <p:outputLabel for="radio" value="#{msg['common.gender']}"/>
@@ -58,7 +55,7 @@
                                 </p:selectOneRadio>
                                                              
                                 <p:outputLabel for="calendar" value="#{msg['common.birthday']}"/>
-                                <p:calendar id="calendar" value="#{addComplementaryCard.addCreditCard.birthdate}" required="true"/>
+                                <p:calendar id="calendar" value="#{addComplementaryCard.addCreditCard.birthdate}"  navigator="true" yearRange="c-20:c+20"/>
                                                               
                                <p:outputLabel for="civilStatus" value="#{msg['common.marital.status']}"/>
                                <p:selectOneMenu id="civilStatus" value="#{addComplementaryCard.civilStatus}" converter="civilStatusConverter">
@@ -74,26 +71,29 @@
 
                                   <p:outputLabel for="inpEmail" value="#{msg['common.email']}" />
                                   <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="inpEmail" value="#{addComplementaryCard.addCreditCard.email}" size="40" required="true"  requiredMessage="Por favor ingresa tu direccion de email."/>
+                                    <p:inputText id="inpEmail" value="#{addComplementaryCard.addCreditCard.email}" maxlength="40"/>
                                 </h:panelGroup>
                                   
                                 <p:outputLabel value="#{msg['common.phone.number']}" for="phone" />
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="phone" value="#{addComplementaryCard.addCreditCard.phoneNumber}"  required="true" />
+                                    <p:inputText id="phone" value="#{addComplementaryCard.addCreditCard.phoneNumber}"  />
                                 </h:panelGroup>
                                 
                                  <p:outputLabel for="inpPassword1" value="#{msg['common.password']}" />
                                   <h:panelGroup styleClass="md-inputfield">
-                                      <p:password id ="inpPassword1" value="#{addComplementaryCard.addCreditCard.password1}" size="6" required="true"  requiredMessage="#{msg['common.message.require.password']}"/>
+                                      <p:password id ="inpPassword1" value="#{addComplementaryCard.addCreditCard.password1}" maxlength="6"/>
+                                      <label>#{msg['common.message.require.password']}</label>
                                 </h:panelGroup>
                                     <p:outputLabel for="inpPassword2" value="#{msg['common.password']}" />
-                                 <h:panelGroup styleClass="md-inputfield">
-                                       
-                                    <p:password  id ="inpPassword2" value="#{addComplementaryCard.addCreditCard.password2}" size="6" required="true"  requiredMessage="#{msg['common.message.require.password.confir']}"/>
+                     
+                                 <h:panelGroup styleClass="md-inputfield">      
+                                    <p:password  id ="inpPassword2" value="#{addComplementaryCard.addCreditCard.password2}" maxlength="6"/>
+                                    <label>#{msg['common.message.require.password.confir']}</label>
                                 </h:panelGroup>
                                <p:outputLabel for="inpPin" value="#{msg['common.pin']}" />
                                <h:panelGroup styleClass="md-inputfield">
-                                      <p:password id ="inpPin" value="#{addComplementaryCard.addCreditCard.pin}" size="4" required="true"  requiredMessage="#{msg['common.message.require.pin']}"/>
+                                      <p:password id ="inpPin" value="#{addComplementaryCard.addCreditCard.pin}" maxlength="4"/>
+                                      <label>#{msg['common.message.require.pin']}</label>
                                 </h:panelGroup>
                                 
     
@@ -123,9 +123,11 @@
                                 </h:panelGroup>                              
                                <p:outputLabel value="#{msg['common.postal.zone']}" for="zipZone" />
                                 <h:panelGroup styleClass="md-inputfield">
-                                      <p:inputText id="zipZone" value="#{addComplementaryCard.addCreditCard.zipZone}"/>
+                                      <p:inputText id="zipZone" value="#{addComplementaryCard.addCreditCard.zipZone}" maxlength="12"/> 
                                 </h:panelGroup>
-                              
+                                <f:facet name="footer">
+                                    <p:messages id="messages"  autoUpdate="true" closable="true" />
+                                </f:facet>
                             </p:panelGrid>
                                        
                      

@@ -21,6 +21,7 @@ import com.cms.commons.models.ZipZone;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.util.QueryConstants;
+import com.ericsson.alodiga.ws.APIRegistroUnificadoProxy;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.ultima.domain.CreditCard;
@@ -80,6 +82,8 @@ public class AddComplementaryCard implements Serializable {
     private Long countCardComplementaryByApplicant = 0L;
     private String language =null;
     private Language idioma= null;
+    private String ipRemoteAddress;
+    private String codigo = null;
     
     @ManagedProperty("#{creditCardService}")
     private CreditCardService service;
@@ -92,6 +96,7 @@ public class AddComplementaryCard implements Serializable {
         applicantNaturalPerson = (ApplicantNaturalPerson) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("applicantNaturalPerson");
         country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
         language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
+        codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
         if (country != null && applicantNaturalPerson!=null){
             if (country.getId() == 1) {
                 personTypeId = 3L;
@@ -139,7 +144,7 @@ public class AddComplementaryCard implements Serializable {
         addCreditCard.genders = new ArrayList<String>();
         addCreditCard.genders.add(bundle.getString("common.female"));
         addCreditCard.genders.add(bundle.getString("common.male"));
-
+        ipRemoteAddress = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRemoteAddr(); 
     }
   
     public void setService(CreditCardService service) {
@@ -522,6 +527,13 @@ public class AddComplementaryCard implements Serializable {
                         country.getId(), state.getId(), city.getId(), postalZone.getId(),  addCreditCard.getStreet(),addCreditCard.getStreet2(),  applicantNaturalPerson.getId(), kinShipApplicant.getId());
                 if (person != null) {
                     try {
+                        try {
+                            APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
+                            proxy.guardarUsuarioAplicacionMovil("usuarioWS", "passwordWS", null, addCreditCard.getName(), addCreditCard.getLastName(), addCreditCard.getPassword1(), addCreditCard.getEmail(), addCreditCard.getPhoneNumber(), addCreditCard.getBirthdate().toString(), addCreditCard.getStreet(), String.valueOf(country.getId()), String.valueOf(state.getId()), String.valueOf(city.getId()),
+                                    null, addCreditCard.getZipZone(), codigo, null, null, ipRemoteAddress, addCreditCard.getPin());
+                        } catch (Exception ex) {
+                            System.out.println("Registro Unificado no esta funcionando no registro complementaria applicantNaturalPersonId" + applicantNaturalPerson.getId());
+                        }
                         countCardComplementaryByApplicant = personEJB.countCardComplementaryByApplicant(applicantNaturalPerson.getId());
                         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
                         if (countCardComplementaryByApplicant < 2L) {
@@ -547,43 +559,43 @@ public class AddComplementaryCard implements Serializable {
     
      public boolean validations() {
         boolean valid = true;
-        if (documentsPersonType == null) {
+        if (documentsPersonType == null ) {
             messages = bundle.getString("common.error.document.type");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.documentNumber == null) {
+        } else if (addCreditCard.documentNumber == null || addCreditCard.documentNumber.isEmpty()) {
             messages = bundle.getString("common.error.document.number");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.name == null) {
+        } else if (addCreditCard.name == null || addCreditCard.name.isEmpty()) {
             messages = bundle.getString("common.error.name");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.lastName == null) {
+        } else if (addCreditCard.lastName == null || addCreditCard.lastName.isEmpty()) {
             messages = bundle.getString("common.error.last.name");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.gender == null) {
+        } else if (addCreditCard.gender == null ) {
             messages = bundle.getString("common.error.gender");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.birthdate == null) {
+        } else if (addCreditCard.birthdate == null ) {
             messages = bundle.getString("common.error.birthday");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (civilStatus == null) {
+        } else if (civilStatus == null ) {
             messages = bundle.getString("common.error.marital.status");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.email == null) {
+        } else if (addCreditCard.email == null || addCreditCard.email.isEmpty()) {
             messages = bundle.getString("common.error.email");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.password1 == null) {
+        } else if (addCreditCard.password1 == null || addCreditCard.password1.isEmpty()) {
             messages = bundle.getString("common.error.require.password");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.password2 == null) {
+        } else if (addCreditCard.password2 == null || addCreditCard.password2.isEmpty()) {
             messages = bundle.getString("common.error.confir.password");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
@@ -591,7 +603,7 @@ public class AddComplementaryCard implements Serializable {
             messages = bundle.getString("common.password.not.match");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.pin == null) {
+        } else if (addCreditCard.pin == null || addCreditCard.pin.isEmpty() ) {
             messages = bundle.getString("common.error.pin");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
@@ -607,11 +619,11 @@ public class AddComplementaryCard implements Serializable {
             messages = bundle.getString("common.error.city");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        } else if (addCreditCard.street == null) {
+        } else if (addCreditCard.street == null || addCreditCard.street.isEmpty()) {
             messages = bundle.getString("common.error.street");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        }  else if (addCreditCard.zipZone == null) {
+        }  else if (addCreditCard.zipZone == null || addCreditCard.zipZone.isEmpty()) {
             messages = bundle.getString("common.error.postal.zone");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
@@ -620,30 +632,33 @@ public class AddComplementaryCard implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
         }
-        try {
-             if (requestEJB.existsApplicantNaturalPersonByEmail(addCreditCard.email)) {
-                 messages = bundle.getString("common.error.exists.email");
+         if (addCreditCard.email != null && !addCreditCard.email.isEmpty()) {
+             try {
+                 if (requestEJB.existsApplicantNaturalPersonByEmail(addCreditCard.email)) {
+                     messages = bundle.getString("common.error.exists.email");
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+                     valid = false;
+                 }
+             } catch (Exception ex) {
+                 messages = bundle.getString("common.error.general.exists.email");
                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-                valid = false;
+                 valid = false;
              }
-         } catch (Exception ex) {
-             messages = bundle.getString("common.error.general.exists.email");
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-             valid = false;
          }
-         try {
-             if (requestEJB.existsApplicantNaturalPersonByPhoneNumber(addCreditCard.phoneNumber)) {
-                 messages = bundle.getString("common.error.exists.phone.number");
+         if (addCreditCard.phoneNumber != null && !addCreditCard.phoneNumber.isEmpty()) {
+             try {
+                 if (requestEJB.existsApplicantNaturalPersonByPhoneNumber(addCreditCard.phoneNumber)) {
+                     messages = bundle.getString("common.error.exists.phone.number");
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+                     valid = false;
+                 }
+             } catch (Exception ex) {
+                 messages = bundle.getString("common.error.general.exists.phone_number");
                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-                valid = false;
+                 valid = false;
              }
-         } catch (Exception ex) {
-             messages = bundle.getString("common.error.general.exists.phone_number");
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
-             valid = false;
          }
-
-        return valid;
+         return valid;
     }
     
         
