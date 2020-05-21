@@ -57,7 +57,7 @@
                                 </p:selectOneRadio>
                                 
                                 <p:outputLabel for="calendar" value="#{msg['common.birthday']}"/>
-                                <p:calendar id="calendar" value="#{formCardDataController.birthdate}" navigator="true" yearRange="c-15:c+15" pattern="/dd/MM/yy" maxdate="#{formCardDataController.currentDate}"/>                                      
+                                <p:calendar id="calendar" value="#{formCardDataController.birthdate}" navigator="true" yearRange="c-15:c+15" pattern="dd/MM/yy" maxdate="#{formCardDataController.currentDate}"/>                                      
                                 
                                <p:outputLabel for="civilStatus" value="#{msg['common.marital.status']}"/>
                                <p:selectOneMenu id="civilStatus" value="#{formCardDataController.civilStatus}" converter="civilStatusConverter">
