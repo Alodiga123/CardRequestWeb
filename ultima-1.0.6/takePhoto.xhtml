@@ -59,6 +59,9 @@
                         <h:form>
                             <p:fileUpload fileUploadListener="#{takePhotoController.handleFileUpload}" mode="advanced" dragDropSupport="false" multiple="false" update="messages" sizeLimit="10000000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width:100%" />
                             <p:growl id="messages" showDetail="true" />
+                            <f:facet name="footer">
+                                <p:messages id="messagesPhoto"  autoUpdate="true" closable="true" />
+                            </f:facet> 
                         </h:form>
                     </div>
                 </div>

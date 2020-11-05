@@ -50,6 +50,8 @@ public class SendCodeController {
     public Solicitude solicitude;
     private UtilsEJB utilsEJB;
     private String cellNumber;
+    private String codeCellNumber;
+    private String codeCountry;
     private Country country;
     private String code;
     private Map<String, String> countries = null;
@@ -67,7 +69,7 @@ public class SendCodeController {
             EJBRequest request = new EJBRequest();
             request.setParam(2);
             country = utilsEJB.loadCountry(request);
-            cellNumber = country.getCode();
+            codeCountry = country.getCode();
         } catch (RegisterNotFoundException ex) {
             Logger.getLogger(SendCodeController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullParameterException ex) {
@@ -79,7 +81,7 @@ public class SendCodeController {
        
     }
 
-     public Country getCountry() {
+    public Country getCountry() {
         return country;
     }
 
@@ -94,9 +96,26 @@ public class SendCodeController {
     public void setCellNumber(String cellNumber) {
         this.cellNumber = cellNumber;
     }
-    
 
-  public Map<String, String> getCountries() {
+    public String getCodeCellNumber() {
+        return codeCellNumber;
+    }
+
+    public void setCodeCellNumber(String codeCellNumber) {
+        this.codeCellNumber = codeCellNumber;
+    }
+
+    public String getCodeCountry() {
+        return codeCountry;
+    }
+
+    public void setCodeCountry(String codeCountry) {
+        this.codeCountry = codeCountry;
+    }
+    
+    
+    
+    public Map<String, String> getCountries() {
         EJBRequest request = new EJBRequest();
         countries = new TreeMap<String, String>();
         try {
@@ -120,7 +139,7 @@ public class SendCodeController {
     
      public void reloadCountry(AjaxBehaviorEvent event) {
         country = (Country) ((UIOutput) event.getSource()).getValue();
-        cellNumber = country.getCode();
+        codeCountry = country.getCode();
     }
   
     public void reset() {
@@ -130,24 +149,25 @@ public class SendCodeController {
     public void doRediret() {
         try {
             //enviar codigo
-            System.out.println("Pais:"+country.getName() +"Telefono:"+cellNumber);
+            System.out.println("Pais:"+country.getName() +"Telefono:"+codeCountry+codeCellNumber+cellNumber);
 //            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("language", language);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cellNumber", cellNumber);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codeCellNumber", codeCellNumber);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("country", country);
-            APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
-            
-            RespuestaCodigoRandom response =proxy.generarCodigoMovilSMS("usuarioWS","passwordWS",cellNumber);
-            System.out.println("Respuesta Code:"+response.getCodigoRespuesta());
-            System.out.println("Respuesta Mensaje:"+response.getMensajeRespuesta());
-            System.out.println("Respuesta Codigo:"+response.getDatosRespuesta());
-            if (response.getCodigoRespuesta().equals("00")) {
-                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", response.getDatosRespuesta());
-                FacesContext.getCurrentInstance().getExternalContext().redirect("validateCode.xhtml");
-//           if (true) {
-//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", "12345");
+//            APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
+//            
+//            RespuestaCodigoRandom response =proxy.generarCodigoMovilSMS("usuarioWS","passwordWS",codeCellNumber+cellNumber);
+//            System.out.println("Respuesta Code:"+response.getCodigoRespuesta());
+//            System.out.println("Respuesta Mensaje:"+response.getMensajeRespuesta());
+//            System.out.println("Respuesta Codigo:"+response.getDatosRespuesta());
+//            if (response.getCodigoRespuesta().equals("00")) {
+//                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", response.getDatosRespuesta());
 //                FacesContext.getCurrentInstance().getExternalContext().redirect("validateCode.xhtml");
+           if (true) {
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codigo", "12345");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("validateCode.xhtml");
             }else{
                 messages = bundle.getString("common.error.send.code");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages)); 

@@ -39,7 +39,11 @@
                                 <h:panelGroup styleClass="md-inputfield">
                                     <p:inputText id="inputDocumentNumber" value="#{formCardDataController.documentNumber}" />
                                 </h:panelGroup>
-                                  
+                                
+                                  <p:outputLabel for="inputDocumentFiscal" value="#{msg['common.document.fiscal']}" />
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="inputDocumentFiscal" value="#{formCardDataController.taxInformationRegistry}" />
+                                </h:panelGroup>  
                                                                                            
                                 <p:outputLabel for="inputName" value="#{msg['common.names']}" />
                                 <h:panelGroup styleClass="md-inputfield">

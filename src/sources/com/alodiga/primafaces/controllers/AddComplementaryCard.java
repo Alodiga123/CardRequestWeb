@@ -409,7 +409,7 @@ public class AddComplementaryCard implements Serializable {
 //          Logger.getLogger(com.alodiga.primefaces.ultima.controller.store.StoreController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+         
      public Map<String, String> getDocumentsPersonTypes() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
@@ -523,13 +523,13 @@ public class AddComplementaryCard implements Serializable {
         try {
             if (validations()) {
              
-                ZipZone postalZone = new ZipZone();
-                postalZone.setName(addCreditCard.getStreet());
-                postalZone.setCode(addCreditCard.getZipZone());
-                postalZone = utilsEJB.saveZipZone(postalZone);
-                ApplicantNaturalPerson person= requestEJB.saveCardComplementary(country.getId(), addCreditCard.getEmail(), documentsPersonType.getId(), addCreditCard.getDocumentNumber(), new Date((new java.util.Date()).getTime()), addCreditCard.getName(), addCreditCard.getLastName(), addCreditCard.getGender().equals("Feminino")?"F":"M",
-                        addCreditCard.getBirthdate(), civilStatus.getId(), addCreditCard.getPhoneNumber(),
-                        country.getId(), state.getId(), city.getId(), postalZone.getId(),  addCreditCard.getStreet(),addCreditCard.getStreet2(),  applicantNaturalPerson.getId(), kinShipApplicant.getId());
+//                ZipZone postalZone = new ZipZone();
+//                postalZone.setName(addCreditCard.getStreet());
+//                postalZone.setCode(addCreditCard.getZipZone());
+//                postalZone = utilsEJB.saveZipZone(postalZone);
+                ApplicantNaturalPerson person= requestEJB.saveCardComplementary(country.getId(), addCreditCard.getEmail(), documentsPersonType.getId(), addCreditCard.getDocumentNumber(), new Date((new java.util.Date()).getTime()), addCreditCard.getName(), addCreditCard.getLastName(), addCreditCard.getGender().equals(bundle.getString("common.female"))?"F":"M",
+                        addCreditCard.getBirthdate(), civilStatus.getId(),addCreditCard.getCodeArea(), addCreditCard.getPhoneNumber(),
+                        country.getId(), state.getId(), city.getId(), addCreditCard.getZipZone(),  addCreditCard.getStreet(),addCreditCard.getStreet2(),  applicantNaturalPerson.getId(), kinShipApplicant.getId(),addCreditCard.getTaxInformationRegistry());
                 if (person != null) {
                     try {
                         try {
@@ -636,7 +636,15 @@ public class AddComplementaryCard implements Serializable {
             messages = bundle.getString("common.adult");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
             valid = false;
-        }
+        }else if (addCreditCard.codeArea == null || addCreditCard.codeArea.isEmpty()) {
+            messages = bundle.getString("common.error.area.code");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } else if (addCreditCard.phoneNumber == null || addCreditCard.phoneNumber.isEmpty()) {
+            messages = bundle.getString("common.error.phone.Number");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
+            valid = false;
+        } 
          if (addCreditCard.email != null && !addCreditCard.email.isEmpty()) {
              try {
                  if (requestEJB.existsApplicantNaturalPersonByEmail(addCreditCard.email)) {
@@ -652,7 +660,7 @@ public class AddComplementaryCard implements Serializable {
          }
          if (addCreditCard.phoneNumber != null && !addCreditCard.phoneNumber.isEmpty()) {
              try {
-                 if (requestEJB.existsApplicantNaturalPersonByPhoneNumber(addCreditCard.phoneNumber)) {
+                 if (requestEJB.existsApplicantNaturalPersonByPhoneNumber(addCreditCard.phoneNumber,addCreditCard.codeArea,country.getCode())) {
                      messages = bundle.getString("common.error.exists.phone.number");
                      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));
                      valid = false;

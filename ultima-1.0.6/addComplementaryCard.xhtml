@@ -24,7 +24,6 @@
                                     <f:selectItems value="#{addComplementaryCard.countries}"/>
                                     <f:ajax event="change" listener="#{addComplementaryCard.reloadStates}" render="estado" />
                                     <f:ajax event="change" listener="#{addComplementaryCard.reloadSDocumentPersonType}" render="documentsPersonType" />
-                      
                                 </p:selectOneMenu> 
                                                         
                                <p:outputLabel for="documentsPersonType" value="#{msg['common.document.type']}" />
@@ -37,7 +36,11 @@
                                 <h:panelGroup styleClass="md-inputfield">
                                     <p:inputText id="inputDocumentNumber" value="#{addComplementaryCard.addCreditCard.documentNumber}" />
                                 </h:panelGroup>
-                                                        
+                                        
+                                 <p:outputLabel for="inputDocumentFiscal" value="#{msg['common.document.fiscal']}" />
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="inputDocumentFiscal" value="#{addComplementaryCard.addCreditCard.taxInformationRegistry}" />
+                                </h:panelGroup>
                                 
                                 <p:outputLabel for="inputName" value="#{msg['common.names']}" />
                                 <h:panelGroup styleClass="md-inputfield">
@@ -74,7 +77,12 @@
                                     <p:inputText id="inpEmail" value="#{addComplementaryCard.addCreditCard.email}" maxlength="40"/>
                                 </h:panelGroup>
                                   
-                                <p:outputLabel value="#{msg['common.phone.number']}" for="phone" />
+                                <p:outputLabel value="#{msg['common.code.area']}" for="code" />
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="code" value="#{addComplementaryCard.addCreditCard.codeArea}"/>
+                                </h:panelGroup>
+                                
+                                 <p:outputLabel value="#{msg['common.phone.number']}" for="phone" />
                                 <h:panelGroup styleClass="md-inputfield">
                                     <p:inputText id="phone" value="#{addComplementaryCard.addCreditCard.phoneNumber}"  />
                                 </h:panelGroup>

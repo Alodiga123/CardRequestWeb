@@ -37,21 +37,28 @@
            
               <h:body styleClass="landing-body">
               <div class="landing-wrapper">
-            <div id="header">
+                <div id="header">
 
-                
-                <div class="header-content clearfix">
-                  
-                    <p:button outcome="/sendCode" value="#{msg['home5']}" styleClass="secondary" />
-                </div>
-                
-                 <div align="center">     
-             <p:graphicImage name="ultima-layout/images/WaG18Eyh.png" alt="Nuestra Vision" width="180" height="180" />
-         </div>
-            </div>
+
+                    <div class="header-content clearfix">
+
+                        <p:button outcome="/sendCode" value="#{msg['home5']}" styleClass="secondary" />
                     </div>
-                      </h:body>
-                     </div>
+                    
+
+                     <div align="center">     
+                    <p:graphicImage name="ultima-layout/images/WaG18Eyh.png" alt="Nuestra Vision" width="180" height="180" />
+                  </div>
+                        <div class="header-content clearfix" align="left">                
+                            <a href="http://llamadas.alodiga.com/img/es/app-debug.apk" target="_parent"><p:button value="#{msg['download.app']}" styleClass="secondary" /></a>
+                        </div> 
+                        <div class="ui-g-12 " align="center">
+                            <p:graphicImage name="ultima-layout/images/qr_app.png" alt="Alodiga" width="350" height="350" />
+                         </div>
+                </div>
+                  </div>
+                  </h:body>
+                  </div>
         </h:form>    
     </ui:define>
 

@@ -16,9 +16,7 @@
 package com.alodiga.primafaces.controllers;
 
 import com.alodiga.cms.commons.ejb.RequestEJB;
-import com.alodiga.cms.commons.ejb.UtilsEJB;
 import com.cms.commons.models.Country;
-import com.cms.commons.models.Language;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.ericsson.alodiga.ws.APIRegistroUnificadoProxy;
@@ -40,7 +38,8 @@ public class ValidateCodeController {
     private String code;
     private String messages = null;
     private String codigo = null;
-    private String cellNumber =null;
+    private String cellNumber = null;
+    private String codeCellNumber = null;
     private String language =null;
     private Country country;
     ResourceBundle bundle = null;
@@ -53,6 +52,7 @@ public class ValidateCodeController {
         codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
         country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
         cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
+        codeCellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codeCellNumber");
         language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
     }
 
@@ -91,10 +91,10 @@ public class ValidateCodeController {
      public void forward() {
         try {
             //enviar codigo
-            System.out.println("Pais:"+country.getName() +"Telefono:"+cellNumber);
+            System.out.println("Pais:"+country.getName() +"Telefono:"+country.getCode()+codeCellNumber+cellNumber);
             APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
             
-            RespuestaCodigoRandom response =proxy.generarCodigoMovilSMS("usuarioWS","passwordWS",cellNumber);
+            RespuestaCodigoRandom response =proxy.generarCodigoMovilSMS("usuarioWS","passwordWS",country.getCode()+codeCellNumber+cellNumber);
             System.out.println("Respuesta Code:"+response.getCodigoRespuesta());
             System.out.println("Respuesta Mensaje:"+response.getMensajeRespuesta());
             System.out.println("Respuesta Codigo:"+response.getDatosRespuesta());
@@ -120,7 +120,7 @@ public class ValidateCodeController {
         boolean valid = true;
         try {
             System.out.println("llamando a validar numero");
-            if (requestEJB.existsApplicantNaturalPersonByPhoneNumber(cellNumber)) {
+            if (requestEJB.existsApplicantNaturalPersonByPhoneNumber(cellNumber,codeCellNumber,country.getCode())) {
                 System.out.println("el numero exitse numero");
                 messages = bundle.getString("common.error.exists.phone.number");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messages));

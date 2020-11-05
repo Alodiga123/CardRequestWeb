@@ -51,11 +51,13 @@ public class CreditCard implements Serializable {
     public String maritalStatus;
     public String email;
     public String phoneNumber;
+    public String codeArea;
     public String state;
     public String address;
     public String postalCode;
     public String zipZone;
     public ApplicantNaturalPerson person;
+    public String taxInformationRegistry;
 
     public CreditCard() {}
 
@@ -198,6 +200,14 @@ public class CreditCard implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getCodeArea() {
+        return codeArea;
+    }
+
+    public void setCodeArea(String codeArea) {
+        this.codeArea = codeArea;
     }
 
     public String getState() {
@@ -344,6 +354,15 @@ public class CreditCard implements Serializable {
     public void setPin(String pin) {
         this.pin = pin;
     }
+
+    public String getTaxInformationRegistry() {
+        return taxInformationRegistry;
+    }
+
+    public void setTaxInformationRegistry(String taxInformationRegistry) {
+        this.taxInformationRegistry = taxInformationRegistry;
+    }
+    
     
     @Override
     public int hashCode() {

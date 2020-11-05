@@ -75,6 +75,7 @@ public class FormCardDataController {
     private Map<String, String> cities = null;
     ResourceBundle bundle = null;
     private String cellNumber =null;
+    private String codeCellNumber =null;
     public List<String> civilStates; 
     public String name;
     public String lastName;
@@ -92,6 +93,7 @@ public class FormCardDataController {
     public String gender; 
     public String maritalStatus;
     public String documentNumber;
+    public String taxInformationRegistry;
     public String edification;
     public String street;
     public String street2;
@@ -149,6 +151,7 @@ public class FormCardDataController {
             Logger.getLogger(FormCardDataController.class.getName()).log(Level.SEVERE, null, ex);
         }
         cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
+        codeCellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codeCellNumber");
         if (country != null && cellNumber != null) {
             if (country.getId() == 1) {
                 personTypeId = 3L;
@@ -413,7 +416,14 @@ public class FormCardDataController {
     public void setZipZone(String zipZone) {
         this.zipZone = zipZone;
     }
-    
+
+    public String getTaxInformationRegistry() {
+        return taxInformationRegistry;
+    }
+
+    public void setTaxInformationRegistry(String taxInformationRegistry) {
+        this.taxInformationRegistry = taxInformationRegistry;
+    }
 
     public Map<String, String> getDocumentsPersonTypes() {
         EJBRequest request = new EJBRequest();
@@ -723,16 +733,16 @@ public class FormCardDataController {
          String address = null;
          try {
              if (validations()) {
-                 ZipZone postalZone = new ZipZone();
-                 postalZone.setName(street);
-                 postalZone.setCode(zipZone);
-                 postalZone = utilsEJB.saveZipZone(postalZone);
-                 System.out.println("postalZone guardado:"+postalZone.getId());
+//                 ZipZone postalZone = new ZipZone();
+//                 postalZone.setName(street);
+//                 postalZone.setCode(zipZone);
+//                 postalZone = utilsEJB.saveZipZone(postalZone);
+//                 System.out.println("postalZone guardado:"+postalZone.getId());
                  address = street + " " + number;
                  ApplicantNaturalPerson applicantNaturalPerson = requestEJB.saveRequestPersonData(country.getId(), email, new Date((new java.util.Date()).getTime()), name, lastName, birthdate,
-                         cellNumber, country.getId(), state.getId(), city.getId(), postalZone, recommendation.equals(bundle.getString("option.yes")) ? true : false,
+                         codeCellNumber,cellNumber, country.getId(), state.getId(), city.getId(), zipZone, recommendation.equals(bundle.getString("option.yes")) ? true : false,
                          promotion.equals(bundle.getString("option.yes")) ? true : false, citizen.equals(bundle.getString("option.yes")) ? true : false,  documentsPersonType,
-                         documentNumber,gender.equals(bundle.getString("common.female"))?"F":"M",civilStatus,street,street2,number);
+                         documentNumber,gender.equals(bundle.getString("common.female"))?"F":"M",civilStatus,street,street2,number,taxInformationRegistry);
                  try {
                      APIRegistroUnificadoProxy proxy = new APIRegistroUnificadoProxy();
                      proxy.guardarUsuarioAplicacionMovil("usuarioWS", "passwordWS", null, name, lastName, password1, email, cellNumber, birthdate.toString(), address, String.valueOf(country.getId()), String.valueOf(state.getId()), String.valueOf(city.getId()),
