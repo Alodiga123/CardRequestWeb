@@ -121,7 +121,6 @@ public class TakePhotoController {
             }
             is.close();
             out.close();
-            short indApproved = 0;
             EJBRequest request1 = null;
             Map params = null;
             PersonType personTypeApp = null;
@@ -159,7 +158,7 @@ public class TakePhotoController {
             RequestHasCollectionsRequest requestHasCollectionsRequest = new RequestHasCollectionsRequest();
             requestHasCollectionsRequest.setCollectionsRequestid(collectionsRequest);
             requestHasCollectionsRequest.setRequestId(applicantNaturalPerson.getRequest());
-            requestHasCollectionsRequest.setIndApproved(indApproved);
+            requestHasCollectionsRequest.setIndApproved(null);
             requestHasCollectionsRequest.setUrlImageFile(file.getAbsolutePath());
             requestHasCollectionsRequest.setCreateDate(new Timestamp(new Date().getTime()));
             requestHasCollectionsRequest = requestEJB.saveRequestHasCollectionsRequest(requestHasCollectionsRequest);

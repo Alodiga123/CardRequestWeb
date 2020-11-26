@@ -163,7 +163,6 @@ public class SendPhotoController {
             }
             is.close();
             out.close();
-            short indApproved = 0;
             EJBRequest request1 = null;
             Map params = null;
             PersonType personTypeApp = null;
@@ -203,7 +202,7 @@ public class SendPhotoController {
 
             requestHasCollectionsRequest.setCollectionsRequestid(collectionsRequest);
             requestHasCollectionsRequest.setRequestId(applicantNaturalPerson.getRequest());
-            requestHasCollectionsRequest.setIndApproved(indApproved);
+            requestHasCollectionsRequest.setIndApproved(null);
             requestHasCollectionsRequest.setUrlImageFile(file.getAbsolutePath());
             requestHasCollectionsRequest.setCreateDate(new Timestamp(new Date().getTime()));
             requestHasCollectionsRequest = requestEJB.saveRequestHasCollectionsRequest(requestHasCollectionsRequest);

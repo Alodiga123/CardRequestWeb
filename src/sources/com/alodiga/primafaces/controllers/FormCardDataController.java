@@ -34,6 +34,7 @@ import com.cms.commons.models.DocumentsPersonType;
 import com.cms.commons.models.Language;
 import com.cms.commons.models.StreetType;
 import com.cms.commons.models.ZipZone;
+import com.cms.commons.util.Constants;
 import com.cms.commons.util.QueryConstants;
 import com.ericsson.alodiga.ws.APIRegistroUnificadoProxy;
 import java.io.IOException;
@@ -111,7 +112,6 @@ public class FormCardDataController {
     private String ipRemoteAddress;
     private String language =null;
     private Language idioma= null;
-    Long personTypeId = null;
     private Date currentDate = new Date();
 
     @PostConstruct
@@ -152,13 +152,8 @@ public class FormCardDataController {
         }
         cellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("cellNumber");
         codeCellNumber = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codeCellNumber");
-        if (country != null && cellNumber != null) {
-            if (country.getId() == 1) {
-                personTypeId = 3L;
-            } else {
-                personTypeId = 4L;
-            }
-        } else {
+        if (country == null && cellNumber == null) {
+
             try {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
@@ -428,11 +423,13 @@ public class FormCardDataController {
     public Map<String, String> getDocumentsPersonTypes() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
-        params.put(EjbConstants.PARAM_PERSON_TYPE_ID, personTypeId != null ? personTypeId : null);
+        params.put(EjbConstants.PARAM_ORIGIN_APPLICATION_ID, Constants.ORIGIN_APPLICATION_WALLET_ID);
+        params.put(EjbConstants.PARAM_COUNTRY_ID, country != null ? country.getId() : null);
+        params.put(EjbConstants.PARAM_IND_NATURAL_PERSON, true);
         request.setParams(params);
         documentsPersonTypes = new TreeMap<String, String>();
-        try {
-            List<DocumentsPersonType> dts = personEJB.getDocumentsPersonTypeByPersonType(request);
+        try {            
+            List<DocumentsPersonType> dts = utilsEJB.getDocumentsPersonByCountry(request);
             for (DocumentsPersonType documentType : dts) {
                 documentsPersonTypes.put(documentType.getDescription(), documentType.getId().toString());
             }
@@ -626,20 +623,15 @@ public class FormCardDataController {
      
      public void reloadSDocumentPersonType(AjaxBehaviorEvent event) {
         Country country1 = (Country) ((UIOutput) event.getSource()).getValue();
-        if (country1!=null){
-            System.out.println(".............countryId:"+country1.getId());
-             if (country1.getId()==1)
-                 personTypeId=3L;
-             else
-                 personTypeId=4L; 
-            }
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
-        params.put(EjbConstants.PARAM_PERSON_TYPE_ID, personTypeId != null ? personTypeId : null);
+        params.put(EjbConstants.PARAM_ORIGIN_APPLICATION_ID, Constants.ORIGIN_APPLICATION_WALLET_ID);
+        params.put(EjbConstants.PARAM_COUNTRY_ID, country != null ? country1.getId() : null);
+        params.put(EjbConstants.PARAM_IND_NATURAL_PERSON, true);
         request.setParams(params);
         documentsPersonTypes = new TreeMap<String, String>();
-        try {
-           List<DocumentsPersonType> dts = personEJB.getDocumentsPersonTypeByPersonType(request);
+        try {            
+            List<DocumentsPersonType> dts = utilsEJB.getDocumentsPersonByCountry(request);
            for (DocumentsPersonType documentType : dts) {
                 documentsPersonTypes.put(documentType.getDescription(), documentType.getId().toString());
             }

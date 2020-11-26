@@ -18,6 +18,7 @@ import com.cms.commons.models.KinShipApplicant;
 import com.cms.commons.models.Language;
 import com.cms.commons.models.State;
 import com.cms.commons.models.ZipZone;
+import com.cms.commons.util.Constants;
 import com.cms.commons.util.EJBServiceLocator;
 import com.cms.commons.util.EjbConstants;
 import com.cms.commons.util.QueryConstants;
@@ -77,7 +78,6 @@ public class AddComplementaryCard implements Serializable {
     private Map<String, String>  kinShipApplicants= null;
     private Map<String, String> zipZones = null;
     ResourceBundle bundle = null;
-    Long personTypeId = null;
     private String messages = null;
     private Long countCardComplementaryByApplicant = 0L;
     private String language =null;
@@ -98,13 +98,7 @@ public class AddComplementaryCard implements Serializable {
         country = (Country) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("country");
         language = (String)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("language");
         codigo = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("codigo");
-        if (country != null && applicantNaturalPerson!=null){
-            if (country.getId() == 1) {
-                personTypeId = 3L;
-            } else {
-                personTypeId = 4L;
-            }
-        } else {
+        if (country == null && applicantNaturalPerson==null){
             try {
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
                 FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
@@ -340,20 +334,16 @@ public class AddComplementaryCard implements Serializable {
     
      public void reloadSDocumentPersonType(AjaxBehaviorEvent event) {
         Country country1 = (Country) ((UIOutput) event.getSource()).getValue();
-        if (country1!=null){
-             if (country1.getId()==1)
-                 personTypeId=3L;
-             else
-                 personTypeId=4L; 
-            }
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
-        params.put(EjbConstants.PARAM_PERSON_TYPE_ID, personTypeId != null ? personTypeId : null);
+        params.put(EjbConstants.PARAM_ORIGIN_APPLICATION_ID, Constants.ORIGIN_APPLICATION_WALLET_ID);
+        params.put(EjbConstants.PARAM_COUNTRY_ID, country != null ? country1.getId() : null);
+        params.put(EjbConstants.PARAM_IND_NATURAL_PERSON, true);
         request.setParams(params);
         documentsPersonTypes = new TreeMap<String, String>();
-        try {
-            List<DocumentsPersonType> dts = personEJB.getDocumentsPersonTypeByPersonType(request);
-            for (DocumentsPersonType documentType : dts) {
+        try {            
+            List<DocumentsPersonType> dts = utilsEJB.getDocumentsPersonByCountry(request);
+           for (DocumentsPersonType documentType : dts) {
                 documentsPersonTypes.put(documentType.getDescription(), documentType.getId().toString());
             }
         } catch (EmptyListException ex) {
@@ -413,12 +403,14 @@ public class AddComplementaryCard implements Serializable {
      public Map<String, String> getDocumentsPersonTypes() {
         EJBRequest request = new EJBRequest();
         Map params = new HashMap();
-        params.put(EjbConstants.PARAM_PERSON_TYPE_ID, personTypeId != null ? personTypeId : null);
+        params.put(EjbConstants.PARAM_ORIGIN_APPLICATION_ID, Constants.ORIGIN_APPLICATION_WALLET_ID);
+        params.put(EjbConstants.PARAM_COUNTRY_ID, country != null ? country.getId() : null);
+        params.put(EjbConstants.PARAM_IND_NATURAL_PERSON, true);
         request.setParams(params);
         documentsPersonTypes = new TreeMap<String, String>();
-        try {
-            List<DocumentsPersonType> dts = personEJB.getDocumentsPersonTypeByPersonType(request);
-            for (DocumentsPersonType documentType : dts) {
+        try {            
+            List<DocumentsPersonType> dts = utilsEJB.getDocumentsPersonByCountry(request);
+           for (DocumentsPersonType documentType : dts) {
                 documentsPersonTypes.put(documentType.getDescription(), documentType.getId().toString());
             }
         } catch (EmptyListException ex) {
