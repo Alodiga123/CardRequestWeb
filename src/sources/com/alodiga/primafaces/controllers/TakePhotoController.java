@@ -29,6 +29,7 @@ import com.cms.commons.genericEJB.EJBRequest;
 import com.cms.commons.models.ApplicantNaturalPerson;
 import com.cms.commons.models.CollectionsRequest;
 import com.cms.commons.models.PersonType;
+import com.cms.commons.models.Program;
 import com.cms.commons.models.RequestHasCollectionsRequest;
 import com.cms.commons.util.Constants;
 import java.io.File;
@@ -138,12 +139,20 @@ public class TakePhotoController {
                     personTypeApp = p;
                 }
             }
-
+            request1 = new EJBRequest();
+            params = new HashMap();
+            params.put(Constants.COUNTRY_KEY, country.getId());
+            request1.setParams(params);
+            List<Program> programList = programEJB.getProgramByCountryByWallet(request1);
+            Program program = null;
+            for(Program p : programList){
+                program = p;
+            }
             params = new HashMap();
             request1 = new EJBRequest();
             params.put(Constants.COUNTRY_KEY, country.getId());
             params.put(Constants.PRODUCT_TYPE_KEY, Constants.PRODUCT_TYPE_WALLET_APP_ID);
-            params.put(Constants.PROGRAM_KEY, Constants.PROGRAM_WALLET_APP_ID);
+            params.put(Constants.PROGRAM_KEY, program.getId());
             params.put(Constants.PERSON_TYPE_KEY, personTypeApp.getId());
             request1.setParams(params);
             collectionsRequests = requestEJB.getCollectionsByRequest(request1);
